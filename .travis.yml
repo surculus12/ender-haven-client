@@ -1,8 +1,7 @@
 language: java
 script: ant buildprocess
 sudo: required
-jdk:
-- oraclejdk7
+jdk: oraclejdk7
 deploy:
   skip_cleanup: true
   provider: releases
