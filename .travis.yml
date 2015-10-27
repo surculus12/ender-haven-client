@@ -11,5 +11,6 @@ deploy:
     - "build/hafen.jar"
     - "build/custom-res.jar"
   on:
+    all_branches: true
     tag: on
     jdk: oraclejdk7
