@@ -51,6 +51,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     private GobPath path;
     private Hitbox hitbox = null;
     private GeneralGobInfo gobInfo = null;
+    private GobDamageInfo damage = null;
 
     public static class Overlay implements Rendered {
 	public Indir<Resource> res;
@@ -189,6 +190,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 	    if(ol.spr == null) {
 		try {
 		    ol.spr = Sprite.create(this, ol.res.get(), ol.sdt.clone());
+		    overlayAdded(ol);
 		} catch(Loading e) {}
 	    } else {
 		boolean done = ol.spr.tick(dt);
@@ -206,6 +208,28 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     }
     public void addol(Sprite ol) {
 	addol(new Overlay(ol));
+    }
+
+    private void overlayAdded(Overlay item) {
+	try {
+	    Resource res = item.res.get();
+	    if(res.name.equals("gfx/fx/floatimg")){
+		processDmg(new MessageBuf(item.sdt));
+	    }
+	} catch (Loading ignored) {}
+    }
+
+    private void processDmg(MessageBuf msg) {
+	int v = msg.int32();
+	int s = msg.uint8();
+	int c = msg.uint16();
+	if(c == 61455){//health
+	    if(damage == null) {
+		damage = new GobDamageInfo(this);
+	    }
+	    damage.update(v);
+	}
+	System.out.println(String.format("Number %d, c: %d", v, c));
     }
 
     public Overlay findol(int id) {
@@ -425,6 +449,10 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 		gobInfo = new GeneralGobInfo(this);
 	    }
 	    rl.add(gobInfo, null);
+	}
+
+	if(damage != null) {
+	    rl.add(damage, null);
 	}
 
 	if(path != null && CFG.SHOW_GOB_PATH.get()) {
