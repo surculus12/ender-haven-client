@@ -26,6 +26,8 @@
 
 package haven;
 
+import haven.combat.CombatInfo;
+
 import java.util.*;
 
 public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
@@ -52,6 +54,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     private Hitbox hitbox = null;
     private GeneralGobInfo gobInfo = null;
     private GobDamageInfo damage = null;
+    private CombatInfo combat = new CombatInfo(this);
 
     public static class Overlay implements Rendered {
 	public Indir<Resource> res;
@@ -455,6 +458,10 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 	    rl.add(damage, null);
 	}
 
+	if(combat.hasInfo()){
+	    rl.add(combat, null);
+	}
+
 	if(path != null && CFG.SHOW_GOB_PATH.get()) {
 	    rl.add(path, null);
 	}
@@ -511,6 +518,10 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 	if(d != null)
 	    return(d.getires());
 	return(null);
+    }
+
+    public void defences(Set<Buff> buffs) {
+	combat.defences(buffs);
     }
 
     public Glob glob() {

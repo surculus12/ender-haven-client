@@ -491,6 +491,10 @@ public class GOut {
 	usestate(new States.ColState(c));
     }
 
+    public void chcolor(Color c, int a) {
+	chcolor(c.getRed(), c.getGreen(), c.getBlue(), a);
+    }
+
     public void chcolor(int r, int g, int b, int a) {
 	chcolor(Utils.clipcol(r, g, b, a));
     }
