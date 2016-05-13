@@ -30,6 +30,11 @@ public class CombatInfo extends GobInfo {
     }
 
     @Override
+    public Object staticp() {
+	return null;
+    }
+
+    @Override
     public void cdraw(GOut g, Coord sc) {
 	super.cdraw(g, sc);
 	if(defences != null) {
