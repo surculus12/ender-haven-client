@@ -520,8 +520,8 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 	return(null);
     }
 
-    public void defences(Set<Buff> buffs) {
-	combat.defences(buffs);
+    public void combat(Fightview.Relation rel) {
+	combat.update(rel);
     }
 
     public Glob glob() {

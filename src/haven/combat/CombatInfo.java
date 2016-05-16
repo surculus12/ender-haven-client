@@ -15,7 +15,11 @@ public class CombatInfo extends GobInfo {
 	center = new Pair<>(0.5, 1.0);
     }
 
-    public void defences(Set<Buff> buffs) {
+    public void update(Fightview.Relation rel) {
+	defences(rel.buffs.children(Buff.class));
+    }
+
+    private void defences(Set<Buff> buffs) {
 	if(buffs.isEmpty()) {return;}
 	defences = new Defences(false);
 	for (Buff buff : buffs) {

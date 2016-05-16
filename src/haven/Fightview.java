@@ -156,7 +156,7 @@ public class Fightview extends Widget {
 	for(Relation rel : lsrel) {
 	    Gob gob = ui.sess.glob.oc.getgob(rel.gobid);
 	    if(gob != null){
-		gob.defences(rel.buffs.children(Buff.class));
+		gob.combat(rel);
 	    }
 	}
     }
