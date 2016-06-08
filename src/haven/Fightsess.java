@@ -29,7 +29,14 @@ package haven;
 import java.util.*;
 import java.awt.Color;
 import java.awt.event.InputEvent;
+import haven.combat.AttackType;
+import haven.combat.Defences;
+
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
 public class Fightsess extends Widget {
     public static final Tex meters = Resource.loadtex("gfx/hud/combat/cmbmeters");
@@ -119,11 +126,19 @@ public class Fightsess extends Widget {
 	updatepos();
 	double now = System.currentTimeMillis() / 1000.0;
 
-	for(Buff buff : fv.buffs.children(Buff.class))
+	Defences my = new Defences(true);
+	for(Buff buff : fv.buffs.children(Buff.class)) {
 	    buff.draw(g.reclip(pcc.add(-buff.c.x - Buff.cframe.sz().x - 20, buff.c.y + pho - Buff.cframe.sz().y), buff.sz));
+	    if(!buff.dest) {my.addBuff(buff);}
+	}
+	my.draw(g, pcc.add(-40, pho - Buff.cframe.sz().y - 5));
 	if(fv.current != null) {
-	    for(Buff buff : fv.current.buffs.children(Buff.class))
+	    Defences opp = new Defences(false);
+	    for(Buff buff : fv.current.buffs.children(Buff.class)) {
 		buff.draw(g.reclip(pcc.add(buff.c.x + 20, buff.c.y + pho - Buff.cframe.sz().y), buff.sz));
+		if(!buff.dest) {opp.addBuff(buff);}
+	    }
+	    opp.draw(g, pcc.add(20, pho - Buff.cframe.sz().y - 5));
 
 	    g.aimage(ip.get().tex(), pcc.add(-75, 0), 1, 0.5);
 	    g.aimage(oip.get().tex(), pcc.add(75, 0), 0, 0.5);

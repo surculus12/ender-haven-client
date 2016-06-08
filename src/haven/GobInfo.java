@@ -3,7 +3,7 @@ package haven;
 public abstract class GobInfo extends PView.Draw2D {
     protected final Gob gob;
     public boolean ready = false;
-    private Tex tex;
+    protected Tex tex;
     private GLState.Buffer state;
     protected int up = 1;
     protected Pair<Double, Double> center = new Pair<>(0.5, 0.5);
@@ -16,13 +16,18 @@ public abstract class GobInfo extends PView.Draw2D {
     }
 
     @Override
-    public void draw2d(GOut g) {
+    final public void draw2d(GOut g) {
+	Coord sc = null;
+	if(state != null) {sc = Utils.world2screen(gob.getc(), state, up);}
+	if(sc != null && sc.isect(Coord.z, g.sz)) {
+	    cdraw(g, sc);
+	}
+    }
+
+
+    protected void cdraw(GOut g, Coord sc) {
 	if(tex != null) {
-	    Coord sc = null;
-	    if(state != null) {sc = Utils.world2screen(gob.getc(), state, up);}
-	    if(sc != null && sc.isect(Coord.z, g.sz)) {
-		g.aimage(tex, sc, center.a, center.b);
-	    }
+	    g.aimage(tex, sc, center.a, center.b);
 	}
     }
 
@@ -49,6 +54,7 @@ public abstract class GobInfo extends PView.Draw2D {
 	    tex.dispose();
 	    tex = null;
 	}
+	ready = false;
     }
 
     public void dispose() {

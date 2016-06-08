@@ -26,7 +26,7 @@
 
 package haven;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class Buff extends Widget {
     public static final Text.Foundry nfnd = new Text.Foundry(Text.dfont, 10);
@@ -36,14 +36,15 @@ public class Buff extends Widget {
     static final Coord ameteroff = new Coord(3, 37), ametersz = new Coord(32, 3);
     Indir<Resource> res;
     String tt = null;
-    int ameter = -1;
+    public int ameter = -1;
     int nmeter = -1;
     int cmeter = -1;
     int cticks = -1;
     long gettime;
     Tex ntext = null;
     int a = 255;
-    boolean dest = false;
+    public boolean dest = false;
+    private Resource.Image img;
 
     @RName("buff")
     public static class $_ implements Factory {
@@ -75,11 +76,16 @@ public class Buff extends Widget {
 	} else {
 	    g.image(frame, Coord.z);
 	}
-	try {
-	    Tex img = res.get().layer(Resource.imgc).tex();
-	    g.image(img, imgoff);
+	if(img == null) {
+	    try {
+		img = res.get().layer(Resource.imgc);
+	    } catch (Loading ignored) {}
+	}
+	if(img != null) {
+	    Tex tex = img.tex();
+	    g.image(tex, imgoff);
 	    if(nmeter >= 0)
-		g.aimage(nmeter(), imgoff.add(img.sz()).sub(1, 1), 1, 1);
+		g.aimage(nmeter(), imgoff.add(tex.sz()).sub(1, 1), 1, 1);
 	    if(cmeter >= 0) {
 		double m = cmeter / 100.0;
 		if(cticks >= 0) {
@@ -89,11 +95,11 @@ public class Buff extends Widget {
 		}
 		m = Utils.clip(m, 0.0, 1.0);
 		g.chcolor(255, 255, 255, a / 2);
-		Coord ccc = img.sz().div(2);
-		g.prect(imgoff.add(ccc), ccc.inv(), img.sz().sub(ccc), Math.PI * 2 * m);
+		Coord ccc = tex.sz().div(2);
+		g.prect(imgoff.add(ccc), ccc.inv(), tex.sz().sub(ccc), Math.PI * 2 * m);
 		g.chcolor(255, 255, 255, a);
 	    }
-	} catch(Loading e) {}
+	}
     }
 
     private String shorttip() {
@@ -181,5 +187,9 @@ public class Buff extends Widget {
     public boolean mousedown(Coord c, int btn) {
 	wdgmsg("cl", c.sub(imgoff), btn, ui.modflags());
 	return(true);
+    }
+
+    public Resource.Image img() {
+	return img;
     }
 }

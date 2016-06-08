@@ -150,7 +150,18 @@ public class Fightview extends Widget {
         }
         super.draw(g);
     }
-    
+
+    @Override
+    public void tick(double dt) {
+	super.tick(dt);
+	for(Relation rel : lsrel) {
+	    Gob gob = ui.sess.glob.oc.getgob(rel.gobid);
+	    if(gob != null){
+		gob.combat(rel);
+	    }
+	}
+    }
+
     public static class Notfound extends RuntimeException {
         public final long id;
         

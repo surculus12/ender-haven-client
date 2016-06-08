@@ -28,7 +28,6 @@ public class GeneralGobInfo extends GobInfo {
     public boolean setup(RenderList d) {
 	if(this.health != gob.getattr(GobHealth.class)) {
 	    clean();
-	    ready = false;
 	}
 	return super.setup(d);
     }
