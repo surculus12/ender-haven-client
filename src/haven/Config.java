@@ -49,8 +49,8 @@ public class Config {
     public static boolean nopreload = getprop("haven.nopreload", "no").equals("yes");
     public static String loadwaited = getprop("haven.loadwaited", null);
     public static String allused = getprop("haven.allused", null);
-    public static int mainport = getint("haven.mainport", 1870);
-    public static int authport = getint("haven.authport", 1871);
+    public static int mainport = getint("haven.mainport", 1631);//1870); //Changed for fight test
+    public static int authport = getint("haven.authport", 1632);//1871); //Changed for fight test
     public static boolean softres = getprop("haven.softres", "on").equals("on");
     public static byte[] authck = null;
     public static String prefspec = "hafen";
