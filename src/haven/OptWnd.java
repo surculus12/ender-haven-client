@@ -1253,6 +1253,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Log combat actions to system log") {
+            {
+                a = Config.logcombatactions;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("logcombatactions", val);
+                Config.logcombatactions = val;
+                a = val;
+            }
+        });
 
         combat.add(new PButton(200, "Back", 27, main), new Coord(270, 360));
         combat.pack();

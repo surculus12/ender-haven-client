@@ -166,6 +166,7 @@ public class Config {
     public static boolean autologout =  Utils.getprefb("autologout", false);
     public static boolean donotaggrofriends =  Utils.getprefb("donotaggrofriends", false);
     public static int combatkeys =  Utils.getprefi("combatkeys", 0);
+    public static boolean logcombatactions =  Utils.getprefb("logcombatactions", false);
 
     public static int avgmode = Utils.getprefi("avgmode", 0);
     private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(3) {{

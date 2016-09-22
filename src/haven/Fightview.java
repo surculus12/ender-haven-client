@@ -26,7 +26,9 @@
 
 package haven;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Fightview extends Widget {
     static Tex bg = Resource.loadtex("gfx/hud/bosq");
@@ -53,6 +55,7 @@ public class Fightview extends Widget {
     {
         buffs.hide();
     }
+    private static final Color combatLogClr = new Color(86, 153, 191);
 
     public class Relation {
         public final long gobid;
@@ -95,12 +98,37 @@ public class Fightview extends Widget {
         public void use(Indir<Resource> act) {
             lastact = act;
             lastuse = System.currentTimeMillis();
+            if (lastact != null && Config.logcombatactions) {
+                try {
+                    Resource res = lastact.get();
+                    Resource.Tooltip tt = res.layer(Resource.tooltip);
+                    if (tt == null) {
+                        gameui().syslog.append("Combat: WARNING! tooltip is missing for " + res.name + ". Notify Jorb/Loftar about this.", combatLogClr);
+                        return;
+                    }
+                    gameui().syslog.append(String.format("Combat: %d - %s, ip %d - %d", gobid, tt.t, ip, oip), combatLogClr);
+                } catch (Loading l) {
+                }
+            }
         }
     }
 
     public void use(Indir<Resource> act) {
         lastact = act;
         lastuse = System.currentTimeMillis();
+        if (lastact != null && Config.logcombatactions) {
+            try {
+                Resource res = lastact.get();
+                Resource.Tooltip tt = res.layer(Resource.tooltip);
+                if (tt == null) {
+                    gameui().syslog.append("Combat: WARNING! tooltip is missing for " + res.name + ". Notify Jorb/Loftar about this.", combatLogClr);
+                    return;
+                }
+                String cd = Utils.fmt1DecPlace(atkct - System.currentTimeMillis() / 1000.0);
+                gameui().syslog.append(String.format("Combat: me - %s, ip %d - %d, cd %ss", tt.t, current.ip, current.oip, cd), combatLogClr);
+            } catch (Loading l) {
+            }
+        }
     }
 
     @RName("frv")
