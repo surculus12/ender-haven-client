@@ -230,34 +230,6 @@ public class Fightview extends Widget {
         throw (new Notfound(gobid));
     }
 
-    public void rotateopp() {
-        if (lsrel.size() <= 1)
-            return;
-
-        for (int i = 0; i < rotationlist.size(); i++) {
-            try {
-                if (rotationlist.get(i) == current.gobid) {
-                    long nxtid = rotationlist.get(i + 1 == rotationlist.size() ? 0 : i + 1);
-                    OCache oc = ui.sess.glob.oc;
-                    synchronized (oc) {
-                        for (Gob gob : oc) {
-                            if (gob.id == nxtid) {
-                                GameUI gui = gameui();
-                                gui.menu.wdgmsg("act", new Object[]{"aggro"});
-                                gui.map.wdgmsg("click", gob.sc, Coord.z, 1, 0, 0, (int) gob.id, gob.rc, 0, 0);
-                                Gob pl = gui.map.player();
-                                gui.map.wdgmsg("click", pl.sc, pl.rc, 3, 0);
-                                return;
-                            }
-                        }
-                    }
-                    return;
-                }
-            } catch (IndexOutOfBoundsException e) { // ignored
-            }
-        }
-    }
-
     public void wdgmsg(Widget sender, String msg, Object... args) {
         if (sender == curava) {
             wdgmsg("click", (int) current.gobid, args[0]);
