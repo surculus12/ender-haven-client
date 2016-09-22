@@ -366,6 +366,7 @@ public class Fightsess extends Widget {
     }
 
     public boolean globtype(char key, KeyEvent ev) {
+        if (Config.combatkeys == 0) {
         if ((key == 0) && (ev.getModifiersEx() & (InputEvent.CTRL_DOWN_MASK | KeyEvent.META_DOWN_MASK | KeyEvent.ALT_DOWN_MASK)) == 0) {
             int n = -1;
             switch(ev.getKeyCode()) {
@@ -390,6 +391,36 @@ public class Fightsess extends Widget {
             fv.wdgmsg("bump", (int)fv.lsrel.get(0).gobid);
             return(true);
         }
+        } else { // F1-F5
+            if (key == 0) {
+                int n = -1;
+                switch(ev.getKeyCode()) {
+                    case KeyEvent.VK_1: n = 0; break;
+                    case KeyEvent.VK_2: n = 1; break;
+                    case KeyEvent.VK_3: n = 2; break;
+                    case KeyEvent.VK_4: n = 3; break;
+                    case KeyEvent.VK_5: n = 4; break;
+                    case KeyEvent.VK_F1: n = 5; break;
+                    case KeyEvent.VK_F2: n = 6; break;
+                    case KeyEvent.VK_F3: n = 7; break;
+                    case KeyEvent.VK_F4: n = 8; break;
+                    case KeyEvent.VK_F5: n = 9; break;
+                }
+                if((n >= 0) && (n < actions.length)) {
+                    wdgmsg("use", n);
+                    return(true);
+                }
+            } else if((key == 9) && ((ev.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)) {
+                Fightview.Relation cur = fv.current;
+                if(cur != null) {
+                    fv.lsrel.remove(cur);
+                    fv.lsrel.addLast(cur);
+                }
+                fv.wdgmsg("bump", (int)fv.lsrel.get(0).gobid);
+                return(true);
+            }
+        }
+
         return(super.globtype(key, ev));
     }
 }

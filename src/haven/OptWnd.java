@@ -1375,6 +1375,7 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.addRow(new Label("Combat key bindings:"), combatkeysDropdown());
 
         control.add(new PButton(200, "Back", 27, main), new Coord(270, 360));
         control.pack();
@@ -1713,6 +1714,41 @@ public class OptWnd extends Window {
             }
         };
         modes.change(avgQModes[Config.avgmode]);
+        return modes;
+    }
+
+    private static final Pair[] combatkeys = new Pair[]{
+            new Pair<>("[1-5] and [shift + 1-5]", 0),
+            new Pair<>("[1-5] and [F1-F5]", 1)
+    };
+
+    @SuppressWarnings("unchecked")
+    private Dropbox<Pair<String, Integer>> combatkeysDropdown() {
+        List<String> values = Arrays.stream(combatkeys).map(x -> x.a.toString()).collect(Collectors.toList());
+        Dropbox<Pair<String, Integer>> modes = new Dropbox<Pair<String, Integer>>(combatkeys.length, values) {
+            @Override
+            protected Pair<String, Integer> listitem(int i) {
+                return combatkeys[i];
+            }
+
+            @Override
+            protected int listitems() {
+                return combatkeys.length;
+            }
+
+            @Override
+            protected void drawitem(GOut g, Pair<String, Integer> item, int i) {
+                g.text(item.a, Coord.z);
+            }
+
+            @Override
+            public void change(Pair<String, Integer> item) {
+                super.change(item);
+                Config.combatkeys = item.b;
+                Utils.setprefi("combatkeys", item.b);
+            }
+        };
+        modes.change(combatkeys[Config.combatkeys]);
         return modes;
     }
 
