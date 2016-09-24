@@ -28,7 +28,6 @@ package haven;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class Fightview extends Widget {
     static Tex bg = Resource.loadtex("gfx/hud/bosq");
@@ -40,7 +39,6 @@ public class Fightview extends Widget {
     static Coord cgivec = new Coord(cavac.x - 35, cavac.y);
     static Coord cpursc = new Coord(cavac.x - 75, cgivec.y + 35);
     public LinkedList<Relation> lsrel = new LinkedList<Relation>();
-    private List<Long> rotationlist = new ArrayList<Long>();
     public Relation current = null;
     public Indir<Resource> blk, batk, iatk;
     public double atkcs, atkct;
@@ -269,7 +267,6 @@ public class Fightview extends Widget {
             rel.ip = (Integer) args[2];
             rel.oip = (Integer) args[3];
             lsrel.addFirst(rel);
-            rotationlist.add(rel.gobid);
             ui.sess.glob.oc.isfight = true;
             return;
         } else if (msg == "del") {
@@ -283,7 +280,6 @@ public class Fightview extends Widget {
             }
             rel.remove();
             lsrel.remove(rel);
-            rotationlist.remove(rel.gobid);
             if (lsrel.size() == 0) {
                 oc.removedmgoverlay(MapView.plgob);
                 oc.isfight = false;
