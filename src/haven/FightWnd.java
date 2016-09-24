@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static haven.CharWnd.attrf;
 import static haven.Window.wbox;
@@ -48,6 +49,56 @@ public class FightWnd extends Widget {
     private Tex count;
     private Dropbox<Pair<Text, Integer>> schoolsDropdown;
     private static final Text.Foundry cardnum = new Text.Foundry(Text.sans.deriveFont(Font.BOLD), 12).aa(true);
+
+    private static final Set<String> attacks = new HashSet<>(Arrays.asList(
+            "paginae/atk/pow",
+            "paginae/atk/lefthook",
+            "paginae/atk/lowblow",
+            "paginae/atk/oppknock",
+            "paginae/atk/ripapart",
+            "paginae/atk/fullcircle",
+            "paginae/atk/cleave",
+            "paginae/atk/barrage",
+            "paginae/atk/sideswipe",
+            "paginae/atk/sting",
+            "paginae/atk/sos",
+            "paginae/atk/knockteeth",
+            "paginae/atk/kick",
+            "paginae/atk/haymaker",
+            "paginae/atk/chop",
+            "paginae/atk/gojug",
+            "paginae/atk/uppercut",
+            "paginae/atk/punchboth"
+    ));
+    private static final Set<String> restorations = new HashSet<>(Arrays.asList(
+            "paginae/atk/regain",
+            "paginae/atk/dash",
+            "paginae/atk/zigzag",
+            "paginae/atk/yieldground",
+            "paginae/atk/watchmoves",
+            "paginae/atk/sidestep",
+            "paginae/atk/qdodge",
+            "paginae/atk/jump",
+            "paginae/atk/fdodge",
+            "paginae/atk/artevade",
+            "paginae/atk/flex"
+    ));
+    private static final Set<String> maneuvers = new HashSet<>(Arrays.asList(
+            "paginae/atk/think",
+            "paginae/atk/takeaim",
+            "paginae/atk/stealthunder"
+    ));
+    private static final Set<String> moves = new HashSet<>(Arrays.asList(
+            "paginae/atk/toarms",
+            "paginae/atk/shield",
+            "paginae/atk/parry",
+            "paginae/atk/oakstance",
+            "paginae/atk/dorg",
+            "paginae/atk/chinup",
+            "paginae/atk/bloodlust"
+    ));
+    private int filter = 0;
+
 
     public class Action {
         public final Indir<Resource> res;
@@ -114,11 +165,49 @@ public class FightWnd extends Widget {
         }
 
         protected Action listitem(int n) {
+            Set<String> filterSet = null;
+            switch (filter) {
+                case 1: filterSet = attacks; break;
+                case 2: filterSet = restorations; break;
+                case 3: filterSet = maneuvers; break;
+                case 4: filterSet = moves; break;
+            }
+            if (filterSet == null)
+                return acts.get(n);
+
+            int num = 0;
+            for (int i = 0; i < acts.size(); i++) {
+                try {
+                    if (filterSet.contains(acts.get(i).res.get().name) && num++ == n)
+                        return acts.get(i);
+                } catch (Loading l) {
+                }
+            }
+
             return (acts.get(n));
         }
 
         protected int listitems() {
-            return (acts.size());
+            Set<String> filterSet = null;
+            switch (filter) {
+                case 1: filterSet = attacks; break;
+                case 2: filterSet = restorations; break;
+                case 3: filterSet = maneuvers; break;
+                case 4: filterSet = moves; break;
+            }
+
+            if (filterSet == null)
+                return acts.size();
+
+            int num = 0;
+            for (int i = 0; i < acts.size(); i++) {
+                try {
+                    if (filterSet.contains(acts.get(i).res.get().name))
+                        num++;
+                } catch (Loading l) {
+                }
+            }
+            return num;
         }
 
         protected void drawbg(GOut g) {
@@ -410,6 +499,45 @@ public class FightWnd extends Widget {
         wdgmsg("use", n);
     }
 
+    private final Pair[] filterDropdownVals = new Pair[]{
+            new Pair<>("- All -", 0),
+            new Pair<>("Attacks", 1),
+            new Pair<>("Restorations", 2),
+            new Pair<>("Maneuvers", 3),
+            new Pair<>("Moves", 4)
+    };
+
+    @SuppressWarnings("unchecked")
+    private Dropbox<Pair<String, Integer>> getFilterDropdown() {
+        List<String> values = Arrays.stream(filterDropdownVals).map(x -> x.a.toString()).collect(Collectors.toList());
+        Dropbox<Pair<String, Integer>> filterDropdown = new Dropbox<Pair<String, Integer>>(filterDropdownVals.length, values) {
+            @Override
+            protected Pair<String, Integer> listitem(int i) {
+                return filterDropdownVals[i];
+            }
+
+            @Override
+            protected int listitems() {
+                return filterDropdownVals.length;
+            }
+
+            @Override
+            protected void drawitem(GOut g, Pair<String, Integer> item, int i) {
+                g.text(item.a, Coord.z);
+            }
+
+            @Override
+            public void change(Pair<String, Integer> item) {
+                super.change(item);
+                filter = item.b;
+                if (actlist != null)
+                    actlist.sb.val = 0;
+            }
+        };
+        filterDropdown.change(filterDropdownVals[0]);
+        return filterDropdown;
+    }
+
     public FightWnd(int nsave, int nact, int max) {
         super(Coord.z);
         this.nsave = nsave;
@@ -418,6 +546,10 @@ public class FightWnd extends Widget {
         this.saves = new ArrayList<>(nsave);
         for (int i = 0; i < nsave; i++)
             saves.add(i, new Pair<>(unused, i));
+
+        Dropbox<Pair<String, Integer>> filterDropdown = getFilterDropdown();
+        add(filterDropdown, new Coord(276 + 235 + 5 - filterDropdown.sz.x, 15));
+        Frame.around(this, Collections.singletonList(filterDropdown));
 
         schoolsDropdown = new Dropbox<Pair<Text, Integer>>(250, saves.size(), saves.get(0).a.sz().y) {
             @Override
