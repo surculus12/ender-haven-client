@@ -53,7 +53,8 @@ public class Fightview extends Widget {
     {
         buffs.hide();
     }
-    private static final Color combatLogClr = new Color(86, 153, 191);
+    private static final Color combatLogMeClr = new Color(86, 153, 191);
+    private static final Color combatLogOpClr = new Color(234, 105, 105);
 
     public class Relation {
         public final long gobid;
@@ -101,10 +102,10 @@ public class Fightview extends Widget {
                     Resource res = lastact.get();
                     Resource.Tooltip tt = res.layer(Resource.tooltip);
                     if (tt == null) {
-                        gameui().syslog.append("Combat: WARNING! tooltip is missing for " + res.name + ". Notify Jorb/Loftar about this.", combatLogClr);
+                        gameui().syslog.append("Combat: WARNING! tooltip is missing for " + res.name + ". Notify Jorb/Loftar about this.", combatLogOpClr);
                         return;
                     }
-                    gameui().syslog.append(String.format("Combat: %d - %s, ip %d - %d", gobid, tt.t, ip, oip), combatLogClr);
+                    gameui().syslog.append(String.format("Combat: %d - %s, ip %d - %d", gobid, tt.t, ip, oip), combatLogOpClr);
                 } catch (Loading l) {
                 }
             }
@@ -119,11 +120,11 @@ public class Fightview extends Widget {
                 Resource res = lastact.get();
                 Resource.Tooltip tt = res.layer(Resource.tooltip);
                 if (tt == null) {
-                    gameui().syslog.append("Combat: WARNING! tooltip is missing for " + res.name + ". Notify Jorb/Loftar about this.", combatLogClr);
+                    gameui().syslog.append("Combat: WARNING! tooltip is missing for " + res.name + ". Notify Jorb/Loftar about this.", combatLogMeClr);
                     return;
                 }
                 String cd = Utils.fmt1DecPlace(atkct - System.currentTimeMillis() / 1000.0);
-                gameui().syslog.append(String.format("Combat: me - %s, ip %d - %d, cd %ss", tt.t, current.ip, current.oip, cd), combatLogClr);
+                gameui().syslog.append(String.format("Combat: me - %s, ip %d - %d, cd %ss", tt.t, current.ip, current.oip, cd), combatLogMeClr);
             } catch (Loading l) {
             }
         }
