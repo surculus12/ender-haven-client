@@ -590,14 +590,16 @@ public class FightWnd extends Widget {
         add(new Button(110, "Save", false) {
             public void click() {
                 Pair<Text, Integer> sel = schoolsDropdown.sel;
-                save(sel.b);
-                use(sel.b);
+                if (sel != null) {
+                    save(sel.b);
+                    use(sel.b);
+                }
             }
         }, 280, 277);
         add(new Button(110, "Rename", false) {
             public void click() {
                 Pair<Text, Integer> sel = schoolsDropdown.sel;
-                if (sel.a.text.equals("Unused save"))
+                if (sel == null || sel.a.text.equals("Unused save"))
                      return;
 
                 SchoolRenameWnd renwnd = new SchoolRenameWnd("Rename School", schoolsDropdown, saves, sel.b, sel.a.text);
