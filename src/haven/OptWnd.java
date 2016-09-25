@@ -1253,6 +1253,7 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.addRow(new Label("Combat key bindings:"), combatkeysDropdown());
 
         combat.add(new PButton(200, "Back", 27, main), new Coord(270, 360));
         combat.pack();
@@ -1375,7 +1376,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.addRow(new Label("Combat key bindings:"), combatkeysDropdown());
 
         control.add(new PButton(200, "Back", 27, main), new Coord(270, 360));
         control.pack();
