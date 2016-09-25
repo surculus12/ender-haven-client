@@ -1242,17 +1242,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Disallow aggroing of party/village members & non-red kins") {
-            {
-                a = Config.donotaggrofriends;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("donotaggrofriends", val);
-                Config.donotaggrofriends = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Log combat actions to system log") {
             {
                 a = Config.logcombatactions;
