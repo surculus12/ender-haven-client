@@ -320,7 +320,9 @@ public class FightWnd extends Widget {
         private final int subOffX = 3;
         private final int addOffX = 16;
         private final int subOffY = invsq.sz().y + 10 + 10;
-
+        private UI.Grab d = null;
+        private Action drag = null;
+        private Coord dp;
 
         private BView() {
             super(new Coord(((invsq.sz().x + 2) * (order.length - 1)) + (10 * ((order.length - 1) / 5)) + 60, 0).add(invsq.sz().x, invsq.sz().y + 35));
@@ -387,6 +389,17 @@ public class FightWnd extends Widget {
             }
 
             g.image(count, new Coord(370, pcy));
+
+            if((drag != null) && (dp == null)) {
+                try {
+                    final Tex dt = drag.res.get().layer(Resource.imgc).tex();
+                    ui.drawafter(new UI.AfterDraw() {
+                        public void draw(GOut g) {
+                            g.image(dt, ui.mc.add(dt.sz().div(2).inv()));
+                        }
+                    });
+                } catch(Loading l) {}
+            }
         }
 
         public boolean mousedown(Coord c, int button) {
@@ -410,8 +423,23 @@ public class FightWnd extends Widget {
                     addp = acti;
                     return true;
                 }
+
+                if (s >= 0) {
+                    d = ui.grabmouse(this);
+                    drag = order[s];
+                    dp = c;
+                    return true;
+                }
             }
             return(super.mousedown(c, button));
+        }
+
+        public void mousemove(Coord c) {
+            super.mousemove(c);
+            if (drag != null && dp != null) {
+                if (c.dist(dp) > 5)
+                    dp = null;
+            }
         }
 
         public boolean mouseup(Coord c, int button) {
@@ -440,6 +468,17 @@ public class FightWnd extends Widget {
                     act.u(act.u + 1);
                     return true;
                 }
+            }
+
+            if (d != null && button == 1) {
+                d.remove();
+                d = null;
+                if (drag != null) {
+                    if (dp == null)
+                        ui.dropthing(ui.root, c.add(rootpos()), drag);
+                    drag = null;
+                }
+                return true;
             }
 
             return(super.mouseup(c, button));
@@ -599,7 +638,7 @@ public class FightWnd extends Widget {
         add(new Button(110, "Rename", false) {
             public void click() {
                 Pair<Text, Integer> sel = schoolsDropdown.sel;
-                if (sel == null || sel.a.text.equals("Unused save"))
+                if (sel == null || sel.a.text.equals("unused save"))
                      return;
 
                 SchoolRenameWnd renwnd = new SchoolRenameWnd("Rename School", schoolsDropdown, saves, sel.b, sel.a.text);
