@@ -424,6 +424,10 @@ public class FightWnd extends Widget {
                 }
 
                 if (s >= 0) {
+                    Action act = order[s];
+                    actlist.change(act);
+                    actlist.display();
+
                     d = ui.grabmouse(this);
                     drag = order[s];
                     dp = c;
