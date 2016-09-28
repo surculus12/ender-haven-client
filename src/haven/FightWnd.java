@@ -534,6 +534,13 @@ public class FightWnd extends Widget {
                         } else {
                             order[s].u(0);
                         }
+                    } else {
+                        for (int i = 0; i < order.length; i++) {
+                            if (order[i] != null && order[i].id == act.id) {
+                                order[i] = null;
+                                break;
+                            }
+                        }
                     }
                     order[s] = act;
                     if(act.u < 1)
