@@ -26,10 +26,8 @@
 
 package haven;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +42,7 @@ public class FightWnd extends Widget {
     public final Actions actlist;
     public List<Action> acts = new ArrayList<Action>();
     public final Action[] order;
-    private final List<Pair<Text, Integer>> saves;
+    private final Text[] saves;
     private final CharWnd.LoadingTextBox info;
     private Tex count;
     private Dropbox<Pair<Text, Integer>> schoolsDropdown;
@@ -524,6 +522,9 @@ public class FightWnd extends Widget {
     public void save(int n) {
         List<Object> args = new LinkedList<Object>();
         args.add(n);
+        if(saves[n] != unused)
+            args.add(saves[n].text);
+
         for(int i = 0; i < order.length; i++) {
             if(order[i] == null) {
                 args.add(null);
@@ -583,23 +584,23 @@ public class FightWnd extends Widget {
         this.nsave = nsave;
         this.maxact = max;
         this.order = new Action[nact];
-        this.saves = new ArrayList<>(nsave);
+        this.saves = new Text[nsave];
         for (int i = 0; i < nsave; i++)
-            saves.add(i, new Pair<>(unused, i));
+            saves[i] = unused;
 
         Dropbox<Pair<String, Integer>> filterDropdown = getFilterDropdown();
         add(filterDropdown, new Coord(276 + 235 + 5 - filterDropdown.sz.x, 15));
         Frame.around(this, Collections.singletonList(filterDropdown));
 
-        schoolsDropdown = new Dropbox<Pair<Text, Integer>>(250, saves.size(), saves.get(0).a.sz().y) {
+        schoolsDropdown = new Dropbox<Pair<Text, Integer>>(250, saves.length, saves[0].sz().y) {
             @Override
             protected Pair<Text, Integer> listitem(int i) {
-                return saves.get(i);
+                return new Pair<>(saves[i], i);
             }
 
             @Override
             protected int listitems() {
-                return saves.size();
+                return saves.length;
             }
 
             @Override
@@ -642,7 +643,48 @@ public class FightWnd extends Widget {
                 if (sel == null || sel.a.text.equals("unused save"))
                      return;
 
-                SchoolRenameWnd renwnd = new SchoolRenameWnd("Rename School", schoolsDropdown, saves, sel.b, sel.a.text);
+                Window renwnd = new Window(new Coord(225, 100), "Rename School") {
+                    {
+                        final TextEntry txtname = new TextEntry(200, sel.a.text);
+                        add(txtname, new Coord(15, 20));
+
+                        Button add = new Button(60, "Save") {
+                            @Override
+                            public void click() {
+                                saves[sel.b] = attrf.render(txtname.text);
+                                schoolsDropdown.sel = new Pair<>(saves[sel.b], sel.b);
+                                save(sel.b);
+                                parent.reqdestroy();
+                            }
+                        };
+                        add(add, new Coord(15, 60));
+
+                        Button cancel = new Button(60, "Cancel") {
+                            @Override
+                            public void click() {
+                                parent.reqdestroy();
+                            }
+                        };
+                        add(cancel, new Coord(155, 60));
+                    }
+
+                    @Override
+                    public void wdgmsg(Widget sender, String msg, Object... args) {
+                        if (sender == cbtn)
+                            reqdestroy();
+                        else
+                            super.wdgmsg(sender, msg, args);
+                    }
+
+                    @Override
+                    public boolean type(char key, KeyEvent ev) {
+                        if (key == 27) {
+                            reqdestroy();
+                            return true;
+                        }
+                        return super.type(key, ev);
+                    }
+                };
                 GameUI gui = gameui();
                 gui.add(renwnd, new Coord(gui.sz.x / 2 - 200, gui.sz.y / 2 - 200));
                 renwnd.show();
@@ -697,30 +739,19 @@ public class FightWnd extends Widget {
         } else if (nm == "saved") {
             int fl = (Integer) args[0];
             for (int i = 0; i < nsave; i++) {
-                if ((fl & (1 << i)) != 0)
-                    saves.set(i, new Pair<>(attrf.render(String.format("Saved school %d", i + 1)), i));
-                else
-                    saves.set(i, new Pair<>(unused, i));
-            }
-            // override school names
-            try {
-                String schoolsjson = Utils.getpref("schools_" + gameui().chrid, null);
-                if (schoolsjson == null)
-                    return;
-                JSONArray arr = new JSONArray(schoolsjson);
-                for (int i = 0; i < arr.length(); i++) {
-                    JSONObject s = arr.getJSONObject(i);
-                    String name = s.get("name").toString();
-                    int idx = s.getInt("idx") - 1;
-                    saves.set(idx, new Pair<>(attrf.render(name), idx));
+                if ((fl & (1 << i)) != 0) {
+                    if (args[i + 1] instanceof String)
+                        saves[i] = attrf.render((String) args[i + 1]);
+                    else
+                        saves[i] = attrf.render(String.format("Saved school %d", i + 1));
+                } else {
+                    saves[i] = unused;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         } else if (nm == "use") {
             int i = (int)args[0];
-            if (i >= 0 && i < saves.size())
-                schoolsDropdown.change(saves.get(i));
+            if (i >= 0 && i < saves.length)
+                schoolsDropdown.change(new Pair<>(saves[i], i));
         } else if(nm == "max") {
             maxact = (Integer)args[0];
             recount();
