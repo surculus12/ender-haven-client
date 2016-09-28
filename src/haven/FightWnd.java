@@ -94,7 +94,7 @@ public class FightWnd extends Widget {
             "paginae/atk/dorg",
             "paginae/atk/chinup",
             "paginae/atk/bloodlust",
-            "paginae/atk/combmed "
+            "paginae/atk/combmed"
     ));
     private int filter = 0;
 
