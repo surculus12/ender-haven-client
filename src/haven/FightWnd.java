@@ -312,6 +312,14 @@ public class FightWnd extends Widget {
         }
     }
 
+    public int findorder(Action a) {
+        for(int i = 0; i < order.length; i++) {
+            if(order[i] == a)
+                return(i);
+        }
+        return(-1);
+    }
+
     public static final String[] keys = {"1", "2", "3", "4", "5", "\u21e71", "\u21e72", "\u21e73", "\u21e74", "\u21e75"};
     public class BView extends Widget implements DropTarget {
         private int subp = -1;
@@ -322,6 +330,9 @@ public class FightWnd extends Widget {
         private UI.Grab d = null;
         private Action drag = null;
         private Coord dp;
+        private final Coord[] animoff = new Coord[order.length];
+        private final double[] animpr = new double[order.length];
+        private boolean anim = false;
 
         private BView() {
             super(new Coord(((invsq.sz().x + 2) * (order.length - 1)) + (10 * ((order.length - 1) / 5)) + 60, 0).add(invsq.sz().x, invsq.sz().y + 35));
@@ -364,13 +375,28 @@ public class FightWnd extends Widget {
         public void draw(GOut g) {
             int pcy = invsq.sz().y + 4;
 
+            int[] reo;
+            if (anim) {
+                reo = new int[order.length];
+                for (int i = 0, a = 0, b = order.length - 1; i < order.length; i++) {
+                    if (animoff[i] == null)
+                        reo[a++] = i;
+                    else
+                        reo[b--] = i;
+                }
+            }
+
             for(int i = 0; i < order.length; i++) {
                 Coord c = itemc(i);
                 g.image(invsq, c);
                 Action act = order[i];
                 try {
                     if(act != null) {
-                        g.image(act.res.get().layer(Resource.imgc).tex(), c.add(1, 1));
+                        Coord ic = c.add(1, 1);
+                        if (animoff[i] != null)
+                            ic = ic.add(animoff[i].mul(Math.pow(1.0 - animpr[i], 3)));
+
+                        g.image(act.res.get().layer(Resource.imgc).tex(), ic);
 
                         if (act.ru == null)
                             act.ru = cardnum.render(String.format("%d/%d", act.u, act.a));
@@ -487,6 +513,12 @@ public class FightWnd extends Widget {
             return(super.mouseup(c, button));
         }
 
+        private void animate(int s, Coord off) {
+            animoff[s] = off;
+            animpr[s] = 0.0;
+            anim = true;
+        }
+
         public boolean dropthing(Coord c, Object thing) {
             if(thing instanceof Action) {
                 Action act = (Action)thing;
@@ -494,21 +526,37 @@ public class FightWnd extends Widget {
                 if(s < 0)
                     return(false);
                 if(order[s] != act) {
-                    if(order[s] != null)
-                        order[s].u(0);
-                    order[s] = act;
-                    for(int i = 0; i < order.length; i++) {
-                        if(i == s)
-                            continue;
-                        if(order[i] == act)
-                            order[i] = null;
+                    if(order[s] != null) {
+                        int cp = findorder(act);
+                        if(cp >= 0) {
+                            order[cp] = order[s];
+                            animate(cp, itemc(s).sub(itemc(cp)));
+                        } else {
+                            order[s].u(0);
+                        }
                     }
+                    order[s] = act;
                     if(act.u < 1)
                         act.u(1);
                 }
                 return(true);
             }
             return(false);
+        }
+
+        public void tick(double dt) {
+            if(anim) {
+                boolean na = false;
+                for(int i = 0; i < order.length; i++) {
+                    if(animoff[i] != null) {
+                        if((animpr[i] += (dt * 3)) > 1.0)
+                            animoff[i] = null;
+                        else
+                            na = true;
+                    }
+                }
+                anim = na;
+            }
         }
     }
 
