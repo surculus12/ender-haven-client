@@ -109,6 +109,8 @@ public class SteelRefueler extends Window implements GobSelectCallback {
                         fuel = gui.maininv.getItemPartial("Block");
                     if (fuel == null)
                         fuel = gui.maininv.getItemPartial("Branch");
+                    if (fuel == null)
+                        continue;
 
                     int fuelticks;
                     if (fuel.item.getname().contains("Block"))
