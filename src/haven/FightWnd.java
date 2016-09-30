@@ -66,7 +66,8 @@ public class FightWnd extends Widget {
             "paginae/atk/chop",
             "paginae/atk/gojug",
             "paginae/atk/uppercut",
-            "paginae/atk/punchboth"
+            "paginae/atk/punchboth",
+            "paginae/atk/stealthunder"
     ));
     private static final Set<String> restorations = new HashSet<>(Arrays.asList(
             "paginae/atk/regain",
@@ -81,12 +82,11 @@ public class FightWnd extends Widget {
             "paginae/atk/artevade",
             "paginae/atk/flex"
     ));
-    private static final Set<String> maneuvers = new HashSet<>(Arrays.asList(
-            "paginae/atk/think",
-            "paginae/atk/takeaim",
-            "paginae/atk/stealthunder"
-    ));
     private static final Set<String> moves = new HashSet<>(Arrays.asList(
+            "paginae/atk/think",
+            "paginae/atk/takeaim"
+    ));
+    private static final Set<String> maneuvers = new HashSet<>(Arrays.asList(
             "paginae/atk/toarms",
             "paginae/atk/shield",
             "paginae/atk/parry",
