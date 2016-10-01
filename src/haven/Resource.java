@@ -1839,19 +1839,36 @@ public class Resource implements Serializable {
             // party invite
             final String partyInvite = " has invited you to join his party. Do you wish to do so?";
             if (key.endsWith(partyInvite)) {
-                String name = key.substring(0, key.indexOf(partyInvite));
                 ll = map.get("%s" + partyInvite);
                 if (ll != null)
-                    ll = String.format(ll, name);
+                    ll = String.format(ll, key.substring(0, key.indexOf(partyInvite)));
+            }
+            // table bonuses
+            final String hungerMod = "Hunger modifier: ";
+            if (key.startsWith(hungerMod)) {
+                ll = map.get(hungerMod + "%s");
+                if (ll != null)
+                    ll = String.format(ll, key.substring(hungerMod.length()));
+            }
+            final String eventBonus = "Food event bonus: ";
+            if (key.startsWith(eventBonus)) {
+                ll = map.get(eventBonus + "%s");
+                if (ll != null)
+                    ll = String.format(ll, key.substring(eventBonus.length()));
+            }
+            // spar request
+            final String spar = "has requested to spar with you. Do you accept?";
+            if (key.endsWith(spar)) {
+                ll = map.get("%s " + spar);
+                if (ll != null)
+                    ll = String.format(ll, key.substring(0, key.length() - spar.length()));
             }
         } else if (ll == null && bundle == BUNDLE_FLOWER) {
             // gild
             if (key.startsWith("Gild (")) {
-                final String flwGild = "Gild (%s%% chance)";
-                String val = key.substring(key.indexOf("(") + 1, key.indexOf("%"));
-                ll = map.get(flwGild);
+                ll = map.get("Gild (%s%% chance)");
                 if (ll != null)
-                    ll = String.format(ll, val);
+                    ll = String.format(ll, key.substring(key.indexOf("(") + 1, key.indexOf("%")));
             }
         }
         return ll != null ? ll : key;
