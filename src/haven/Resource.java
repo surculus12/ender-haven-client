@@ -1870,6 +1870,19 @@ public class Resource implements Serializable {
                 if (ll != null)
                     ll = String.format(ll, key.substring(key.indexOf("(") + 1, key.indexOf("%")));
             }
+            // roards
+            final String follow = "Follow ";
+            if (key.startsWith(follow)) {
+                ll = map.get(follow + "%s");
+                if (ll != null)
+                    ll = String.format(ll, key.substring(follow.length()));
+            }
+            final String travel = "Travel along ";
+            if (key.startsWith(travel)) {
+                ll = map.get(travel + "%s");
+                if (ll != null)
+                    ll = String.format(ll, key.substring(travel.length()));
+            }
         }
         return ll != null ? ll : key;
     }
