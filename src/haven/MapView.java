@@ -1697,6 +1697,12 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
 
         protected void hit(Coord pc, Coord mc, ClickInfo inf) {
             Resource curs = ui.root.getcurs(c);
+
+            // reset alt so we could walk with alt+lmb while having item on the cursor
+            int modflags = ui.modflags();
+            if (gameui().vhand != null && clickb == 1)
+                modflags = modflags & ~4;
+
             if (inf == null) {
                 if (Config.tilecenter && clickb == 3) {
                     mc.x = mc.x / 11 * 11 + 5;
@@ -1706,19 +1712,21 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                 if (Config.pf && clickb == 1 && curs != null && !curs.name.equals("gfx/hud/curs/study")) {
                     pfLeftClick(mc, null);
                 } else {
-                    wdgmsg("click", pc, mc, clickb, ui.modflags());
+                    wdgmsg("click", pc, mc, clickb, modflags);
                 }
             } else {
                 if (ui.modmeta && clickb == 1) {
                     if (gobselcb != null)
                         gobselcb.gobselect(inf.gob);
 
-                    for (Widget w = gameui().chat.lchild; w != null; w = w.prev) {
-                        if (w instanceof ChatUI.MultiChat) {
-                            ChatUI.MultiChat chat = (ChatUI.MultiChat) w;
-                            if (chat.name().equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Area Chat"))) {
-                                chat.send(ChatUI.CMD_PREFIX_HLIGHT + inf.gob.id);
-                                break;
+                    if (gameui().vhand == null) {   // do not highlight when walking with an item
+                        for (Widget w = gameui().chat.lchild; w != null; w = w.prev) {
+                            if (w instanceof ChatUI.MultiChat) {
+                                ChatUI.MultiChat chat = (ChatUI.MultiChat) w;
+                                if (chat.name().equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Area Chat"))) {
+                                    chat.send(ChatUI.CMD_PREFIX_HLIGHT + inf.gob.id);
+                                    break;
+                                }
                             }
                         }
                     }
@@ -1727,10 +1735,10 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     if (Config.pf && curs != null && !curs.name.equals("gfx/hud/curs/study")) {
                         pfRightClick(inf.gob, getid(inf.r), clickb, 0, null);
                     } else {
-                        wdgmsg("click", pc, mc, clickb, ui.modflags(), 0, (int) inf.gob.id, inf.gob.rc, 0, getid(inf.r));
+                        wdgmsg("click", pc, mc, clickb, modflags, 0, (int) inf.gob.id, inf.gob.rc, 0, getid(inf.r));
                     }
                 } else {
-                    wdgmsg("click", pc, mc, clickb, ui.modflags(), 1, (int) inf.gob.id, inf.gob.rc, inf.ol.id, getid(inf.r));
+                    wdgmsg("click", pc, mc, clickb, modflags, 1, (int) inf.gob.id, inf.gob.rc, inf.ol.id, getid(inf.r));
                 }
             }
         }
