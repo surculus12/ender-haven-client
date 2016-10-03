@@ -39,7 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
-import javax.media.opengl.glu.GLU;
 
 public class HavenPanel extends GLCanvas implements Runnable, Console.Directory {
     UI ui;
@@ -64,6 +63,7 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory 
     private GLState.Applier state = null;
     private GLConfig glconf = null;
     public static boolean needtotakescreenshot;
+    public static boolean isATI;
 
     private static GLCapabilities stdcaps() {
         GLProfile prof = GLProfile.getDefault();
@@ -136,7 +136,9 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory 
                     glconf.pref = GLSettings.load(glconf, true);
                     ui.cons.add(glconf);
                     if (h != null) {
-                        h.lsetprop("gl.vendor", gl.glGetString(gl.GL_VENDOR));
+                        String vendor = gl.glGetString(gl.GL_VENDOR);
+                        isATI = vendor.contains("AMD") || vendor.contains("ATI");
+                        h.lsetprop("gl.vendor", vendor);
                         h.lsetprop("gl.version", gl.glGetString(gl.GL_VERSION));
                         h.lsetprop("gl.renderer", gl.glGetString(gl.GL_RENDERER));
                         h.lsetprop("gl.exts", Arrays.asList(gl.glGetString(gl.GL_EXTENSIONS).split(" ")));
