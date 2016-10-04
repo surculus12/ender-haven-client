@@ -1361,6 +1361,18 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Automatically pick all clustered mussels (auto 'Pick' needs to be enabled)") {
+            {
+                a = Config.autopickmussels;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("autopickmussels", val);
+                Config.autopickmussels = val;
+                a = val;
+            }
+        });
+
         flowermenus.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         flowermenus.pack();
     }

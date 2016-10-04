@@ -27,9 +27,7 @@
 package haven;
 
 import haven.GLProgram.VarID;
-import haven.automation.AutoLeveler;
-import haven.automation.GobSelectCallback;
-import haven.automation.SteelRefueler;
+import haven.automation.*;
 import haven.pathfinder.*;
 import haven.resutil.BPRadSprite;
 
@@ -40,7 +38,6 @@ import java.lang.ref.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.List;
 import java.util.Map;
 
 import static haven.MCache.tilesz;
@@ -77,6 +74,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     public Thread pfthread;
     public SteelRefueler steelrefueler;
     public AutoLeveler autoleveler;
+    private Thread musselPicker;
     private final PartyHighlight partyHighlight;
 
     public interface Delayed {
@@ -1698,6 +1696,13 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         protected void hit(Coord pc, Coord mc, ClickInfo inf) {
             Resource curs = ui.root.getcurs(c);
 
+            if (musselPicker != null) {
+                try {
+                    musselPicker.interrupt();
+                } catch (NullPointerException e) {
+                }
+            }
+
             // reset alt so we could walk with alt+lmb while having item on the cursor
             int modflags = ui.modflags();
             if (gameui().vhand != null && clickb == 1)
@@ -1736,6 +1741,16 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                         pfRightClick(inf.gob, getid(inf.r), clickb, 0, null);
                     } else {
                         wdgmsg("click", pc, mc, clickb, modflags, 0, (int) inf.gob.id, inf.gob.rc, 0, getid(inf.r));
+
+                        if (Config.autopickmussels) {
+                            try {
+                                if (inf.gob.getres().name.equals("gfx/terobjs/herbs/mussels")) {
+                                    musselPicker = new Thread(new MusselPicker(gameui(), inf.gob), "MusselPicker");
+                                    musselPicker.start();
+                                }
+                            } catch (Loading l) {
+                            }
+                        }
                     }
                 } else {
                     wdgmsg("click", pc, mc, clickb, modflags, 1, (int) inf.gob.id, inf.gob.rc, inf.ol.id, getid(inf.r));
@@ -2292,6 +2307,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
             steelrefueler.terminate();
         if (autoleveler != null)
             autoleveler.terminate();
+        if (musselPicker != null)
+            musselPicker.interrupt();
     }
 
     public void removeCustomSprites(int id) {
