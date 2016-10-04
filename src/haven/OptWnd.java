@@ -1159,6 +1159,17 @@ public class OptWnd extends Window {
                 }
             }
         });
+        appender.add(new CheckBox("Display confirmation dialog when using magic") {
+            {
+                a = Config.confirmmagic;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("confirmmagic", val);
+                Config.confirmmagic = val;
+                a = val;
+            }
+        });
         //appender.addRow(new Label("Interface font size (req. restart):"), makeFontSizeGlobalDropdown());
         //appender.addRow(new Label("Button font size (req. restart):"), makeFontSizeButtonDropdown());
         //appender.addRow(new Label("Window title font size (req. restart):"), makeFontSizeWndCapDropdown());
