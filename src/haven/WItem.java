@@ -31,6 +31,7 @@ import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.*;
+import java.util.function.*;
 
 import static haven.Inventory.sqsz;
 
@@ -141,16 +142,19 @@ public class WItem extends Widget implements DTarget {
 
     public volatile static int cacheseq = 0;
 
-    public abstract class AttrCache<T> {
+    public class AttrCache<T> {
+        private final Function<List<ItemInfo>, T> data;
         private List<ItemInfo> forinfo = null;
         public T save = null;
         private int forseq = -1;
+
+        public AttrCache(Function<List<ItemInfo>, T> data) {this.data = data;}
 
         public T get() {
             try {
                 List<ItemInfo> info = item.info();
                 if ((cacheseq != forseq) || (info != forinfo)) {
-                    save = find(info);
+                    save = data.apply(info);
                     forinfo = info;
                     forseq = cacheseq;
                 }
@@ -159,31 +163,30 @@ public class WItem extends Widget implements DTarget {
             }
             return (save);
         }
-
-        protected abstract T find(List<ItemInfo> info);
     }
 
-    public final AttrCache<Color> olcol = new AttrCache<Color>() {
-        protected Color find(List<ItemInfo> info) {
-            Color ret = null;
-            for (ItemInfo inf : info) {
-                if (inf instanceof GItem.ColorInfo) {
-                    Color c = ((GItem.ColorInfo) inf).olcol();
-                    if (c != null)
-                        ret = (ret == null) ? c : Utils.preblend(ret, c);
-                }
+    public final AttrCache<Color> olcol = new AttrCache<Color>(info -> {
+        Color ret = null;
+        for(ItemInfo inf : info) {
+            if(inf instanceof GItem.ColorInfo) {
+                Color c = ((GItem.ColorInfo)inf).olcol();
+                if(c != null)
+                    ret = (ret == null)?c:Utils.preblend(ret, c);
             }
-            return (ret);
         }
-    };
+        return(ret);
+    });
 
-    public final AttrCache<Tex> itemnum = new AttrCache<Tex>() {
-        protected Tex find(List<ItemInfo> info) {
-            GItem.NumberInfo ninf = ItemInfo.find(GItem.NumberInfo.class, info);
-            if (ninf == null) return (null);
-            return (new TexI(Utils.outline2(Text.render(Integer.toString(ninf.itemnum()), Color.WHITE).img, Utils.contrast(Color.WHITE))));
-        }
-    };
+    public final AttrCache<Tex> itemnum = new AttrCache<Tex>(info -> {
+        GItem.NumberInfo ninf = ItemInfo.find(GItem.NumberInfo.class, info);
+        if(ninf == null) return(null);
+        return(new TexI(Utils.outline2(Text.render(Integer.toString(ninf.itemnum()), Color.WHITE).img, Utils.contrast(Color.WHITE))));
+    });
+
+    public final AttrCache<Double> itemmeter = new AttrCache<Double>(info -> {
+        GItem.MeterInfo minf = ItemInfo.find(GItem.MeterInfo.class, info);
+        return((minf == null)?null:minf.meter());
+    });
 
     private GSprite lspr = null;
 
@@ -223,11 +226,12 @@ public class WItem extends Widget implements DTarget {
                     g.frect(Coord.z, new Coord((int) (sz.x / (100 / (double) item.meter)), 4));
                     g.chcolor();
                 } else if (!Config.itempercentage) {
-                    double a = ((double) item.meter) / 100.0;
-                    g.chcolor(255, 255, 255, 64);
-                    Coord half = sz.div(2);
-                    g.prect(half, half.inv(), half, a * Math.PI * 2);
-                    g.chcolor();
+                    Double meter = (item.meter > 0) ? (item.meter / 100.0) : itemmeter.get();
+                    if ((meter != null) && (meter > 0)) {
+                        g.chcolor(255, 255, 255, 64);
+                        g.fellipse(this.sz.div(2), new Coord(15, 15), 90, (int) (90 + (360 * meter)));
+                        g.chcolor();
+                    }
                 }
             }
 
