@@ -115,7 +115,7 @@ public class Config {
     public static boolean autokill = Utils.getprefb("autokill", false);
     public static boolean autoslice = Utils.getprefb("autoslice", false);
     public static boolean runonlogin = Utils.getprefb("runonlogin", false);
-    public static Coord chatsz = Utils.getprefc("chatsz", Coord.z);
+    public static Coord chatsz = Utils.getprefc("chatsz", new Coord(683, 111));
     public static boolean alternmapctrls = Utils.getprefb("alternmapctrls", true);
     public static boolean autostudy = Utils.getprefb("autostudy", true);
     public static boolean showdmgop = Utils.getprefb("showdmgop", false);
