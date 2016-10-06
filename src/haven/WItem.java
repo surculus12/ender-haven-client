@@ -220,18 +220,18 @@ public class WItem extends Widget implements DTarget {
             } else if (itemnum.get() != null) {
                 g.aimage(itemnum.get(), new Coord(sz.x, 0), 1, 0);
             }
-            if (item.meter > 0) {
+
+            Double meter = item.meter > 0 ? item.meter / 100.0 : itemmeter.get();
+            if (meter != null && meter > 0) {
                 if (Config.itemmeterbar) {
                     g.chcolor(220, 60, 60, 255);
-                    g.frect(Coord.z, new Coord((int) (sz.x / (100 / (double) item.meter)), 4));
+                    g.frect(Coord.z, new Coord((int) (sz.x / (100 / (meter * 100))), 4));
                     g.chcolor();
                 } else if (!Config.itempercentage) {
-                    Double meter = (item.meter > 0) ? (item.meter / 100.0) : itemmeter.get();
-                    if ((meter != null) && (meter > 0)) {
-                        g.chcolor(255, 255, 255, 64);
-                        g.fellipse(this.sz.div(2), new Coord(15, 15), 90, (int) (90 + (360 * meter)));
-                        g.chcolor();
-                    }
+                    g.chcolor(255, 255, 255, 64);
+                    Coord half = sz.div(2);
+                    g.prect(half, half.inv(), half, meter * Math.PI * 2);
+                    g.chcolor();
                 }
             }
 
