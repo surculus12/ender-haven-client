@@ -41,8 +41,8 @@ public class Fightsess extends Widget {
     public static final Tex useframe = Resource.loadtex("gfx/hud/combat/lastframe");
     public static final Coord useframeo = (useframe.sz().sub(32, 32)).div(2);
     private static final Text.Foundry cdfndr = new Text.Foundry(Text.serif, 18).aa(true);
-    private static final Color cdclrpos = new Color(128, 128, 255);
-    private static final Color cdclrneg = new Color(239, 41, 41);
+    //private static final Color cdclrpos = new Color(128, 128, 255);
+    //private static final Color cdclrneg = new Color(239, 41, 41);
     public static final int actpitch = 50;
     public final Indir<Resource>[] actions;
     public final boolean[] dyn;
@@ -50,9 +50,9 @@ public class Fightsess extends Widget {
     public Coord pcc;
     public int pho;
     private final Fightview fv;
-    private static final Map<Long, Tex> cdvalues = new HashMap<Long, Tex>(7);
+   // private static final Map<Long, Tex> cdvalues = new HashMap<Long, Tex>(7);
 
-    private static final Map<String, Integer> atkcds = new HashMap<String, Integer>(9){{
+    /*private static final Map<String, Integer> atkcds = new HashMap<String, Integer>(9){{
         put("Chop", 50);
         put("Cleave", 80);
         put("Haymaker", 60);
@@ -62,7 +62,7 @@ public class Fightsess extends Widget {
         put("Low Blow", 30);
         put("Punch", 30);
         put("Sting", 35);
-    }};
+    }};*/
 
     @RName("fsess")
     public static class $_ implements Factory {
@@ -168,11 +168,11 @@ public class Fightsess extends Widget {
 	        if(fv.lsrel.size() > 1)
 		        fxon(fv.current.gobid, tgtfx);
 
-            if (Config.showcddelta && fv.current != null) {
+            /*if (Config.showcddelta && fv.current != null) {
                 Tex cdtex = cdvalues.get(fv.current.gobid);
                 if (cdtex != null)
                     g.aimage(cdtex, pcc.add(0, 175), 0.5, 1);
-            }
+            }*/
         }
 
         {
@@ -344,7 +344,7 @@ public class Fightsess extends Widget {
         } else if (msg == "use") {
             this.use = (Integer) args[0];
         } else if (msg == "used") {
-            Indir<Resource> act = actions[(Integer) args[0]];
+            /*Indir<Resource> act = actions[(Integer) args[0]];
             try {
                 if (act != null) {
                     Resource.Tooltip tt = act.get().layer(Resource.Tooltip.class);
@@ -358,7 +358,7 @@ public class Fightsess extends Widget {
                     }
                 }
             } catch (Loading l) {
-            }
+            }*/
         } else {
             super.uimsg(msg, args);
         }
