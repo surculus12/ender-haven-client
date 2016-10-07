@@ -193,10 +193,10 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             quickslots.hide();
         add(quickslots, Utils.getprefc("quickslotsc", new Coord(430, HavenPanel.h - 160)));
 
-        statuswindow = new StatusWdg();
-        if (!Config.statuswdgvisible)
-            statuswindow.hide();
-        add(statuswindow, new Coord(HavenPanel.w / 2 + 80, 10));
+        if (Config.statuswdgvisible) {
+            statuswindow = new StatusWdg();
+            add(statuswindow, new Coord(HavenPanel.w / 2 + 80, 10));
+        }
 
         if (!chrid.equals("")) {
             Utils.loadprefchklist("boulderssel_" + chrid, Config.boulders);
@@ -966,10 +966,17 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 map.togglegrid();
             return true;
         } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_M) {
-            boolean curstatus = statuswindow.visible;
-            statuswindow.show(!curstatus);
-            Utils.setprefb("statuswdgvisible", !curstatus);
-            Config.statuswdgvisible = !curstatus;
+            if (Config.statuswdgvisible) {
+                if (statuswindow != null)
+                    statuswindow.reqdestroy();
+                Config.statuswdgvisible = false;
+                Utils.setprefb("statuswdgvisible", false);
+            } else {
+                statuswindow = new StatusWdg();
+                add(statuswindow, new Coord(HavenPanel.w / 2 + 80, 10));
+                Config.statuswdgvisible = true;
+                Utils.setprefb("statuswdgvisible", true);
+            }
             return true;
         } else if (ev.isAltDown() && ev.getKeyCode() == KeyEvent.VK_Z) {
             quickslots.drop(QuickSlotsWdg.lc, Coord.z);
@@ -1076,7 +1083,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         if (map != null)
             map.resize(sz);
         beltwdg.c = new Coord(blpw + 10, sz.y - beltwdg.sz.y - 5);
-        statuswindow.c = new Coord(HavenPanel.w / 2 + 80, 10);
+        if (statuswindow != null)
+            statuswindow.c = new Coord(HavenPanel.w / 2 + 80, 10);
         super.resize(sz);
     }
 

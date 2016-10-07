@@ -8,36 +8,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StatusWdg extends Widget {
-    private static ThreadGroup tg = new ThreadGroup("StatusUpdaterThreadGroup");
-    private static final String statusupdaterthreadname = "StatusUpdater";
-
+    private static final ThreadGroup tg = new ThreadGroup("StatusUpdaterThreadGroup");
     private static final Tex hearthlingsplayingdef = Text.render(String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "Players: %s"), "?"), Color.WHITE).tex();
     private static final Tex pingtimedef = Text.render(String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "Ping: %s ms"), "?"), Color.WHITE).tex();
-    private Tex hearthlingsplaying = hearthlingsplayingdef;
+    private Tex players = hearthlingsplayingdef;
     private Tex pingtime = pingtimedef;
-
+    private long lastPingUpdate = System.currentTimeMillis();
     private final static Pattern pattern = Config.iswindows ?
             Pattern.compile(".+?=32 .+?=(\\d+).*? TTL=.+") :    // Reply from 87.245.198.59: bytes=32 time=2ms TTL=53
             Pattern.compile(".+?time=(\\d+\\.?\\d*) ms");       // 64 bytes from ansgar.seatribe.se (213.239.201.139): icmp_seq=1 ttl=47 time=71.4 ms
 
 
     public StatusWdg() {
-        synchronized (StatusWdg.class) {
-            tg.interrupt();
-            startupdaterthread();
-        }
-    }
-
-    private void updatehearthlingscount() {
-        String hearthlingscount = "?";
-
-        String mainpagecontent = geturlcontent("http://www.havenandhearth.com/portal");
-        if (!mainpagecontent.isEmpty())
-            hearthlingscount = getstringbetween(mainpagecontent, "There are", "hearthlings playing").trim();
-
-        synchronized (StatusWdg.class) {
-            hearthlingsplaying = Text.render(String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "Players: %s"), hearthlingscount), Color.WHITE).tex();
-        }
+        tg.interrupt();
+        startUpdater();
     }
 
     private void updatepingtime() {
@@ -84,98 +68,84 @@ public class StatusWdg extends Widget {
         }
     }
 
-    private void startupdaterthread() {
-        Thread statusupdaterthread = new Thread(tg, new Runnable() {
-            public void run() {
-                CookieHandler.setDefault(new CookieManager());
+    private void startUpdater() {
+        Thread statusupdaterthread = new Thread(tg, () -> {
+            updatepingtime();
+            while (true) {
+                URL url_;
+                BufferedReader br = null;
+                HttpURLConnection conn = null;
 
-                while (true) {
-                    if (visible) {
-                        updatehearthlingscount();
-                        if (Thread.interrupted())
-                            return;
+                try {
+                    url_ = new URL("http://www.havenandhearth.com/mt/srv-mon");
+                    conn = (HttpURLConnection)url_.openConnection();
+                    InputStream is = conn.getInputStream();
+                    br = new BufferedReader(new InputStreamReader(is));
 
-                        updatepingtime();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        if (line.startsWith("users ")) {
+                            String p = line.substring("users ".length());
+                            players = Text.render(String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "Players: %s"), p), Color.WHITE).tex();
+                        }
+
+                        // Update ping at least every 5 seconds.
+                        // This of course might take more than 5 seconds in case there were no new logins/logouts
+                        // but it's not critical.
+                        long now = System.currentTimeMillis();
+                        if (now - lastPingUpdate > 5000) {
+                            lastPingUpdate = now;
+                            updatepingtime();
+                        }
+
                         if (Thread.interrupted())
                             return;
                     }
+                } catch (SocketException se) {
+                    // don't print socket exceptions when network is unreachable to prevent console spamming on bad connections
+                    if (!se.getMessage().equals("Network is unreachable"))
+                        se.printStackTrace();
+                } catch (MalformedURLException mue) {
+                    mue.printStackTrace();
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                } finally {
                     try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException ex) {
-                        return;
+                        if (br != null)
+                            br.close();
+                    } catch (IOException ioe) {
                     }
+                    if (conn != null)
+                        conn.disconnect();
+                }
+
+                if (Thread.interrupted())
+                    return;
+
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ex) {
+                    return;
                 }
             }
-        }, statusupdaterthreadname);
+        }, "StatusUpdater");
         statusupdaterthread.start();
-    }
-
-    private static String getstringbetween(String input, String leftdelimiter, String rightdelimiter) {
-        int leftdelimiterposition = input.indexOf(leftdelimiter);
-        if (leftdelimiterposition == -1)
-            return "";
-
-        int rightdelimiterposition = input.indexOf(rightdelimiter);
-        if (rightdelimiterposition == -1)
-            return "";
-
-        return input.substring(leftdelimiterposition + leftdelimiter.length(), rightdelimiterposition);
-    }
-
-    private String geturlcontent(String url) {
-        URL url_;
-        BufferedReader br = null;
-        String urlcontent = "";
-
-        try {
-            url_ = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection)url_.openConnection();
-            InputStream is = conn.getInputStream();
-            br = new BufferedReader(new InputStreamReader(is));
-
-            String line;
-            while ((line = br.readLine()) != null) {
-                urlcontent += line;
-            }
-        } catch (SocketException se) {
-            // don't print socket exceptions when network is unreachable to prevent console spamming on bad connections
-            if (!se.getMessage().equals("Network is unreachable"))
-                se.printStackTrace();
-            return "";
-        } catch (MalformedURLException mue) {
-            mue.printStackTrace();
-            return "";
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-            return "";
-        } finally {
-            try {
-                if (br != null)
-                    br.close();
-            } catch (IOException ioe) {
-                // NOP
-            }
-        }
-        return urlcontent;
     }
 
     @Override
     public void draw(GOut g) {
-        synchronized (StatusWdg.class) {
-            g.image(hearthlingsplaying, Coord.z);
-            g.image(pingtime, new Coord(0, hearthlingsplaying.sz().y));
+        g.image(players, Coord.z);
+        g.image(pingtime, new Coord(0, players.sz().y));
 
-            int w = hearthlingsplaying.sz().x;
-            if (pingtime.sz().x > w)
-                w = pingtime.sz().x;
-            this.sz = new Coord(w,  hearthlingsplaying.sz().y + pingtime.sz().y);
-        }
+        int w = players.sz().x;
+        if (pingtime.sz().x > w)
+            w = pingtime.sz().x;
+        this.sz = new Coord(w,  players.sz().y + pingtime.sz().y);
     }
 
     @Override
-    public void hide() {
-        hearthlingsplaying = hearthlingsplayingdef;
-        pingtime = pingtimedef;
-        super.hide();
+    public void reqdestroy() {
+        tg.interrupt();
+        super.reqdestroy();
     }
 }
