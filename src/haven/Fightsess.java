@@ -124,7 +124,7 @@ public class Fightsess extends Widget {
     private static final Text.Furnace ipf = new PUtils.BlurFurn(new Text.Foundry(Text.serif, 18, new Color(128, 128, 255)).aa(true), 1, 1, new Color(48, 48, 96));
     private final Text.UText<?> ip = new Text.UText<Integer>(ipf) {
         public String text(Integer v) {
-            return ("IP: " + v);
+            return (Config.altfightui ? v.toString() : "IP: " + v);
         }
 
         public Integer value() {
@@ -133,7 +133,7 @@ public class Fightsess extends Widget {
     };
     private final Text.UText<?> oip = new Text.UText<Integer>(ipf) {
         public String text(Integer v) {
-            return ("IP: " + v);
+            return (Config.altfightui ? v.toString() : "IP: " + v);
         }
 
         public Integer value() {
@@ -156,17 +156,21 @@ public class Fightsess extends Widget {
         updatepos();
         double now = System.currentTimeMillis() / 1000.0;
 
+        GameUI gui = gameui();
+        int gcx = gui.sz.x / 2;
+
         for (Buff buff : fv.buffs.children(Buff.class))
-            buff.draw(g.reclip(pcc.add(-buff.c.x - Buff.cframe.sz().x - 20, buff.c.y + pho - Buff.cframe.sz().y), buff.sz));
+            buff.draw(g.reclip(Config.altfightui ? new Coord(gcx - buff.c.x - Buff.cframe.sz().x - 80, 180) : pcc.add(-buff.c.x - Buff.cframe.sz().x - 20, buff.c.y + pho - Buff.cframe.sz().y), buff.sz));
+
         if (fv.current != null) {
             for (Buff buff : fv.current.buffs.children(Buff.class))
-                buff.draw(g.reclip(pcc.add(buff.c.x + 20, buff.c.y + pho - Buff.cframe.sz().y), buff.sz));
+                buff.draw(g.reclip(Config.altfightui ? new Coord(gcx + buff.c.x + 80, 180) : pcc.add(buff.c.x + 20, buff.c.y + pho - Buff.cframe.sz().y), buff.sz));
 
-            g.aimage(ip.get().tex(), pcc.add(-75, 0), 1, 0.5);
-            g.aimage(oip.get().tex(), pcc.add(75, 0), 0, 0.5);
+            g.aimage(ip.get().tex(), Config.altfightui ? new Coord(gcx - 45, 200) : pcc.add(-75, 0), 1, 0.5);
+            g.aimage(oip.get().tex(), Config.altfightui ? new Coord(gcx + 45, 200) : pcc.add(75, 0), 0, 0.5);
 
-	        if(fv.lsrel.size() > 1)
-		        fxon(fv.current.gobid, tgtfx);
+            if (fv.lsrel.size() > 1)
+                fxon(fv.current.gobid, tgtfx);
 
             /*if (Config.showcddelta && fv.current != null) {
                 Tex cdtex = cdvalues.get(fv.current.gobid);
@@ -176,17 +180,17 @@ public class Fightsess extends Widget {
         }
 
         {
-            Coord cdc = pcc.add(cmc);
+            Coord cdc = Config.altfightui ? new Coord(gcx, 200) : pcc.add(cmc);
             if (now < fv.atkct) {
                 double cd = fv.atkct - now;
                 double a = (now - fv.atkcs) / (fv.atkct - fv.atkcs);
                 g.chcolor(255, 0, 128, 224);
-                g.fellipse(cdc, new Coord(24, 24), Math.PI / 2 - (Math.PI * 2 * Math.min(1.0 - a, 1.0)), Math.PI / 2);
+                g.fellipse(cdc, Config.altfightui ? new Coord(24, 24) : new Coord(22, 22), Math.PI / 2 - (Math.PI * 2 * Math.min(1.0 - a, 1.0)), Math.PI / 2);
                 g.chcolor();
                 if (Config.showcooldown)
-                    g.atextstroked(Utils.fmt1DecPlace(cd), pcc.add(0, 27), 0.5, 0.5, Color.WHITE, Color.BLACK);
+                    g.atextstroked(Utils.fmt1DecPlace(cd), cdc, 0.5, 0.5, Color.WHITE, Color.BLACK);
             }
-            g.image(cdframe, cdc.sub(cdframe.sz().div(2)));
+            g.image(cdframe, Config.altfightui ? new Coord(gameui().sz.x / 2, 200).sub(cdframe.sz().div(2)) : cdc.sub(cdframe.sz().div(2)));
         }
         try {
             Indir<Resource> lastact = fv.lastact;
@@ -197,7 +201,7 @@ public class Fightsess extends Widget {
             long lastuse = fv.lastuse;
             if (lastact != null) {
                 Tex ut = lastact.get().layer(Resource.imgc).tex();
-                Coord useul = pcc.add(usec1).sub(ut.sz().div(2));
+                Coord useul = Config.altfightui ? new Coord(gcx - 69, 120) : pcc.add(usec1).sub(ut.sz().div(2));
                 g.image(ut, useul);
                 g.image(useframe, useul.sub(useframeo));
                 double a = now - (lastuse / 1000.0);
@@ -214,30 +218,30 @@ public class Fightsess extends Widget {
         if (fv.current != null) {
             try {
                 Indir<Resource> lastact = fv.current.lastact;
-                if(lastact != this.lastact2) {
+                if (lastact != this.lastact2) {
                     this.lastact2 = lastact;
                     this.lastacttip2 = null;
                 }
                 long lastuse = fv.current.lastuse;
-                if(lastact != null) {
+                if (lastact != null) {
                     Tex ut = lastact.get().layer(Resource.imgc).tex();
-                    Coord useul = pcc.add(usec2).sub(ut.sz().div(2));
+                    Coord useul = Config.altfightui ? new Coord(gcx + 69 - ut.sz().x, 120) : pcc.add(usec2).sub(ut.sz().div(2));
                     g.image(ut, useul);
                     g.image(useframe, useul.sub(useframeo));
                     double a = now - (lastuse / 1000.0);
-                    if(a < 1) {
-                        Coord off = new Coord((int)(a * ut.sz().x / 2), (int)(a * ut.sz().y / 2));
-                        g.chcolor(255, 255, 255, (int)(255 * (1 - a)));
+                    if (a < 1) {
+                        Coord off = new Coord((int) (a * ut.sz().x / 2), (int) (a * ut.sz().y / 2));
+                        g.chcolor(255, 255, 255, (int) (255 * (1 - a)));
                         g.image(ut, useul.sub(off), ut.sz().add(off.mul(2)));
                         g.chcolor();
                     }
                 }
-            } catch(Loading l) {
+            } catch (Loading l) {
             }
         }
 
         for (int i = 0; i < actions.length; i++) {
-            Coord ca = pcc.add(actc(i));
+            Coord ca = Config.altfightui ? new Coord(gcx - 18, gui.sz.y - 250).add(actc(i)).add(16, 16) : pcc.add(actc(i));
             Indir<Resource> act = actions[i];
             try {
                 if (act != null) {
@@ -260,8 +264,10 @@ public class Fightsess extends Widget {
     private Text acttip = null;
     public static final String[] keytips = {"1", "2", "3", "4", "5", "Shift+1", "Shift+2", "Shift+3", "Shift+4", "Shift+5"};
     public Object tooltip(Coord c, Widget prev) {
+        int cx = gameui().sz.x / 2;
+
         for (Buff buff : fv.buffs.children(Buff.class)) {
-            Coord dc = pcc.add(-buff.c.x - Buff.cframe.sz().x - 20, buff.c.y + pho - Buff.cframe.sz().y);
+            Coord dc = Config.altfightui ? new Coord(cx - buff.c.x - Buff.cframe.sz().x - 80, 180) : pcc.add(-buff.c.x - Buff.cframe.sz().x - 20, buff.c.y + pho - Buff.cframe.sz().y);
             if (c.isect(dc, buff.sz)) {
                 Object ret = buff.tooltip(c.sub(dc), prevtt);
                 if (ret != null) {
@@ -270,9 +276,10 @@ public class Fightsess extends Widget {
                 }
             }
         }
+
         if (fv.current != null) {
             for (Buff buff : fv.current.buffs.children(Buff.class)) {
-                Coord dc = pcc.add(buff.c.x + 20, buff.c.y + pho - Buff.cframe.sz().y);
+                Coord dc = Config.altfightui ? new Coord(cx + buff.c.x + 80, 180) : pcc.add(buff.c.x + 20, buff.c.y + pho - Buff.cframe.sz().y);
                 if (c.isect(dc, buff.sz)) {
                     Object ret = buff.tooltip(c.sub(dc), prevtt);
                     if (ret != null) {
@@ -282,9 +289,9 @@ public class Fightsess extends Widget {
                 }
             }
         }
-        final int rl = 5;
+
         for (int i = 0; i < actions.length; i++) {
-            Coord ca = pcc.add(actc(i));
+            Coord ca = Config.altfightui ? new Coord(cx - 18, gameui().sz.y - 250).add(actc(i)).add(16, 16) : pcc.add(actc(i));
             Indir<Resource> act = actions[i];
             try {
                 if (act != null) {
@@ -308,7 +315,7 @@ public class Fightsess extends Widget {
             Indir<Resource> lastact = this.lastact1;
             if(lastact != null) {
                 Coord usesz = lastact.get().layer(Resource.imgc).sz;
-                Coord lac = pcc.add(usec1);
+                Coord lac = Config.altfightui ? new Coord(cx - 69, 120).add(usesz.div(2)) : pcc.add(usec1);
                 if(c.isect(lac.sub(usesz.div(2)), usesz)) {
                     if(lastacttip1 == null)
                         lastacttip1 = Text.render(lastact.get().layer(Resource.tooltip).t);
@@ -320,7 +327,7 @@ public class Fightsess extends Widget {
             Indir<Resource> lastact = this.lastact2;
             if(lastact != null) {
                 Coord usesz = lastact.get().layer(Resource.imgc).sz;
-                Coord lac = pcc.add(usec2);
+                Coord lac = Config.altfightui ? new Coord(cx + 69 - usesz.x, 120).add(usesz.div(2)) : pcc.add(usec2);
                 if(c.isect(lac.sub(usesz.div(2)), usesz)) {
                     if(lastacttip2 == null)
                         lastacttip2 = Text.render(lastact.get().layer(Resource.tooltip).t);

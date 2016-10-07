@@ -920,6 +920,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Alternative combat UI") {
+            {
+                a = Config.altfightui;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("altfightui", val);
+                Config.altfightui = val;
+                a = val;
+            }
+        });
         appender.addRow(new Label("Combat key bindings:"), combatkeysDropdown());
 
         combat.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
