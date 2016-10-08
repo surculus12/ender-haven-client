@@ -26,6 +26,8 @@
 
 package haven;
 
+import haven.res.ui.tt.Wear;
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.image.BufferedImage;
@@ -314,19 +316,14 @@ public class WItem extends Widget implements DTarget {
             if (Config.showwearbars) {
                 try {
                     for (ItemInfo info : item.info()) {
-                        if (info.getClass().getName().equals("Wear")) {
-                            double d = (Integer) info.getClass().getDeclaredField("d").get(info);
-                            double m = (Integer) info.getClass().getDeclaredField("m").get(info);
+                        if (info instanceof Wear) {
+                            double d = ((Wear) info).d;
+                            double m = ((Wear) info).m;
                             double p = (m - d) / m;
                             int h = (int) (p * (double) sz.y);
                             g.chcolor(wearclr[p == 1.0 ? 3 : (int) (p / 0.25)]);
                             g.frect(new Coord(sz.x - 3, sz.y - h), new Coord(3, h));
                             g.chcolor();
-                            // NOTE: apparently identically named class "Wear" with no namespace is used
-                            // for both the wear and armor class info... Y U DO DIS LOFTAR X(
-                            // We need to break here once we found first "Wear" (it will always come before the armor class.)
-                            // otherwise it would generate exception on second "Wear" class and we don't want to do that
-                            // in drawing routine.
                             break;
                         }
                     }
