@@ -2021,7 +2021,7 @@ public class Resource implements Serializable {
                 val = val.replace("\\", "\\\\").replace("\n", "\\n").replace("\u0000", "");
                 if (val.startsWith(" "))
                     val = "\\u0020" + val.substring(1);
-                if (key.endsWith(" "))
+                if (val.endsWith(" "))
                     val = "\\u0020" + val.substring(0, val.length() - 1);
                 out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("l10n/" + bundle + "_new.properties", true), encoder));
                 out.write(key + " = " + val);
