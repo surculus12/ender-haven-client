@@ -1990,6 +1990,29 @@ public class Resource implements Serializable {
                     key.startsWith("Experience points gained:"))
                 return;
 
+
+            if (bundle == BUNDLE_LABEL) {
+                for (String s : fmtLocStringsLabel) {
+                    if (fmtLocString(map, key, s) != null)
+                        return;
+                }
+                final String partyInvite = " has invited you to join his party. Do you wish to do so?";
+                if (key.endsWith(partyInvite)) {
+                    if (map.get("%s" + partyInvite) != null)
+                        return;
+                }
+                final String spar = "has requested to spar with you. Do you accept?";
+                if (key.endsWith(spar)) {
+                    if (map.get("%s " + spar) != null)
+                        return;
+                }
+            } else if (bundle == BUNDLE_FLOWER) {
+                for (String s : fmtLocStringsFlower) {
+                    if (fmtLocString(map, key, s) != null)
+                        return;
+                }
+            }
+
             new File("l10n").mkdirs();
 
             CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();
