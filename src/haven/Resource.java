@@ -1828,6 +1828,10 @@ public class Resource implements Serializable {
     }
 
     private static final String[] fmtLocStringsLabel = new String[]{
+            "Health: %s",
+            "Stamina: %s",
+            "Energy: %s",
+            "Pony Power: %s",
             "Hunger modifier: %s",
             "Food event bonus: %s",
             "Tell %s of your exploits",
