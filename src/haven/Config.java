@@ -352,7 +352,6 @@ public class Config {
         add(new Pair<String, String>("Fires", "gfx/terobjs/pow"));
         add(new Pair<String, String>("Full trash stockpiles", "gfx/terobjs/stockpile-trash"));
         add(new Pair<String, String>("Idle animals", "/idle"));
-        add(new Pair<String, String>("Dream catchers", "gfx/terobjs/dreca"));
     }};
     public final static Set<String> disableanimSet = new HashSet<String>(disableanim.size());
 
