@@ -671,6 +671,12 @@ public class FightWnd extends Widget {
             public void change(Pair<Text, Integer> item) {
                 super.change(item);
                 load(item.b);
+                use(item.b);
+            }
+
+            @Override
+            public void change2(Pair<Text, Integer> item) {
+                super.change2(item);
             }
         };
 
@@ -810,7 +816,7 @@ public class FightWnd extends Widget {
         } else if (nm == "use") {
             int i = (int)args[0];
             if (i >= 0 && i < saves.length)
-                schoolsDropdown.change(new Pair<>(saves[i], i));
+                schoolsDropdown.change2(new Pair<>(saves[i], i));
         } else if(nm == "max") {
             maxact = (Integer)args[0];
             recount();
