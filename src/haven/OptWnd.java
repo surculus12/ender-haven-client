@@ -966,7 +966,8 @@ public class OptWnd extends Window {
                         Utils.setprefi("badcamsensitivity", val);
                     }
                 });
-        appender.add(new CheckBox("Minimap: use MMB to drag & L/RMB to move") {
+        // TODO: deprecated. pending complete removal.
+        /*appender.add(new CheckBox("Minimap: use MMB to drag & L/RMB to move") {
             {
                 a = Config.alternmapctrls;
             }
@@ -976,7 +977,7 @@ public class OptWnd extends Window {
                 Config.alternmapctrls = val;
                 a = val;
             }
-        });
+        });*/
         appender.add(new CheckBox("Use French (AZERTY) keyboard layout") {
             {
                 a = Config.userazerty;
