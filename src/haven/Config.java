@@ -169,6 +169,7 @@ public class Config {
     public static boolean confirmmagic =  Utils.getprefb("confirmmagic", true);
     public static boolean altfightui =  Utils.getprefb("altfightui", false);
     public static boolean combshowkeys =  Utils.getprefb("combshowkeys", true);
+    public static boolean combaltopenings =  Utils.getprefb("combaltopenings", false);
 
     public static int avgmode = Utils.getprefi("avgmode", 0);
     private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(3) {{

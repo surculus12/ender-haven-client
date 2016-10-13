@@ -931,7 +931,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.addRow(new Label("Combat key bindings:"), combatkeysDropdown());
+        appender.add(new CheckBox("Simplified opening indicators") {
+            {
+                a = Config.combaltopenings;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("combaltopenings", val);
+                Config.combaltopenings = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Show key bindings in combat UI") {
             {
                 a = Config.combshowkeys;
@@ -943,6 +953,7 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.addRow(new Label("Combat key bindings:"), combatkeysDropdown());
 
         combat.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         combat.pack();
