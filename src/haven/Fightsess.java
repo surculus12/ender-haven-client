@@ -154,7 +154,12 @@ public class Fightsess extends Widget {
 
     private static Coord actc(int i) {
         int rl = 5;
-        return(new Coord((actpitch * (i % rl)) - (((rl - 1) * actpitch) / 2), 125 + ((i / rl) * actpitch)));
+
+        int row = i / rl;
+        if (Config.combatkeys == 1)
+            row ^= 1;
+
+        return(new Coord((actpitch * (i % rl)) - (((rl - 1) * actpitch) / 2), 125 + (row * actpitch)));
     }
 
     private static final Coord cmc = new Coord(0, 67);
