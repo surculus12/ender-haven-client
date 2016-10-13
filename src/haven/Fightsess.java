@@ -26,9 +26,9 @@
 
 package haven;
 
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 
@@ -50,6 +50,9 @@ public class Fightsess extends Widget {
     public Coord pcc;
     public int pho;
     private final Fightview fv;
+    private final Tex[] keystex = new Tex[10];
+    private final Tex[] keysftex = new Tex[10];
+    private final static Text.Foundry keysfnd = new Text.Foundry(Text.sans.deriveFont(Font.BOLD, 12)).aa(true);
    // private static final Map<Long, Tex> cdvalues = new HashMap<Long, Tex>(7);
 
     /*private static final Map<String, Integer> atkcds = new HashMap<String, Integer>(9){{
@@ -78,6 +81,14 @@ public class Fightsess extends Widget {
         pho = -40;
         this.actions = (Indir<Resource>[]) new Indir[nact];
         this.dyn = new boolean[nact];
+
+        for(int i = 0; i < 10; i++) {
+            keystex[i] = Text.renderstroked(FightWnd.keys[i], Color.WHITE, Color.BLACK, keysfnd).tex();
+            if (i < 5)
+                keysftex[i] = keystex[i];
+            else
+                keysftex[i] = Text.renderstroked(FightWnd.keysf[i - 5], Color.WHITE, Color.BLACK, keysfnd).tex();
+        }
     }
 
     public void presize() {
@@ -252,6 +263,11 @@ public class Fightsess extends Widget {
                         g.image(indframe, ca.sub(indframeo));
                     } else {
                         g.image(actframe, ca.sub(actframeo));
+                    }
+
+                    if (Config.combshowkeys) {
+                        Tex key = Config.combatkeys == 0 ? keystex[i] : keysftex[i];
+                        g.image(key, ca.sub(indframeo).add(indframe.sz().x / 2 - key.sz().x / 2, indframe.sz().y - 6));
                     }
                 }
             } catch (Loading l) {
