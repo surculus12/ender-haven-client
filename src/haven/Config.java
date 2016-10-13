@@ -167,7 +167,7 @@ public class Config {
     public static boolean logcombatactions =  Utils.getprefb("logcombatactions", false);
     public static boolean autopickmussels =  Utils.getprefb("autopickmussels", false);
     public static boolean confirmmagic =  Utils.getprefb("confirmmagic", true);
-    public static boolean altfightui =  Utils.getprefb("altfightui", true);
+    public static boolean altfightui =  Utils.getprefb("altfightui", false);
 
     public static int avgmode = Utils.getprefi("avgmode", 0);
     private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(3) {{
