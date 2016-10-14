@@ -358,6 +358,10 @@ public class Config {
             "gfx/terobjs/icespire",
             "gfx/terobjs/woodheart",
             "gfx/terobjs/jotunmussel",
+            "gfx/terobjs/guanopile",
+            "gfx/terobjs/geyser",
+            "gfx/terobjs/claypit",
+            "gfx/terobjs/caveorgan",
             "gfx/terobjs/rockcrystal"));
 
     public final static ArrayList<Pair<String, String>> disableanim = new ArrayList<Pair<String, String>>() {{
