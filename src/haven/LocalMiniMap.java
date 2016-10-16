@@ -278,40 +278,12 @@ public class LocalMiniMap extends Widget {
                     } else if (Config.alarmlocres && Config.locres.contains(res.name)) {
                         sgobs.add(gob.id);
                         Audio.play(swagsfx, Config.alarmlocresvol);
-                    } else if (Config.alarmbears && res.name.equals("gfx/kritter/bear/bear")) {
+                    } else if (Config.alarmbears && res.name.equals("gfx/kritter/bear/bear") && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        GAttrib drw = gob.getattr(Drawable.class);
-                        if (drw != null && drw instanceof Composite) {
-                            Composite cpst = (Composite) drw;
-                            if (cpst.nposes != null && cpst.nposes.size() > 0) {
-                                for (ResData resdata : cpst.nposes) {
-                                    Resource posres = resdata.res.get();
-                                    if (posres == null || !posres.name.endsWith("/knock")) {
-                                        Audio.play(bearsfx, Config.alarmbearsvol);
-                                        break;
-                                    }
-                                }
-                            } else {
-                                Audio.play(bearsfx, Config.alarmbearsvol);
-                            }
-                        }
-                    } else if (Config.alarmbears && res.name.equals("gfx/kritter/lynx/lynx")) {
+                        Audio.play(bearsfx, Config.alarmbearsvol);
+                    } else if (Config.alarmbears && res.name.equals("gfx/kritter/lynx/lynx") && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        GAttrib drw = gob.getattr(Drawable.class);
-                        if (drw != null && drw instanceof Composite) {
-                            Composite cpst = (Composite) drw;
-                            if (cpst.nposes != null && cpst.nposes.size() > 0) {
-                                for (ResData resdata : cpst.nposes) {
-                                    Resource posres = resdata.res.get();
-                                    if (posres == null || !posres.name.endsWith("/knock")) {
-                                        Audio.play(lynxfx, Config.alarmbearsvol);
-                                        break;
-                                    }
-                                }
-                            } else {
-                                Audio.play(lynxfx, Config.alarmbearsvol);
-                            }
-                        }
+                        Audio.play(lynxfx, Config.alarmbearsvol);
                     } else if (res.name.equals("gfx/kritter/troll/troll")) {
                         if (mv.areamine != null)
                             mv.areamine.terminate();
@@ -319,23 +291,9 @@ public class LocalMiniMap extends Widget {
                             sgobs.add(gob.id);
                             Audio.play(trollsfx, Config.alarmtrollvol);
                         }
-                    } else if (Config.alarmmammoth && res.name.equals("gfx/kritter/mammoth/mammoth")) {
+                    } else if (Config.alarmmammoth && res.name.equals("gfx/kritter/mammoth/mammoth") && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        GAttrib drw = gob.getattr(Drawable.class);
-                        if (drw != null && drw instanceof Composite) {
-                            Composite cpst = (Composite) drw;
-                            if (cpst.nposes != null && cpst.nposes.size() > 0) {
-                                for (ResData resdata : cpst.nposes) {
-                                    Resource posres = resdata.res.get();
-                                    if (posres == null || !posres.name.endsWith("/knock")) {
-                                        Audio.play(mammothsfx, Config.alarmmammothvol);
-                                        break;
-                                    }
-                                }
-                            } else {
-                                Audio.play(mammothsfx, Config.alarmmammothvol);
-                            }
-                        }
+                        Audio.play(mammothsfx, Config.alarmmammothvol);
                     } else if (Config.alarmbram && (res.name.equals("gfx/terobjs/vehicle/bram") || res.name.equals("gfx/terobjs/vehicle/catapult"))) {
                         sgobs.add(gob.id);
                         Audio.play(doomedsfx, Config.alarmbramvol);
