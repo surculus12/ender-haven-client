@@ -128,9 +128,12 @@ public class Shopbox extends Widget implements SpriteOwner, Owner {
                     g.image(vital, qc);
                     g.image(sqve.tex(), qc.add(17, 0));
                 }
-                if (!admin && sqavg != null) {
+                if (!admin && sqavg != null && bbtn != null) {
                     Tex t = sqavg.tex();
-                    g.image(sqavg.tex(), new Coord(bbtn.c.x + bbtn.sz.x + 10, bbtn.c.y + bbtn.sz.y/2 - t.sz().y/2));
+                    try {
+                        g.image(t, new Coord(bbtn.c.x + bbtn.sz.x + 10, bbtn.c.y + bbtn.sz.y / 2 - t.sz().y / 2));
+                    } catch (NullPointerException npe) {
+                    }
                 }
             }
         }
