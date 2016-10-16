@@ -71,6 +71,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     private Coord lasthittestc = Coord.z;
     public AreaMine areamine;
     private GobSelectCallback gobselcb;
+    private AreaSelectCallback areaselcb;
     private Pathfinder pf;
     public Thread pfthread;
     public SteelRefueler steelrefueler;
@@ -1760,6 +1761,14 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         this.gobselcb = null;
     }
 
+    public void registerAreaSelect(AreaSelectCallback callback) {
+        this.areaselcb = callback;
+    }
+
+    public void unregisterAreaSelect() {
+        this.areaselcb = null;
+    }
+
     public void pfLeftClick(Coord mc, String action) {
         Gob player = player();
         if (player == null)
@@ -1844,6 +1853,13 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                 }
                 Resource curs = ui.root.getcurs(c);
                 if (curs != null && curs.name.equals("gfx/hud/curs/mine")) {
+                    if (ui.modshift && selection == null) {
+                        selection = new Selector(this);
+                    } else if (selection != null) {
+                        selection.destroy();
+                        selection = null;
+                    }
+                } else if (areaselcb != null) {
                     if (ui.modshift && selection == null) {
                         selection = new Selector(this);
                     } else if (selection != null) {
@@ -2139,11 +2155,15 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     ol.destroy();
                     mgrab.remove();
                     if (mv != null) {
-                        areamine = new AreaMine(ol.getc1(), ol.getc2(), mv);
-                        new Thread(areamine, "Area miner").start();
-                        if (selection != null) {
-                            selection.destroy();
-                            selection = null;
+                        if (areaselcb != null) {
+                            areaselcb.areaselect(ol.getc1(), ol.getc2());
+                        } else { //  TODO: should reimplement miner to use callbacks
+                            areamine = new AreaMine(ol.getc1(), ol.getc2(), mv);
+                            new Thread(areamine, "Area miner").start();
+                            if (selection != null) {
+                                selection.destroy();
+                                selection = null;
+                            }
                         }
                     } else {
                         wdgmsg("sel", sc, ec, modflags);
