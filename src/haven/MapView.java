@@ -31,7 +31,7 @@ import haven.automation.*;
 import haven.pathfinder.*;
 import haven.resutil.BPRadSprite;
 
-import javax.media.opengl.GL;
+import com.jogamp.opengl.GL;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.lang.ref.*;
