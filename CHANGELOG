@@ -1,3 +1,15 @@
+Version 1.39.0
+    New:
+        * Show item quality in barter stand windows.
+        * Simplified opening indicators.
+        * Option to show current keybindings for combat actions.
+        * Grayed out icons for dead animals (except aurochs).
+        * Alarm for localized resources.
+
+    Fixed:
+        * Animal radius not being removed after killing the animal.
+
+
 Version 1.38.1
     New:
         * Highlight Travel menu options.
