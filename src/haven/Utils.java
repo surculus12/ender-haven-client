@@ -38,6 +38,7 @@ import java.lang.ref.*;
 import java.lang.reflect.*;
 import java.util.prefs.*;
 import java.util.*;
+import java.util.function.*;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.image.*;
@@ -1261,6 +1262,14 @@ public class Utils {
         Iterator<T> i = c.iterator();
         if (!i.hasNext()) return (null);
         return (i.next());
+    }
+
+    public static boolean strcheck(String str, IntPredicate p) {
+        for (int i = 0; i < str.length(); i++) {
+            if (!p.test(str.charAt(i)))
+                return (false);
+        }
+        return (true);
     }
 
     public static <T> T construct(Constructor<T> cons, Object... args) {
