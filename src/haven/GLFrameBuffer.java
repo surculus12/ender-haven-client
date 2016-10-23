@@ -29,7 +29,7 @@ package haven;
 import com.jogamp.opengl.*;
 
 public class GLFrameBuffer extends GLState {
-    public static final Slot<GLFrameBuffer> slot = new Slot<GLFrameBuffer>(Slot.Type.SYS, GLFrameBuffer.class, HavenPanel.global);
+    public static final Slot<GLFrameBuffer> slot = new Slot<GLFrameBuffer>(Slot.Type.SYS, GLFrameBuffer.class, MainFrame.global);
     private final Attachment[] color;
     private final Attachment depth;
     private final RenderBuffer altdepth;

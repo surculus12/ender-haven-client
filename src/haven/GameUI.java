@@ -177,7 +177,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                         g.image(time, new Coord(300 / 2 - time.sz().x / 2, 0));
                 }
             }
-        }, new Coord(HavenPanel.w / 2 - 300 / 2, umpanel.sz.y));
+        }, new Coord(MainFrame.w / 2 - 300 / 2, umpanel.sz.y));
         syslog = chat.add(new ChatUI.Log(Resource.getLocString(Resource.BUNDLE_LABEL, "System")));
         opts = add(new OptWnd());
         opts.hide();
@@ -186,16 +186,16 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 
         timerswnd = new TimersWnd(this);
         timerswnd.hide();
-        add(timerswnd, new Coord(HavenPanel.w / 2 - timerswnd.sz.x / 2, 100));
+        add(timerswnd, new Coord(MainFrame.w / 2 - timerswnd.sz.x / 2, 100));
 
         quickslots = new QuickSlotsWdg();
         if (!Config.quickslots)
             quickslots.hide();
-        add(quickslots, Utils.getprefc("quickslotsc", new Coord(430, HavenPanel.h - 160)));
+        add(quickslots, Utils.getprefc("quickslotsc", new Coord(430, MainFrame.h - 160)));
 
         if (Config.statuswdgvisible) {
             statuswindow = new StatusWdg();
-            add(statuswindow, new Coord(HavenPanel.w / 2 + 80, 10));
+            add(statuswindow, new Coord(MainFrame.w / 2 + 80, 10));
         }
 
         if (!chrid.equals("")) {
@@ -978,7 +978,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 Utils.setprefb("statuswdgvisible", false);
             } else {
                 statuswindow = new StatusWdg();
-                add(statuswindow, new Coord(HavenPanel.w / 2 + 80, 10));
+                add(statuswindow, new Coord(MainFrame.w / 2 + 80, 10));
                 Config.statuswdgvisible = true;
                 Utils.setprefb("statuswdgvisible", true);
             }
@@ -992,7 +992,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             quickslots.simulateclick(QuickSlotsWdg.rc);
             return true;
         } else if (ev.isAltDown() && ev.getKeyCode() == KeyEvent.VK_S) {
-            HavenPanel.needtotakescreenshot = true;
+            MainFrame.needtotakescreenshot = true;
             return true;
         } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_H) {
             Config.hidegobs = !Config.hidegobs;
@@ -1089,7 +1089,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             map.resize(sz);
         beltwdg.c = new Coord(blpw + 10, sz.y - beltwdg.sz.y - 5);
         if (statuswindow != null)
-            statuswindow.c = new Coord(HavenPanel.w / 2 + 80, 10);
+            statuswindow.c = new Coord(MainFrame.w / 2 + 80, 10);
         super.resize(sz);
     }
 

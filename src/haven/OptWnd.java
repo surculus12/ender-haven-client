@@ -26,6 +26,8 @@
 
 package haven;
 
+import com.jogamp.nativewindow.util.DimensionImmutable;
+import com.jogamp.newt.MonitorMode;
 
 import java.io.IOException;
 import java.net.JarURLConnection;
@@ -97,6 +99,17 @@ public class OptWnd extends Window {
                 final WidgetVerticalAppender appender = new WidgetVerticalAppender(this);
                 appender.setVerticalMargin(VERTICAL_MARGIN);
                 appender.setHorizontalMargin(HORIZONTAL_MARGIN);
+                appender.addRow(new CheckBox("Full screen mode (requires restart)") {
+                    {
+                        a = Config.fullscreen;
+                    }
+
+                    public void set(boolean val) {
+                        Utils.setprefb("fs", val);
+                        Config.fullscreen = val;
+                        a = val;
+                    }
+                }, resolutionDropdown());
                 appender.add(new CheckBox("Per-fragment lighting") {
                     {
                         a = cf.flight.val;
@@ -314,6 +327,41 @@ public class OptWnd extends Window {
             }
             super.draw(g);
         }
+
+        private Dropbox<String> resolutionDropdown() {
+            List<String> resolutions = new ArrayList<>();
+            for (MonitorMode mode : MainFrame.monitorModes) {
+                DimensionImmutable res = mode.getSurfaceSize().getResolution();
+                int w = res.getWidth();
+                int h = res.getHeight();
+                resolutions.add(w + "x" + h);
+            }
+
+            Dropbox<String> modes = new Dropbox<String>(MainFrame.monitorModes.size(), resolutions) {
+                @Override
+                protected String listitem(int i) {
+                    return resolutions.get(i);
+                }
+
+                @Override
+                protected int listitems() {
+                    return resolutions.size();
+                }
+
+                @Override
+                protected void drawitem(GOut g, String item, int i) {
+                    g.text(item, Coord.z);
+                }
+
+                @Override
+                public void change(String item) {
+                    super.change(item);
+                    Utils.setpref("fullscreen_res", item);
+                }
+            };
+            modes.change(Utils.getpref("fullscreen_res", resolutions.get(0)));
+            return modes;
+        }
     }
 
     public OptWnd(boolean gopts) {
@@ -383,6 +431,15 @@ public class OptWnd extends Window {
             }
         }, new Coord(210, 360));
         main.pack();
+        if (Config.fullscreen) {
+            Button ebtn = new Button(90, "Exit") {
+                @Override
+                public void click() {
+                    MainFrame.glw.sendWindowEvent(com.jogamp.newt.event.WindowEvent.EVENT_WINDOW_DESTROY_NOTIFY);
+                }
+            };
+            add(ebtn, main.sz.x - ebtn.sz.x - 10, 370);
+        }
     }
 
     private void initAudio() {
@@ -1030,17 +1087,6 @@ public class OptWnd extends Window {
             public void set(boolean val) {
                 Utils.setprefb("reversebadcamy", val);
                 Config.reversebadcamy = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Force hardware cursor (req. restart)") {
-            {
-                a = Config.hwcursor;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("hwcursor", val);
-                Config.hwcursor = val;
                 a = val;
             }
         });
