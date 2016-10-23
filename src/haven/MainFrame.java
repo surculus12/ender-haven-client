@@ -406,9 +406,9 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
 
         try {
             String curtimestamp = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss.SSS").format(new Date());
-            File outputfile = new File(String.format("screenshots/%s.jpg", curtimestamp));
+            File outputfile = new File(String.format("screenshots/%s.png", curtimestamp));
             outputfile.getParentFile().mkdirs();
-            ImageIO.write(image, "jpg", outputfile);
+            ImageIO.write(image, "png", outputfile);
             ui.root.findchild(GameUI.class).msg(String.format("Screenshot has been saved as \"%s\"", outputfile.getName()), Color.WHITE);
         } catch (IOException e) {
             e.printStackTrace();
