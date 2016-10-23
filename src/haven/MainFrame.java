@@ -629,7 +629,12 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
                     synchronized (curdraw) {
                         curdraw[0] = current;
                     }
-                    glw.display();
+                    if (glw.isVisible()) {
+                        glw.display();
+                    } else {
+                        glw.getContext().makeCurrent();
+                        redraw(glw.getGL().getGL2());
+                    }
                     if (curf != null) {
                         curf.tick("aux");
                         curf.fin();
