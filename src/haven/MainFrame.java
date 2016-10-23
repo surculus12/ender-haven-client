@@ -443,7 +443,8 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
                         java.awt.event.KeyEvent awtke = NEWT2AWT.convertToTyped((KeyEvent) e);
                         if (awtke != null)
                             ui.type(awtke);
-                        ui.keyup(ke);
+                        if (!e.isAutoRepeat())
+                            ui.keyup(ke);
                     }
                 }
                 ui.lastevent = System.currentTimeMillis();
