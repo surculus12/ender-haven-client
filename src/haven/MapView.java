@@ -43,7 +43,7 @@ import java.util.Map;
 import static haven.MCache.tilesz;
 
 public class MapView extends PView implements DTarget, Console.Directory, PFListener {
-    public static final boolean clickdb = false;
+    public static boolean clickdb = false;
     public static long plgob = -1;
     public Coord cc;
     public final Glob glob;
@@ -1712,8 +1712,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
 
             if (inf == null) {
                 if (Config.tilecenter && clickb == 3) {
-                    mc.x = mc.x / 11 * 11 + 5;
-                    mc.y = mc.y / 11 * 11 + 5;
+                    mc.x = mc.x / 11 * 11 + Integer.signum(mc.x) * 5;
+                    mc.y = mc.y / 11 * 11 + Integer.signum(mc.y) * 5;
                 }
 
                 if (Config.pf && clickb == 1 && curs != null && !curs.name.equals("gfx/hud/curs/study")) {
@@ -1989,8 +1989,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
             public void hit(Coord pc, Coord mc, ClickInfo inf) {
                 if (inf == null) {
                     if (Config.tilecenter) {
-                        mc.x = mc.x / 11 * 11 + 5;
-                        mc.y = mc.y / 11 * 11 + 5;
+                        mc.x = mc.x / 11 * 11 + Integer.signum(mc.x) * 5;
+                        mc.y = mc.y / 11 * 11 + Integer.signum(mc.y) * 5;
                     }
                     wdgmsg("itemact", pc, mc, ui.modflags());
                 } else {
@@ -2263,6 +2263,11 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                 if (l == null)
                     throw (new Exception("Not loading"));
                 l.printStackTrace(cons.out);
+            }
+        });
+        Console.setscmd("clickdb", new Console.Command() {
+            public void run(Console cons, String[] args) {
+                clickdb = Utils.parsebool(args[1], false);
             }
         });
     }
