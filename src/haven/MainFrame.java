@@ -214,8 +214,12 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
             glw.addMouseListener(mouseAdapter);
             glw.addKeyListener(keyAdapter);
             glw.addGLEventListener(mainframe);
-            if (!Config.fullscreen)
-                glw.setSize(w, h);
+            if (!Config.fullscreen) {
+                if (Utils.getprefb("wndmax", false))
+                    glw.setMaximized(true, true);
+                else
+                    glw.setSize(w, h);
+            }
             glw.setTitle(TITLE);
             glw.setVisible(true);
 
@@ -758,6 +762,7 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
         this.w = w;
         this.h = h;
         Utils.setprefc("wndsz", new Coord(w, h));
+        Utils.setprefb("wndmax", glw.isMaximizedVert() || glw.isMaximizedHorz());
         ostate = OrthoState.fixed(new Coord(w, h));
     }
 
