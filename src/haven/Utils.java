@@ -1471,21 +1471,8 @@ public class Utils {
     };
 
     static {
-        Console.setscmd("die", new Console.Command() {
-            public void run(Console cons, String[] args) {
-                throw (new Error("Triggered death"));
-            }
-        });
-        Console.setscmd("threads", new Console.Command() {
-            public void run(Console cons, String[] args) {
-                Utils.dumptg(null, cons.out);
-            }
-        });
-        Console.setscmd("gc", new Console.Command() {
-            public void run(Console cons, String[] args) {
-                System.gc();
-            }
-        });
+        Console.setscmd("threads", (cons, args) -> Utils.dumptg(null, cons.out));
+        Console.setscmd("gc", (cons, args) -> System.gc());
     }
 
     // NOTE: following fmt*DecPlace methods will not work with values having large integer part
