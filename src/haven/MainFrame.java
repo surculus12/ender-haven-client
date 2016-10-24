@@ -135,7 +135,7 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
             MainFrame mainframe = new MainFrame(glw);
 
             setupres();
-            
+
             if (ResCache.global != null) {
                 try {
                     Writer w = new OutputStreamWriter(ResCache.global.store("tmp/allused"), "UTF-8");
@@ -607,8 +607,6 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
         public void run() {
             try {
                 glw.display();
-                if (state == null)
-                    throw (new RuntimeException("State applier is still null after redraw"));
                 synchronized (drawfun) {
                     drawfun.notifyAll();
                 }
