@@ -135,9 +135,7 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
             MainFrame mainframe = new MainFrame(glw);
 
             setupres();
-
-            dumplist(Resource.remote().loadwaited(), Config.loadwaited);
-            dumplist(Resource.remote().cached(), Config.allused);
+            
             if (ResCache.global != null) {
                 try {
                     Writer w = new OutputStreamWriter(ResCache.global.store("tmp/allused"), "UTF-8");
@@ -781,6 +779,12 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
         cmdmap.put("bghz", (cons, args) -> {
             bgfd = 1000 / Integer.parseInt(args[1]);
             Utils.setprefi("bghz", (int) bgfd);
+        });
+        cmdmap.put("dumplist", (cons, args) -> {
+            if ("all".equals(args[1]))
+                dumplist(Resource.remote().cached(),  "reslist_all");
+            else
+                dumplist(Resource.remote().loadwaited(), "reslist_loadwaited");
         });
     }
 
