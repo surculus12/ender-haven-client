@@ -419,20 +419,22 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
         synchronized (events) {
             if (mousemv != null) {
                 mousepos = new Coord(mousemv.getX(), mousemv.getY());
-                ui.mousemove(NEWT2AWT.convert(mousemv), mousepos);
+                ui.mousemove(mousemv, mousepos);
                 mousemv = null;
             }
             InputEvent e;
             while ((e = events.poll()) != null) {
                 if (e instanceof MouseEvent) {
                     MouseEvent me = (MouseEvent) e;
-                    java.awt.event.MouseEvent awtme = NEWT2AWT.convert((MouseEvent) e);
-                    if (me.getEventType() == MouseEvent.EVENT_MOUSE_PRESSED)
-                        ui.mousedown(awtme, new Coord(awtme.getX(), awtme.getY()), awtme.getButton());
-                    else if (me.getEventType() == MouseEvent.EVENT_MOUSE_RELEASED)
-                        ui.mouseup(awtme, new Coord(me.getX(), me.getY()), me.getButton());
-                    else if (me.getEventType() == MouseEvent.EVENT_MOUSE_WHEEL_MOVED)
-                        ui.mousewheel(awtme, new Coord(me.getX(), me.getY()), ((java.awt.event.MouseWheelEvent)awtme).getWheelRotation());
+                    if (me.getEventType() == MouseEvent.EVENT_MOUSE_PRESSED) {
+                        ui.mousedown(me, new Coord(me.getX(), me.getY()), me.getButton());
+                    } else if (me.getEventType() == MouseEvent.EVENT_MOUSE_RELEASED) {
+                        ui.mouseup(me, new Coord(me.getX(), me.getY()), me.getButton());
+                    } else if (me.getEventType() == MouseEvent.EVENT_MOUSE_WHEEL_MOVED) {
+                        float[] rot = me.getRotation();
+                        int rotval = me.isShiftDown() ? (int) -rot[0] : (int) -rot[1];
+                        ui.mousewheel(me, new Coord(me.getX(), me.getY()), rotval);
+                    }
                 } else if (e instanceof KeyEvent) {
                     java.awt.event.KeyEvent ke = NEWT2AWT.convert((KeyEvent) e);
                     if (ke == null) {
