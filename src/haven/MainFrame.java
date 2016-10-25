@@ -439,10 +439,10 @@ public class MainFrame implements Runnable, GLEventListener, Console.Directory {
                         continue;
                     } else if (ke.getID() == java.awt.event.KeyEvent.KEY_PRESSED) {
                         ui.keydown(ke);
-                    } else if (ke.getID() == java.awt.event.KeyEvent.KEY_RELEASED) {
                         java.awt.event.KeyEvent awtke = NEWT2AWT.convertToTyped((KeyEvent) e);
                         if (awtke != null)
                             ui.type(awtke);
+                    } else if (ke.getID() == java.awt.event.KeyEvent.KEY_RELEASED) {
                         if (!e.isAutoRepeat())
                             ui.keyup(ke);
                     }
