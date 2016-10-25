@@ -1,3 +1,8 @@
+Version 1.41.0
+    Misc:
+        * Reverted back to AWT.
+
+
 Version 1.40.0
     New:
         * Full-screen mode with support for resolution changing.
