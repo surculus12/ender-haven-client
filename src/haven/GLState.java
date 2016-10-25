@@ -27,7 +27,7 @@
 package haven;
 
 import java.util.*;
-import com.jogamp.opengl.*;
+import javax.media.opengl.*;
 import haven.glsl.ShaderMacro;
 import static haven.GOut.checkerr;
 

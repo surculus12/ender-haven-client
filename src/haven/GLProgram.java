@@ -27,7 +27,7 @@
 package haven;
 
 import java.util.*;
-import com.jogamp.opengl.*;
+import javax.media.opengl.*;
 
 import haven.GLShader.VertexShader;
 import haven.GLShader.FragmentShader;
@@ -96,7 +96,7 @@ public class GLProgram implements java.io.Serializable {
         }
 
         public void create(GL2 gl) {
-            id = (int)gl.glCreateProgramObjectARB();// FIXME: make long
+            id = gl.glCreateProgramObjectARB();
         }
 
         public void delete(BGL gl) {
