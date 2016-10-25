@@ -54,14 +54,6 @@ public class LoginScreen extends Widget {
         this.add(ll);
         ll.show();
         ll.raise();
-        if (Config.fullscreen) {
-            adda(new Button(90, "Exit") {
-                @Override
-                public void click() {
-                    MainFrame.glw.sendWindowEvent(com.jogamp.newt.event.WindowEvent.EVENT_WINDOW_DESTROY_NOTIFY);
-                }
-            }, 419, 570, 0.5, 0.5);
-        }
         GameUI.swimon = false;
         GameUI.trackon = false;
         GameUI.crimeon = false;
@@ -228,7 +220,7 @@ public class LoginScreen extends Widget {
                 protected void unpress() {
                     Audio.play(Button.lbtup.stream());
                 }
-            }, 419, 480, 0.5, 0.5);
+            }, 419, 510, 0.5, 0.5);
             progress(null);
         }
     }
@@ -324,7 +316,7 @@ public class LoginScreen extends Widget {
     public void draw(GOut g) {
         super.draw(g);
         if (error != null)
-            g.image(error.tex(), new Coord(420 - (error.sz().x / 2), 415));
+            g.image(error.tex(), new Coord(420 - (error.sz().x / 2), 450));
         if (progress != null)
             g.image(progress.tex(), new Coord(420 - (progress.sz().x / 2), 350));
     }

@@ -131,6 +131,7 @@ public class Config {
     public static boolean enablecrime = Utils.getprefb("enablecrime", false);
     public static boolean resinfo = Utils.getprefb("resinfo", false);
     public static boolean showanimalrad = Utils.getprefb("showanimalrad", false);
+    public static boolean hwcursor = Utils.getprefb("hwcursor", false);
     public static boolean showboundingboxes = Utils.getprefb("showboundingboxes", false);
     public static boolean alarmonforagables = Utils.getprefb("alarmonforagables", false);
     public static double alarmonforagablesvol = Utils.getprefd("alarmonforagablesvol", 0.8);
@@ -167,7 +168,7 @@ public class Config {
     public static boolean altfightui =  Utils.getprefb("altfightui", false);
     public static boolean combshowkeys =  Utils.getprefb("combshowkeys", true);
     public static boolean combaltopenings =  Utils.getprefb("combaltopenings", false);
-    public static boolean fullscreen = Utils.getprefb("fs", false);
+
     public static int avgmode = Utils.getprefi("avgmode", 0);
     private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(3) {{
         put("zh", 16);
