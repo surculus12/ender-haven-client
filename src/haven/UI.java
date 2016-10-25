@@ -323,13 +323,6 @@ public class UI {
 	*/
     }
 
-    private void setmods(com.jogamp.newt.event.InputEvent ev) {
-        int mod = ev.getModifiers();
-        Debug.kf1 = modshift = (mod & com.jogamp.newt.event.InputEvent.SHIFT_MASK) != 0;
-        Debug.kf2 = modctrl = (mod & com.jogamp.newt.event.InputEvent.CTRL_MASK) != 0;
-        Debug.kf3 = modmeta = (mod & (com.jogamp.newt.event.InputEvent.META_MASK | com.jogamp.newt.event.InputEvent.ALT_MASK)) != 0;
-    }
-
     private Grab[] c(Collection<Grab> g) {
         return (g.toArray(new Grab[0]));
     }
@@ -384,7 +377,7 @@ public class UI {
         return (false);
     }
 
-    public void mousedown(com.jogamp.newt.event.MouseEvent ev, Coord c, int button) {
+    public void mousedown(MouseEvent ev, Coord c, int button) {
         setmods(ev);
         lcc = mc = c;
         for (Grab g : c(mousegrab)) {
@@ -394,7 +387,7 @@ public class UI {
         root.mousedown(c, button);
     }
 
-    public void mouseup(com.jogamp.newt.event.MouseEvent ev, Coord c, int button) {
+    public void mouseup(MouseEvent ev, Coord c, int button) {
         setmods(ev);
         mc = c;
         for (Grab g : c(mousegrab)) {
@@ -404,13 +397,13 @@ public class UI {
         root.mouseup(c, button);
     }
 
-    public void mousemove(com.jogamp.newt.event.MouseEvent ev, Coord c) {
+    public void mousemove(MouseEvent ev, Coord c) {
         setmods(ev);
         mc = c;
         root.mousemove(c);
     }
 
-    public void mousewheel(com.jogamp.newt.event.MouseEvent ev, Coord c, int amount) {
+    public void mousewheel(MouseEvent ev, Coord c, int amount) {
         setmods(ev);
         lcc = mc = c;
         for (Grab g : c(mousegrab)) {
