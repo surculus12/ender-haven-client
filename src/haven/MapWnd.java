@@ -38,7 +38,6 @@ import haven.MapFileWidget.*;
 import haven.MapFileWidget.Location;
 import haven.BuddyWnd.GroupSelector;
 
-import static haven.MiniMap.plx;
 import static haven.MCache.tilesz;
 import static haven.MCache.cmaps;
 
@@ -60,6 +59,7 @@ public class MapWnd extends Window {
     private int markerseq = -1;
     private boolean domark = false;
     private final Collection<Runnable> deferred = new LinkedList<>();
+    private static final Resource plx = Resource.local().loadwait("gfx/hud/mmap/x");
 
     private final static Predicate<Marker> pmarkers = (m -> m instanceof PMarker);
     private final static Predicate<Marker> smarkers = (m -> m instanceof SMarker);
