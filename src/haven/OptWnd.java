@@ -865,17 +865,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Aggro closest unknown/red player on Tab key") {
-            {
-                a = Config.agroclosest;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("agroclosest", val);
-                Config.agroclosest = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Display cooldown time") {
             {
                 a = Config.showcooldown;

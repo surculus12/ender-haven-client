@@ -42,7 +42,6 @@ public class Config {
     public static String authserv = null;
     public static String defserv = null;
     public static URL resurl = null;
-    public static URL mapurl = null;
     public static boolean dbtext = false;
     public static boolean profile = false;
     public static boolean profilegpu = false;
@@ -123,7 +122,6 @@ public class Config {
     public static boolean tilecenter = Utils.getprefb("tilecenter", false);
     public static boolean userazerty = Utils.getprefb("userazerty", false);
     public static boolean hlightcuropp = Utils.getprefb("hlightcuropp", false);
-    public static boolean agroclosest = Utils.getprefb("agroclosest", false);
     public static boolean reversebadcamx = Utils.getprefb("reversebadcamx", false);
     public static boolean reversebadcamy = Utils.getprefb("reversebadcamy", false);
     public static boolean showservertime = Utils.getprefb("showservertime", false);

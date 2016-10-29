@@ -898,7 +898,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }
 
         public boolean globtype(char key, KeyEvent ev) {
-            if (Config.agroclosest && key == 9)
+            // shift + tab used to aggro closest
+            if (key == 9 && ev.isShiftDown())
                 return super.globtype(key, ev);
 
             // ctrl + tab is used to rotate opponents
@@ -1028,7 +1029,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             if (map != null)
                 map.refreshGobsHidable();
             return true;
-        } else if (ev.getKeyCode() == KeyEvent.VK_TAB && Config.agroclosest) {
+        } else if (ev.isShiftDown() && ev.getKeyCode() == KeyEvent.VK_TAB) {
             if (map != null)
                 map.aggroclosest();
             return true;
