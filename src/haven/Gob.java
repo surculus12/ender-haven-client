@@ -514,7 +514,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
                     ResDrawable rd = getattr(ResDrawable.class);
                     if (rd != null && !rd.sdt.eom()) {
                         final int stage = rd.sdt.peekrbuf(0);
-                        if (stage < 100) {
+                        if (stage >= 0 && stage < 100) {
                             Overlay ol = findol(Sprite.GROWTH_STAGE_ID);
                             if (ol == null) {
                                 addol(new Gob.Overlay(Sprite.GROWTH_STAGE_ID, new TreeStageSprite(stage)));
