@@ -1684,7 +1684,7 @@ public class CharWnd extends Window {
         {
             int x = 0, y = 0;
 
-            sattr = tabs.addStudy();
+            sattr = tabs.add();
             sattr.add(new Img(catf.render(Resource.getLocString(Resource.BUNDLE_LABEL, "Abilities")).tex()), new Coord(x - 2, y));
             y += 35;
             skill = new ArrayList<SAttr>();
