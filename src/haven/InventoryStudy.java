@@ -4,14 +4,103 @@ import java.awt.*;
 
 public class InventoryStudy extends Inventory {
     private static final Resource studyalarmsfx = Resource.local().loadwait("sfx/study");
+    private Tex[] histtex = null;
+    private static final Color histclr = new Color(238, 238, 238, 155);
 
     public InventoryStudy(Coord sz) {
         super(sz);
     }
 
     @Override
+    public void draw(GOut g) {
+        if (Config.studyhist) {
+            if (histtex == null) {
+                histtex = new Tex[16];
+                String chrid = gameui().chrid;
+                if (chrid != "") {
+                    String[] hist = Utils.getprefsa("studyhist_" + chrid, null);
+                    if (hist != null) {
+                        for (int i = 0; i < 16; i++) {
+                            if (!hist[i].equals("null")) {
+                                try {
+                                    Resource res = Resource.remote().load(hist[i]).get();
+                                    histtex[i] = res.layer(Resource.imgc).tex();
+                                } catch (Loading l) {
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            g.chcolor(histclr);
+            for (int i = 0; i < 16; i++) {
+                Tex tex = histtex[i];
+                if (tex != null) {
+                    try {
+                        int y = i / 4 * Inventory.sqsz.y + 1;
+                        int x = i % 4 * Inventory.sqsz.x + 1;
+                        g.image(tex, new Coord(x, y));
+                    } catch (Resource.LoadException le) {
+                    }
+                }
+            }
+            g.chcolor();
+        }
+
+        super.draw(g);
+    }
+
+    @Override
     public void addchild(Widget child, Object... args) {
         super.addchild(child, args);
+
+        if (Config.studyhist) {
+            String chrid = gameui().chrid;
+            if (chrid != "") {
+                String[] hist = Utils.getprefsa("studyhist_" + chrid, new String[16]);
+                if (histtex == null) {
+                    histtex = new Tex[16];
+                    if (hist != null) {
+                        for (int i = 0; i < 16; i++) {
+                            String resname = hist[i];
+                            if (resname != null && !resname.equals("null")) {
+                                try {
+                                    Resource res = Resource.remote().load(resname).get();
+                                    histtex[i] = res.layer(Resource.imgc).tex();
+                                } catch (Loading l) {
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (WItem itm : wmap.values()) {
+                    int x = itm.c.x / Inventory.sqsz.x;
+                    int y = itm.c.y / Inventory.sqsz.y;
+                    int i = y * 4 + x;
+                    try {
+                        Resource res = itm.item.getres();
+                        Tex tex = res.layer(Resource.imgc).tex();
+                        Coord dim = tex.dim;
+
+                        int clearx = dim.x > 32 ? dim.x / 32: 1;
+                        int cleary = dim.y > 32 ? dim.y / 32: 1;
+                        for (int cx = x; cx < x + clearx; cx++) {
+                            for (int cy = y; cy < y + cleary; cy++) {
+                                int ci = cy * 4 + cx;
+                                hist[ci] = null;
+                                histtex[ci] = null;
+                            }
+                        }
+
+                        hist[i] = res.name;
+                        histtex[i] = res.layer(Resource.imgc).tex();
+                    } catch (Loading l) {
+                    }
+                }
+                Utils.setprefsa("studyhist_" + chrid, hist);
+            }
+        }
     }
 
     @Override
@@ -55,14 +144,11 @@ public class InventoryStudy extends Inventory {
             return;
         } else if (Config.studylock && msg.equals("drop")) {
             Coord c = (Coord) args[0];
-            for (Widget witm = lchild; witm != null; witm = witm.prev) {
-                if (witm instanceof WItem) {
-                    WItem itm = (WItem) witm;
-                    for (int x = itm.c.x; x < itm.c.x + itm.sz.x; x += Inventory.sqsz.x) {
-                        for (int y = itm.c.y; y < itm.c.y + itm.sz.y; y += Inventory.sqsz.y) {
-                            if (x / Inventory.sqsz.x == c.x && y / Inventory.sqsz.y == c.y)
-                                return;
-                        }
+            for (WItem itm : wmap.values()) {
+                for (int x = itm.c.x; x < itm.c.x + itm.sz.x; x += Inventory.sqsz.x) {
+                    for (int y = itm.c.y; y < itm.c.y + itm.sz.y; y += Inventory.sqsz.y) {
+                        if (x / Inventory.sqsz.x == c.x && y / Inventory.sqsz.y == c.y)
+                            return;
                     }
                 }
             }
@@ -74,16 +160,13 @@ public class InventoryStudy extends Inventory {
         try {
             for (Widget invwdg = wnd.lchild; invwdg != null; invwdg = invwdg.prev) {
                 if (invwdg instanceof Inventory) {
-                    Inventory inv = (Inventory) invwdg;
-                    for (Widget witm = inv.lchild; witm != null; witm = witm.prev) {
-                        if (witm instanceof WItem) {
-                            GItem ngitm = ((WItem) witm).item;
-                            Resource nres = ngitm.resource();
-                            if (nres != null && nres.name.equals(res.name)) {
-                                ngitm.wdgmsg("take", witm.c);
-                                wdgmsg("drop", c.add(sqsz.div(2)).div(invsq.sz()));
-                                return true;
-                            }
+                    for (WItem itm : ((Inventory) invwdg).wmap.values()) {
+                        GItem ngitm = itm.item;
+                        Resource nres = ngitm.resource();
+                        if (nres != null && nres.name.equals(res.name)) {
+                            ngitm.wdgmsg("take", itm.c);
+                            wdgmsg("drop", c.add(sqsz.div(2)).div(invsq.sz()));
+                            return true;
                         }
                     }
                     return false;

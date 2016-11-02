@@ -664,6 +664,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Show last used curios in study window") {
+            {
+                a = Config.studyhist;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("studyhist", val);
+                Config.studyhist = val;
+                a = val;
+            }
+        });
     }
 
     private void initMap() {
