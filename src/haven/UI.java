@@ -172,7 +172,7 @@ public class UI {
                 TextEntry entry = new TextEntry(40, "") {
                     @Override
                     public boolean keydown(KeyEvent e) {
-                        return false;
+                        return !(e.getKeyCode() >= KeyEvent.VK_F1 && e.getKeyCode() <= KeyEvent.VK_F12);
                     }
 
                     @Override
