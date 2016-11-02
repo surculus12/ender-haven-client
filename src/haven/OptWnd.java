@@ -675,6 +675,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Display buff icon when study has free slots") {
+            {
+                a = Config.studybuff;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("studybuff", val);
+                Config.studybuff = val;
+                a = val;
+            }
+        });
     }
 
     private void initMap() {

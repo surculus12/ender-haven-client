@@ -5,7 +5,7 @@ import java.awt.*;
 public class InventoryStudy extends Inventory {
     private static final Resource studyalarmsfx = Resource.local().loadwait("sfx/study");
     private Tex[] histtex = null;
-    private static final Color histclr = new Color(238, 238, 238, 155);
+    private static final Color histclr = new Color(238, 238, 238, 160);
 
     public InventoryStudy(Coord sz) {
         super(sz);
@@ -101,6 +101,12 @@ public class InventoryStudy extends Inventory {
                 Utils.setprefsa("studyhist_" + chrid, hist);
             }
         }
+
+        if (Config.studybuff && getFreeSpace() == 0) {
+            BuffToggle tgl = gameui().buffs.gettoggle("brain");
+            if (tgl != null)
+                tgl.reqdestroy();
+        }
     }
 
     @Override
@@ -130,6 +136,12 @@ public class InventoryStudy extends Inventory {
                 }
             }
         } catch (Loading l) {
+        }
+
+        if (Config.studybuff && getFreeSpace() > 0) {
+            BuffToggle tgl = gameui().buffs.gettoggle("brain");
+            if (tgl == null)
+                gameui().buffs.addchild(new BuffToggle("brain", Bufflist.buffbrain));
         }
     }
 
