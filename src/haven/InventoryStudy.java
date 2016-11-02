@@ -22,11 +22,18 @@ public class InventoryStudy extends Inventory {
                     if (hist != null) {
                         for (int i = 0; i < 16; i++) {
                             if (!hist[i].equals("null")) {
-                                try {
-                                    Resource res = Resource.remote().load(hist[i]).get();
-                                    histtex[i] = res.layer(Resource.imgc).tex();
-                                } catch (Loading l) {
-                                }
+                                final int _i = i;
+                                Defer.later(new Defer.Callable<Void>() {
+                                    public Void call() {
+                                        try {
+                                            Resource res = Resource.remote().load(hist[_i]).get();
+                                            histtex[_i] = res.layer(Resource.imgc).tex();
+                                        } catch (Loading le) {
+                                            Defer.later(this);
+                                        }
+                                        return null;
+                                    }
+                                });
                             }
                         }
                     }
@@ -62,13 +69,20 @@ public class InventoryStudy extends Inventory {
                     histtex = new Tex[16];
                     if (hist != null) {
                         for (int i = 0; i < 16; i++) {
-                            String resname = hist[i];
+                            final String resname = hist[i];
                             if (resname != null && !resname.equals("null")) {
-                                try {
-                                    Resource res = Resource.remote().load(resname).get();
-                                    histtex[i] = res.layer(Resource.imgc).tex();
-                                } catch (Loading l) {
-                                }
+                                final int _i = i;
+                                Defer.later(new Defer.Callable<Void>() {
+                                    public Void call() {
+                                        try {
+                                            Resource res = Resource.remote().load(resname).get();
+                                            histtex[_i] = res.layer(Resource.imgc).tex();
+                                        } catch (Loading le) {
+                                            Defer.later(this);
+                                        }
+                                        return null;
+                                    }
+                                });
                             }
                         }
                     }
