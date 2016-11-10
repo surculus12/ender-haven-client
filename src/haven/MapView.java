@@ -891,7 +891,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         }
 
         public String toString() {
-            return(String.format("%,dd %,dn %,ds %,do", dynamic.size(), newfags.size(), semifags.size(), oldfags.size()));
+            return(String.format("%,dd %,dn %,dS %,ds %,do", dynamic.size(), newfags.size(), semistat.size(), semifags.size(), oldfags.size()));
         }
     }
     private final Rendered gobs;
