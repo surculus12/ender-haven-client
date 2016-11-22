@@ -321,6 +321,8 @@ public class FightWnd extends Widget {
     }
 
     public static final String[] keys = {"1", "2", "3", "4", "5", "\u21e71", "\u21e72", "\u21e73", "\u21e74", "\u21e75"};
+    public static final String[] keysf = {"F1", "F2", "F3", "F4", "F5"};
+
     public class BView extends Widget implements DropTarget {
         private int subp = -1;
         private int addp = -1;
@@ -366,10 +368,16 @@ public class FightWnd extends Widget {
             return(-1);
         }
 
-        final Tex[] keys = new Tex[10];
+        final Tex[] keystex = new Tex[10];
+        final Tex[] keysftex = new Tex[10];
         {
-            for(int i = 0; i < 10; i++)
-                this.keys[i] = Text.render(FightWnd.keys[i]).tex();
+            for(int i = 0; i < 10; i++) {
+                keystex[i] = Text.render(FightWnd.keys[i]).tex();
+                if (i < 5)
+                    keysftex[i] = keystex[i];
+                else
+                    keysftex[i] = Text.render(FightWnd.keysf[i - 5]).tex();
+            }
         }
 
         public void draw(GOut g) {
@@ -409,7 +417,7 @@ public class FightWnd extends Widget {
                     }
                 } catch(Loading l) {}
                 g.chcolor(156, 180, 158, 255);
-                g.aimage(keys[i], c.add(invsq.sz().sub(2, 0)), 1, 1);
+                g.aimage(Config.combatkeys == 0 ? keystex[i] : keysftex[i], c.add(invsq.sz().sub(2, 0)), 1, 1);
                 g.chcolor();
             }
 

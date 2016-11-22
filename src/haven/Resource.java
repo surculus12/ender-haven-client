@@ -440,12 +440,21 @@ public class Resource implements Serializable {
                 synchronized (queue) {
                     Queued cq = queued.get(name);
                     if (cq != null) {
-                        if ((ver == -1) || (cq.ver == ver)) {
-                            cq.boostprio(prio);
-                            return (cq);
-                        }
-                        if (ver < cq.ver)
-                            throw (new LoadException(String.format("Weird version number on %s (%d > %d)", cq.name, cq.ver, ver), null));
+			if(ver != -1) {
+			    if(ver < cq.ver) {
+				throw(new LoadException(String.format("Weird version number on %s (%d > %d)", cq.name, cq.ver, ver), null));
+			    } else if(ver == cq.ver) {
+				cq.boostprio(prio);
+				return(cq);
+			    }
+			} else {
+			    if(cq.done && (cq.error != null)) {
+				/* XXX: This is probably not the right way to handle this. */
+			    } else {
+				cq.boostprio(prio);
+				return(cq);
+			    }
+			}
                         queued.remove(name);
                         queue.removeid(cq);
                     }
@@ -1854,7 +1863,9 @@ public class Resource implements Serializable {
             "%s's Tasks",
             "%s's Business",
             "%s Giving the Chase",
-            "A Favor for %s"
+            "A Favor for %s",
+            "%s's Laughter",
+            "Blood for %s"
     };
 
     private static final String[] fmtLocStringsFlower = new String[]{

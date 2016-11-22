@@ -664,6 +664,28 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Show last used curios in study window") {
+            {
+                a = Config.studyhist;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("studyhist", val);
+                Config.studyhist = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Display buff icon when study has free slots") {
+            {
+                a = Config.studybuff;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("studybuff", val);
+                Config.studybuff = val;
+                a = val;
+            }
+        });
     }
 
     private void initMap() {
@@ -865,17 +887,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Aggro closest unknown/red player on Tab key") {
-            {
-                a = Config.agroclosest;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("agroclosest", val);
-                Config.agroclosest = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Display cooldown time") {
             {
                 a = Config.showcooldown;
@@ -928,6 +939,28 @@ public class OptWnd extends Window {
             public void set(boolean val) {
                 Utils.setprefb("altfightui", val);
                 Config.altfightui = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Simplified opening indicators") {
+            {
+                a = Config.combaltopenings;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("combaltopenings", val);
+                Config.combaltopenings = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Show key bindings in combat UI") {
+            {
+                a = Config.combshowkeys;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("combshowkeys", val);
+                Config.combshowkeys = val;
                 a = val;
             }
         });
@@ -1108,17 +1141,6 @@ public class OptWnd extends Window {
                             fbelt.hide();
                     }
                 }
-            }
-        });
-        appender.add(new CheckBox("Hide extensions menu (req. restart)") {
-            {
-                a = Config.hidexmenu;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("hidexmenu", val);
-                Config.hidexmenu = val;
-                a = val;
             }
         });
         appender.add(new CheckBox("Show inventory on login") {
@@ -1630,7 +1652,31 @@ public class OptWnd extends Window {
                 Utils.setprefd("alarmmammothvol", vol);
             }
         });
+        appender.setVerticalMargin(0);
+        appender.add(new CheckBox("Alarm on localized resources") {
+            {
+                a = Config.alarmlocres;
+            }
 
+            public void set(boolean val) {
+                Utils.setprefb("alarmlocres", val);
+                Config.alarmlocres = val;
+                a = val;
+            }
+        });
+        appender.setVerticalMargin(VERTICAL_AUDIO_MARGIN);
+        appender.add(new HSlider(200, 0, 1000, 0) {
+            protected void attach(UI ui) {
+                super.attach(ui);
+                val = (int) (Config.alarmlocresvol * 1000);
+            }
+
+            public void changed() {
+                double vol = val / 1000.0;
+                Config.alarmlocresvol = vol;
+                Utils.setprefd("alarmlocresvol", vol);
+            }
+        });
         soundalarms.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         soundalarms.pack();
     }
