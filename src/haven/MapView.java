@@ -31,8 +31,7 @@ import haven.automation.*;
 import haven.pathfinder.PFListener;
 import haven.pathfinder.Pathfinder;
 import haven.resutil.BPRadSprite;
-import static haven.MCache.tilesz2;
-import static haven.OCache.posres;
+
 import javax.media.opengl.GL;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -43,6 +42,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static haven.MCache.tilesz;
+import static haven.OCache.posres;
 
 public class MapView extends PView implements DTarget, Console.Directory, PFListener {
     public static boolean clickdb = false;
@@ -60,6 +60,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     private Selector selection;
     private Coord3f camoff = new Coord3f(Coord3f.o);
     public double shake = 0.0;
+    public static int plobgran = 8;
     private static final Map<String, Class<? extends Camera>> camtypes = new HashMap<String, Class<? extends Camera>>();
     private String tooltip;
     private boolean showgrid;
@@ -1491,10 +1492,13 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
 
     public static class StdPlace implements PlobAdjust {
         boolean freerot = false;
+        Coord2d gran = (plobgran == 0)?null:new Coord2d(1.0 / plobgran, 1.0 / plobgran).mul(tilesz);
 
         public void adjust(Plob plob, Coord pc, Coord2d mc, int modflags) {
             if ((modflags & 2) == 0)
                 plob.rc = mc.floor(tilesz).mul(tilesz).add(tilesz.div(2));
+            else if(gran != null)
+                plob.rc = mc.add(gran.div(2)).floor(gran).mul(gran);
             else
                 plob.rc = mc;
             Gob pl = plob.mv().player();
@@ -2271,6 +2275,12 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                 } else {
                     throw (new Exception("no such camera: " + args[1]));
                 }
+            }
+        });
+        Console.setscmd("placegrid", new Console.Command() {
+            public void run(Console cons, String[] args) {
+                if ((plobgran = Integer.parseInt(args[1])) < 0)
+                    plobgran = 0;
             }
         });
         cmdmap.put("whyload", (cons, args) -> {
