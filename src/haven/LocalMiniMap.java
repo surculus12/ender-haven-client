@@ -391,29 +391,23 @@ public class LocalMiniMap extends Widget {
             if (cur == null || plg != cur.grid || seq != cur.seq) {
                 Defer.Future<MapTile> f;
                 synchronized (cache) {
-                    f = cache.get(new Pair<MCache.Grid, Integer>(plg, seq));
+                    f = cache.get(new Pair<>(plg, seq));
                     if (f == null) {
-                        f = Defer.later(new Defer.Callable<MapTile>() {
-                            public MapTile call() {
-                                // clear tiles on teleports
-                                if (cur != null && seq == cur.seq && plg.gc.dist(cur.grid.gc) > 1.5)
-                                    maptiles.clear();
-
-                                Coord ul = plg.ul;
-                                Coord gc = plg.gc;
-                                maptiles.put(gc.add(-1, -1), drawmap(ul.add(-100, -100), cmaps));
-                                maptiles.put(gc.add(0, -1), drawmap(ul.add(0, -100), cmaps));
-                                maptiles.put(gc.add(1, -1), drawmap(ul.add(100, -100), cmaps));
-                                maptiles.put(gc.add(-1, 0), drawmap(ul.add(-100, 0), cmaps));
-                                maptiles.put(gc, drawmap(ul, cmaps));
-                                maptiles.put(gc.add(1, 0), drawmap(ul.add(100, 0), cmaps));
-                                maptiles.put(gc.add(-1, 1), drawmap(ul.add(-100, 100), cmaps));
-                                maptiles.put(gc.add(0, 1), drawmap(ul.add(0, 100), cmaps));
-                                maptiles.put(gc.add(1, 1), drawmap(ul.add(100, 100), cmaps));
-                                return new MapTile(plg, seq);
-                            }
+                        f = Defer.later(() -> {
+                            Coord ul = plg.ul;
+                            Coord gc = plg.gc;
+                            maptiles.put(gc.add(-1, -1), drawmap(ul.add(-100, -100), cmaps));
+                            maptiles.put(gc.add(0, -1), drawmap(ul.add(0, -100), cmaps));
+                            maptiles.put(gc.add(1, -1), drawmap(ul.add(100, -100), cmaps));
+                            maptiles.put(gc.add(-1, 0), drawmap(ul.add(-100, 0), cmaps));
+                            maptiles.put(gc, drawmap(ul, cmaps));
+                            maptiles.put(gc.add(1, 0), drawmap(ul.add(100, 0), cmaps));
+                            maptiles.put(gc.add(-1, 1), drawmap(ul.add(-100, 100), cmaps));
+                            maptiles.put(gc.add(0, 1), drawmap(ul.add(0, 100), cmaps));
+                            maptiles.put(gc.add(1, 1), drawmap(ul.add(100, 100), cmaps));
+                            return new MapTile(plg, seq);
                         });
-                        cache.put(new Pair<MCache.Grid, Integer>(plg, seq), f);
+                        cache.put(new Pair<>(plg, seq), f);
                     }
                 }
                 if (f.done()) {
