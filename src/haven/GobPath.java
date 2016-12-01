@@ -6,7 +6,7 @@ import java.awt.*;
 public class GobPath extends Sprite {
     private static final Color plclr = new Color(233, 185, 110);
     public LinMove lm;
-    private static final int vd = 44 * 11;
+    private static final int m = 7 * 11;
 
     public GobPath(Gob gob) {
         super(gob, null);
@@ -35,11 +35,12 @@ public class GobPath extends Sprite {
     public void draw(GOut g) {
         if (lm == null)
             return;
-      /*  Gob gob = (Gob) owner;
-        Coord3f pc = gob.getc();
-        double x = lm.t - pc.x;
-        double y = -lm.t.y + pc.y;
-        double z = Math.sqrt(x * x + y * y) >= vd ? 0 : gob.glob.map.getcz(lm.t.x, lm.t.y) - pc.z;
+
+        Gob gob = (Gob) owner;
+        double a = gob.a;// Math.atan2(lm.v.y, lm.v.x);
+        double x = m * Math.cos(a);
+        double y = -m * Math.sin(a);
+
         g.apply();
         BGL gl = g.gl;
         gl.glLineWidth(2.0F);
@@ -49,8 +50,8 @@ public class GobPath extends Sprite {
         gl.glHint(GL2.GL_LINE_SMOOTH_HINT, GL2.GL_NICEST);
         gl.glBegin(GL2.GL_LINES);
         gl.glVertex3f(0, 0, 0);
-        gl.glVertex3f((float)x, (float)y, (float)z); // FIXME: lossy conversion
+        gl.glVertex3f((float) x, (float) y, 0);
         gl.glEnd();
-        gl.glDisable(GL2.GL_LINE_SMOOTH);*/
+        gl.glDisable(GL2.GL_LINE_SMOOTH);
     }
 }
