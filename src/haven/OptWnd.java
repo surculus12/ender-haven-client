@@ -1406,6 +1406,39 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Automatically select 'Pluck' action") {
+            {
+                a = Config.autopluck;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("autopluck", val);
+                Config.autopluck = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Automatically select 'Clean' action") {
+            {
+                a = Config.autoclean;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("autoclean", val);
+                Config.autoclean = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Automatically select 'Butcher' action") {
+            {
+                a = Config.autobutcher;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("autobutcher", val);
+                Config.autobutcher = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Automatically pick all clustered mussels (auto 'Pick' needs to be enabled)") {
             {
                 a = Config.autopickmussels;
