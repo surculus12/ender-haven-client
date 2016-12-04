@@ -504,16 +504,18 @@ public class LocalMiniMap extends Widget {
         delta = Coord.z;
     }
 
+    // TODO: drop alternative controls. option for this was deprecated a while ago...
     public boolean mousedown(Coord c, int button) {
         if (Config.alternmapctrls) {
             if (button != 2) {
                 if (cc == null)
                     return false;
+                Coord2d mc = MapView.pllastcc = c2p(c.sub(delta));
                 Gob gob = findicongob(c.sub(delta));
                 if (gob == null) {
-                    mv.wdgmsg("click", rootpos().add(c.sub(delta)), c2p(c.sub(delta)).floor(posres), button, ui.modflags());
+                    mv.wdgmsg("click", rootpos().add(c.sub(delta)), mc.floor(posres), button, ui.modflags());
                 } else {
-                    mv.wdgmsg("click", rootpos().add(c.sub(delta)), c2p(c.sub(delta)).floor(posres), button, ui.modflags(), 0, (int) gob.id, gob.rc.floor(posres), 0, -1);
+                    mv.wdgmsg("click", rootpos().add(c.sub(delta)), mc.floor(posres), button, ui.modflags(), 0, (int) gob.id, gob.rc.floor(posres), 0, -1);
                     if (Config.autopickmussels)
                         mv.startMusselsPicker(gob);
                 }
@@ -525,11 +527,12 @@ public class LocalMiniMap extends Widget {
             if (button == 3) {
                 if (cc == null)
                     return false;
+                Coord2d mc = MapView.pllastcc = c2p(c.sub(delta));
                 Gob gob = findicongob(c.sub(delta));
                 if (gob == null) {
-                    mv.wdgmsg("click", rootpos().add(c.sub(delta)), c2p(c.sub(delta)).floor(posres), 1, ui.modflags());
+                    mv.wdgmsg("click", rootpos().add(c.sub(delta)), mc.floor(posres), 1, ui.modflags());
                 } else {
-                    mv.wdgmsg("click", rootpos().add(c.sub(delta)), c2p(c.sub(delta)).floor(posres), button, ui.modflags(), 0, (int) gob.id, gob.rc.floor(posres), 0, -1);
+                    mv.wdgmsg("click", rootpos().add(c.sub(delta)), mc.floor(posres), button, ui.modflags(), 0, (int) gob.id, gob.rc.floor(posres), 0, -1);
                     if (Config.autopickmussels)
                         mv.startMusselsPicker(gob);
                 }

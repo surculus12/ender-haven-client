@@ -598,17 +598,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Show animal paths") {
-            {
-                a = Config.showanimalpaths;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("showanimalpaths", val);
-                Config.showanimalpaths = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Show study remaining time") {
             {
                 a = Config.showstudylefttime;

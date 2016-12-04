@@ -4,42 +4,30 @@ import javax.media.opengl.GL2;
 import java.awt.*;
 
 public class GobPath extends Sprite {
-    private static final Color plclr = new Color(233, 185, 110);
-    public LinMove lm;
-    private static final int m = 7 * 11;
+    private static final States.ColState clrst = new States.ColState(new Color(233, 185, 110));
 
     public GobPath(Gob gob) {
         super(gob, null);
     }
 
     public boolean setup(RenderList rl) {
-        Gob gob = (Gob) owner;
-        try {
-            Location.goback(rl.state(), "gobx");
-        } catch (IllegalStateException ise) {
-            // no gobx backlink for sling and catapult projectiles
-            return false;
-        }
+        Location.goback(rl.state(), "gobx");
         rl.prepo(States.xray);
-        Color clr;
-        if (gob.isplayer()) {
-            clr = plclr;
-        } else {
-            KinInfo ki = gob.getattr(KinInfo.class);
-            clr = ki != null ? BuddyWnd.gc[ki.group] : Color.WHITE;
-        }
-        rl.prepo(new States.ColState(clr));
+        rl.prepo(clrst);
         return true;
     }
 
     public void draw(GOut g) {
-        if (lm == null)
+        if (MapView.pllastcc == null)
             return;
 
         Gob gob = (Gob) owner;
-        double a = gob.a;// Math.atan2(lm.v.y, lm.v.x);
-        double x = m * Math.cos(a);
-        double y = -m * Math.sin(a);
+        Coord3f pc = gob.getc();
+        double lcx = MapView.pllastcc.x;
+        double lcy = MapView.pllastcc.y;
+        double x = lcx - pc.x;
+        double y = -lcy + pc.y;
+        double z = Math.sqrt(x * x + y * y) >= 44 * 11 ? 0 : gob.glob.map.getcz(lcx, lcy) - pc.z;
 
         g.apply();
         BGL gl = g.gl;
@@ -50,7 +38,7 @@ public class GobPath extends Sprite {
         gl.glHint(GL2.GL_LINE_SMOOTH_HINT, GL2.GL_NICEST);
         gl.glBegin(GL2.GL_LINES);
         gl.glVertex3f(0, 0, 0);
-        gl.glVertex3f((float) x, (float) y, 0);
+        gl.glVertex3f((float) x, (float) y, (float) z);
         gl.glEnd();
         gl.glDisable(GL2.GL_LINE_SMOOTH);
     }

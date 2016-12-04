@@ -47,6 +47,7 @@ import static haven.OCache.posres;
 public class MapView extends PView implements DTarget, Console.Directory, PFListener {
     public static boolean clickdb = false;
     public static long plgob = -1;
+    public static Coord2d pllastcc;
     public Coord2d cc;
     public final Glob glob;
     private int view = 2;
@@ -1718,6 +1719,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         }
 
         protected void hit(Coord pc, Coord2d mc, ClickInfo inf) {
+            pllastcc = mc;
+
             Resource curs = ui.root.getcurs(c);
 
             if (musselPicker != null) {
