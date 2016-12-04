@@ -113,7 +113,6 @@ public class Config {
     public static boolean autobutcher = Utils.getprefb("autobutcher", false);
     public static boolean runonlogin = Utils.getprefb("runonlogin", false);
     public static Coord chatsz = Utils.getprefc("chatsz", new Coord(683, 111));
-    public static boolean alternmapctrls = Utils.getprefb("alternmapctrls", true);
     public static boolean autostudy = Utils.getprefb("autostudy", true);
     public static boolean showdmgop = Utils.getprefb("showdmgop", false);
     public static boolean showdmgmy = Utils.getprefb("showdmgmy", false);
