@@ -315,6 +315,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
         if (attrclass(c) == Moving.class) {
             ols.remove(gobpath);
             gobpath = null;
+            MapView.pllastcc = null;
         }
     }
 
