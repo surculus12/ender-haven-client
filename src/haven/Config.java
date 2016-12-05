@@ -30,6 +30,7 @@ import haven.error.ErrorHandler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -168,6 +169,7 @@ public class Config {
     public static boolean combaltopenings =  Utils.getprefb("combaltopenings", false);
     public static boolean studyhist =  Utils.getprefb("studyhist", false);
     public static boolean studybuff =  Utils.getprefb("studybuff", false);
+    public static int zkey =  Utils.getprefi("zkey", KeyEvent.VK_Z);
 
     public static int avgmode = Utils.getprefi("avgmode", 0);
     private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(3) {{

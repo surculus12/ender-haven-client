@@ -525,13 +525,13 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         if ((hand.isEmpty() && (vhand != null)) || ((vhand != null) && !hand.contains(vhand.item))) {
             ui.destroy(vhand);
             vhand = null;
-            if (ui.modshift && ui.keycode == KeyEvent.VK_Z && map.lastinterpc != null)
+            if (ui.modshift && ui.keycode == Config.zkey && map.lastinterpc != null)
                 updhanddestroyed = true;
         }
         if (!hand.isEmpty() && (vhand == null)) {
             DraggedItem fi = hand.iterator().next();
             vhand = add(new ItemDrag(fi.dc, fi.item));
-            if (ui.modshift && ui.keycode == KeyEvent.VK_Z && updhanddestroyed) {
+            if (ui.modshift && ui.keycode == Config.zkey && updhanddestroyed) {
                 map.iteminteractreplay();
                 updhanddestroyed = false;
             }
@@ -1014,7 +1014,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 Utils.setprefb("statuswdgvisible", true);
             }
             return true;
-        } else if (ev.isAltDown() && ev.getKeyCode() == KeyEvent.VK_Z) {
+        } else if (ev.isAltDown() && ev.getKeyCode() == Config.zkey) {
             quickslots.drop(QuickSlotsWdg.lc, Coord.z);
             quickslots.simulateclick(QuickSlotsWdg.lc);
             return true;
@@ -1046,7 +1046,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             if (map != null)
                 map.refreshGobsAll();
             return true;
-        } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_Z) {
+        } else if (ev.isControlDown() && ev.getKeyCode() == Config.zkey) {
             Config.pf = !Config.pf;
             msg("Pathfinding is now turned " + (Config.pf ? "on" : "off"), Color.WHITE);
             return true;
