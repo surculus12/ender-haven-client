@@ -59,8 +59,8 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     private int cropstgmaxval = 0;
     private Overlay gobpath = null;
     private Overlay bowvector = null;
-    private static final Material.Colors dframeEmpty = new Material.Colors(new Color(0, 255, 0, 255));
-    private static final Material.Colors dframeDone = new Material.Colors(new Color(255, 0, 0, 255));
+    private static final Material.Colors dframeEmpty = new Material.Colors(new Color(87, 204, 73, 255));
+    private static final Material.Colors dframeDone = new Material.Colors(new Color(209, 42, 42, 255));
     private static final Gob.Overlay animalradius = new Gob.Overlay(new BPRadSprite(100.0F, -10.0F, BPRadSprite.smatDanger));
     private static final Set<String> dangerousanimalrad = new HashSet<String>(Arrays.asList(
             "gfx/kritter/bear/bear", "gfx/kritter/boar/boar", "gfx/kritter/lynx/lynx", "gfx/kritter/badger/badger"));
