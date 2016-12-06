@@ -1,3 +1,20 @@
+Version 1.44.0
+    New:
+        * Added pluck, clean, and butcher options to Menu Settings.
+        * Wound description now shows remedies which can be used to cure it.
+
+    Fixed:
+        * Crash when changing some video related settings before loging into a character.
+
+    Misc:
+        * Option to show animals paths was removed and option to show other players paths was changed 
+          to show only the path of your character.
+        * Removed "Alternative" minimap controls option.
+        * Alt+click to transfer all items from stockpile instead of shift+rmb.
+        * Toned-down drying rack highlight colors.
+        * Updated Russian localization.
+
+
 Version 1.43.1
     Fixed:
         * Movement vectors.
