@@ -72,7 +72,10 @@ public class UI {
         {
             setcmd("q", (cons1, args) -> HackThread.tg().interrupt());
             setcmd("lo", (cons1, args) -> sess.close());
-            setcmd("kbd", (cons1, args) -> Config.zkey = args[1].toString().equals("z") ? KeyEvent.VK_Y : KeyEvent.VK_Z);
+            setcmd("kbd", (cons1, args) -> {
+                Config.zkey = args[1].toString().equals("z") ? KeyEvent.VK_Y : KeyEvent.VK_Z;
+                Utils.setprefi("zkey", Config.zkey);
+            });
         }
 
         private void findcmds(Map<String, Command> map, Widget wdg) {
