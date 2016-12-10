@@ -375,7 +375,7 @@ public class Config {
             "gfx/terobjs/caveorgan",
             "gfx/terobjs/crystalpatch"));
 
-    public final static ArrayList<Pair<String, String>> disableanim = new ArrayList<Pair<String, String>>() {{
+    public final static ArrayList<Pair<String, String>> disableanim = new ArrayList<Pair<String, String>>(4) {{
         add(new Pair<String, String>("Beehives", "gfx/terobjs/beehive"));
         add(new Pair<String, String>("Fires", "gfx/terobjs/pow"));
         add(new Pair<String, String>("Full trash stockpiles", "gfx/terobjs/stockpile-trash"));
@@ -383,59 +383,59 @@ public class Config {
     }};
     public final static Set<String> disableanimSet = new HashSet<String>(disableanim.size());
 
-    public static HashMap<String, List<String>> cures = new HashMap<String, List<String>>(14) {{
-        put("paginae/wound/antburn", new ArrayList<String>() {{
-            add("gfx/invobjs/herbs/yarrow");
-        }});
-        put("paginae/wound/blunttrauma", new ArrayList<String>() {{
-            add("gfx/invobjs/leech");
-            add("gfx/invobjs/gauze");
-        }});
-        put("paginae/wound/bruise", new ArrayList<String>() {{
-            add("gfx/invobjs/herbs/leech");
-        }});
-        put("paginae/wound/concussion", new ArrayList<String>() {{
-            add("gfx/invobjs/coldcompress");
-        }});
-        put("paginae/wound/cruelincision", new ArrayList<String>() {{
-            add("gfx/invobjs/gauze");
-            add("gfx/invobjs/stitchpatch");
-            add("gfx/invobjs/rootfill");
-        }});
-        put("paginae/wound/deepcut", new ArrayList<String>() {{
-            add("gfx/invobjs/gauze");
-            add("gfx/invobjs/stingingpoultice");
-            add("gfx/invobjs/rootfill");
-            add("gfx/invobjs/herbs/waybroad");
-        }});
-        put("paginae/wound/fellslash", new ArrayList<String>() {{
-            add("gfx/invobjs/gauze");
-        }});
-        put("paginae/wound/nicksnknacks", new ArrayList<String>() {{
-            add("gfx/invobjs/herbs/yarrow");
-        }});
-        put("paginae/wound/punchsore", new ArrayList<String>() {{
-            add("gfx/invobjs/mudointment");
-        }});
-        put("paginae/wound/scrapesncuts", new ArrayList<String>() {{
-            add("gfx/invobjs/herbs/yarrow");
-            add("gfx/invobjs/mudointment");
-        }});
-        put("paginae/wound/severemauling", new ArrayList<String>() {{
-            add("gfx/invobjs/hartshornsalve");
-        }});
-        put("paginae/wound/swollenbump", new ArrayList<String>() {{
-            add("gfx/invobjs/coldcompress");
-            add("gfx/invobjs/leech");
-            add("gfx/invobjs/stingingpoultice");
-        }});
-        put("paginae/wound/unfaced", new ArrayList<String>() {{
-            add("gfx/invobjs/leech");
-            add("gfx/invobjs/mudointment");
-        }});
-        put("paginae/wound/wretchedgore", new ArrayList<String>() {{
-            add("gfx/invobjs/stitchpatch");
-        }});
+    public final static HashMap<String, String[]> cures = new HashMap<String, String[]>(14) {{
+        put("paginae/wound/antburn", new String[]{
+                "gfx/invobjs/herbs/yarrow"
+        });
+        put("paginae/wound/blunttrauma", new String[]{
+                "gfx/invobjs/leech",
+                "gfx/invobjs/gauze"
+        });
+        put("paginae/wound/bruise", new String[]{
+                "gfx/invobjs/herbs/leech"
+        });
+        put("paginae/wound/concussion", new String[]{
+                "gfx/invobjs/coldcompress"
+        });
+        put("paginae/wound/cruelincision", new String[]{
+                "gfx/invobjs/gauze",
+                "gfx/invobjs/stitchpatch",
+                "gfx/invobjs/rootfill"
+        });
+        put("paginae/wound/deepcut", new String[]{
+                "gfx/invobjs/gauze",
+                "gfx/invobjs/stingingpoultice",
+                "gfx/invobjs/rootfill",
+                "gfx/invobjs/herbs/waybroad"
+        });
+        put("paginae/wound/fellslash", new String[]{
+                "gfx/invobjs/gauze"
+        });
+        put("paginae/wound/nicksnknacks", new String[]{
+                "gfx/invobjs/herbs/yarrow"
+        });
+        put("paginae/wound/punchsore", new String[]{
+                "gfx/invobjs/mudointment"
+        });
+        put("paginae/wound/scrapesncuts", new String[]{
+                "gfx/invobjs/herbs/yarrow",
+                "gfx/invobjs/mudointment"
+        });
+        put("paginae/wound/severemauling", new String[]{
+                "gfx/invobjs/hartshornsalve"
+        });
+        put("paginae/wound/swollenbump", new String[]{
+                "gfx/invobjs/coldcompress",
+                "gfx/invobjs/leech",
+                "gfx/invobjs/stingingpoultice"
+        });
+        put("paginae/wound/unfaced", new String[]{
+                "gfx/invobjs/leech",
+                "gfx/invobjs/mudointment"
+        });
+        put("paginae/wound/wretchedgore", new String[]{
+                "gfx/invobjs/stitchpatch"
+        });
     }};
 
     static {
