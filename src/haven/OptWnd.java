@@ -773,17 +773,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Print server time to System log") {
-            {
-                a = Config.servertimesyslog;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("servertimesyslog", val);
-                Config.servertimesyslog = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Run on login") {
             {
                 a = Config.runonlogin;

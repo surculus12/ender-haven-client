@@ -99,7 +99,6 @@ public class Config {
     public static boolean hidecrops = Utils.getprefb("hidecrops", false);
     public static boolean showfps = Utils.getprefb("showfps", false);
     public static boolean autohearth = Utils.getprefb("autohearth", false);
-    public static boolean servertimesyslog = Utils.getprefb("servertimesyslog", false);
     public static boolean showplayerpaths = Utils.getprefb("showplayerpaths", false);
     public static boolean showstudylefttime = Utils.getprefb("showstudylefttime", false);
     public static boolean showinvonlogin = Utils.getprefb("showinvonlogin", false);
