@@ -43,12 +43,13 @@ import static haven.Inventory.invsq;
 public class GameUI extends ConsoleHost implements Console.Directory {
     public static final Text.Foundry msgfoundry = new Text.Foundry(Text.dfont, Config.fontsizeglobal * 14 / 11);
     public static final Text.Foundry progressf = new Text.Foundry(Text.sans.deriveFont(Font.BOLD), 12).aa(true);
-    private static final int blpw = 142, brpw = 142;
+    private static final int blpw = 142;
     public final String chrid;
     public final long plid;
     private final Hidepanel ulpanel, umpanel, urpanel, brpanel, menupanel;
     public Avaview portrait;
     public MenuGrid menu;
+    public MenuSearch menuSearch;
     public MapView map;
     public Fightview fv;
     private List<Widget> meters = new LinkedList<Widget>();
@@ -127,7 +128,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }
     }
 
-    private final Coord minimapc;
     public GameUI(String chrid, long plid) {
         this.chrid = chrid;
         this.plid = plid;
@@ -162,12 +162,9 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }, new Coord(1, 0)));
         menu = brpanel.add(new MenuGrid(), 20, 34);
 
-        Tex lbtnbg = Resource.loadtex("gfx/hud/lbtn-bg");// FIXME
-        minimapc = new Coord(4, 34 + (lbtnbg.sz().y - 33));
-
         brpanel.add(new Img(Resource.loadtex("gfx/hud/brframe")), 0, 0);
         menupanel.add(new MainMenu(), 0, 0);
-        foldbuttons();
+
         portrait = ulpanel.add(new Avaview(Avaview.dasz, plid, "avacam") {
             public boolean mousedown(Coord c, int button) {
                 return (true);
@@ -223,88 +220,10 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         add(histbelt, Utils.getprefc("histbelt_c", new Coord(70, 200)));
         if (!Config.histbelt)
             histbelt.hide();
-    }
 
-    /* Ice cream */
-    private final IButton[] fold_br = new IButton[4];
-
-    private void updfold(boolean reset) {
-        int br;
-        if (brpanel.tvis && menupanel.tvis)
-            br = 0;
-        else if (brpanel.tvis && !menupanel.tvis)
-            br = 1;
-        else if (!brpanel.tvis && !menupanel.tvis)
-            br = 2;
-        else
-            br = 3;
-        for (int i = 0; i < fold_br.length; i++)
-            fold_br[i].show(i == br);
-
-        if (reset)
-            resetui();
-    }
-
-    private void foldbuttons() {
-        final Tex rdnbg = Resource.loadtex("gfx/hud/rbtn-maindwn");
-        final Tex rupbg = Resource.loadtex("gfx/hud/rbtn-upbg");
-        fold_br[0] = new IButton("gfx/hud/rbtn-dwn", "", "-d", "-h") {
-            public void draw(GOut g) {
-                g.image(rdnbg, Coord.z);
-                super.draw(g);
-            }
-
-            public void click() {
-                menupanel.cshow(false);
-                updfold(true);
-            }
-        };
-        fold_br[1] = new IButton("gfx/hud/rbtn-dwn", "", "-d", "-h") {
-            public void draw(GOut g) {
-                g.image(rdnbg, Coord.z);
-                super.draw(g);
-            }
-
-            public void click() {
-                brpanel.cshow(false);
-                updfold(true);
-            }
-        };
-        fold_br[2] = new IButton("gfx/hud/rbtn-up", "", "-d", "-h") {
-            public void draw(GOut g) {
-                g.image(rupbg, Coord.z);
-                super.draw(g);
-            }
-
-            public void click() {
-                menupanel.cshow(true);
-                updfold(true);
-            }
-
-            public void presize() {
-                this.c = parent.sz.sub(this.sz);
-            }
-        };
-        fold_br[3] = new IButton("gfx/hud/rbtn-dwn", "", "-d", "-h") {
-            public void draw(GOut g) {
-                g.image(rdnbg, Coord.z);
-                super.draw(g);
-            }
-
-            public void click() {
-                brpanel.cshow(true);
-                updfold(true);
-            }
-        };
-        menupanel.add(fold_br[0], 0, 0);
-        fold_br[0].lower();
-        brpanel.adda(fold_br[1], brpanel.sz.x, 32, 1, 1);
-        adda(fold_br[2], 1, 1);
-        fold_br[2].lower();
-        menupanel.add(fold_br[3], 0, 0);
-        fold_br[3].lower();
-
-        updfold(false);
+        menuSearch = new MenuSearch();
+        add(menuSearch, 300, 300);
+        menuSearch.hide();
     }
 
     protected void added() {
@@ -400,7 +319,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 }
             };
             tvis = vis;
-            updfold(false);
             return (vis);
         }
 
@@ -960,6 +878,15 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                     }
                 }
             }, 0, 0);
+            add(new MenuButton("rbtn-dwn", 83, Resource.getLocString(Resource.BUNDLE_LABEL, "Menu Search ($col[255,255,0]{Shift+S})")) {
+                public void click() {
+                    if (menuSearch.show(!menuSearch.visible)) {
+                        menuSearch.raise();
+                        fitwdg(menuSearch);
+                        setfocus(menuSearch);
+                    }
+                }
+            }, 0, 0);
         }
 
         public void draw(GOut g) {
@@ -1108,13 +1035,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             for (Hidepanel p : panels)
                 p.mshow(false);
         }
-    }
-
-    public void resetui() {
-        Hidepanel[] panels = {brpanel, ulpanel, umpanel, urpanel, menupanel};
-        for (Hidepanel p : panels)
-            p.cshow(p.tvis);
-        uishowing = true;
     }
 
     public void resize(Coord sz) {
@@ -1412,8 +1332,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         cmdmap.put("tool", (cons, args) -> add(gettype(args[1]).create(GameUI.this, new Object[0]), 200, 200));
         cmdmap.put("help", (cons, args) -> {
             cons.out.println("Available console commands:");
-
-          //  cons.out.println();
             cons.findcmds().forEach((s, cmd) -> cons.out.println(s));
         });
     }
