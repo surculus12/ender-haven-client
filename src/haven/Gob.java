@@ -312,7 +312,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 
     public void delattr(Class<? extends GAttrib> c) {
         attr.remove(attrclass(c));
-        if (attrclass(c) == Moving.class) {
+        if (attrclass(c) == Moving.class && isplayer()) {
             ols.remove(gobpath);
             gobpath = null;
             MapView.pllastcc = null;
