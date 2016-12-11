@@ -1725,7 +1725,6 @@ public class OptWnd extends Window {
             @Override
             public void change(Locale item) {
                 super.change(item);
-                Resource.language = item.toString();
                 Utils.setpref("language", item.toString());
             }
         };

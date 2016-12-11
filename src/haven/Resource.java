@@ -54,8 +54,7 @@ public class Resource implements Serializable {
     public static Class<Audio> audio = Audio.class;
     public static Class<Tooltip> tooltip = Tooltip.class;
 
-    public static String language = Utils.getpref("language", "en");
-    public static Map<String, String> l10nTooltip, l10nPagina, l10nWindow, l10nButton, l10nFlower, l10nMsg, l10nLabel, l10nAction;
+    public static final String language = Utils.getpref("language", "en");
     public static final String BUNDLE_TOOLTIP = "tooltip";
     public static final String BUNDLE_PAGINA = "pagina";
     public static final String BUNDLE_WINDOW = "window";
@@ -792,26 +791,17 @@ public class Resource implements Serializable {
     }
 
     static {
-        if (!language.equals("en") || Resource.L10N_DEBUG) {
-            l10nTooltip = l10n(BUNDLE_TOOLTIP, language);
-            l10nPagina = l10n(BUNDLE_PAGINA, language);
-            l10nWindow = l10n(BUNDLE_WINDOW, language);
-            l10nButton = l10n(BUNDLE_BUTTON, language);
-            l10nFlower = l10n(BUNDLE_FLOWER, language);
-            l10nMsg = l10n(BUNDLE_MSG, language);
-            l10nLabel = l10n(BUNDLE_LABEL, language);
-            l10nAction = l10n(BUNDLE_ACTION, language);
-        }
-
         l10nBundleMap =  new HashMap<String, Map<String, String>>(8) {{
-            put(BUNDLE_TOOLTIP, l10nTooltip);
-            put(BUNDLE_PAGINA, l10nPagina);
-            put(BUNDLE_WINDOW, l10nWindow);
-            put(BUNDLE_BUTTON, l10nButton);
-            put(BUNDLE_FLOWER, l10nFlower);
-            put(BUNDLE_MSG, l10nMsg);
-            put(BUNDLE_LABEL, l10nLabel);
-            put(BUNDLE_ACTION, l10nAction);
+            if (!language.equals("en") || Resource.L10N_DEBUG) {
+                put(BUNDLE_TOOLTIP, l10n(BUNDLE_TOOLTIP, language));
+                put(BUNDLE_PAGINA, l10n(BUNDLE_PAGINA, language));
+                put(BUNDLE_WINDOW, l10n(BUNDLE_WINDOW, language));
+                put(BUNDLE_BUTTON, l10n(BUNDLE_BUTTON, language));
+                put(BUNDLE_FLOWER, l10n(BUNDLE_FLOWER, language));
+                put(BUNDLE_MSG, l10n(BUNDLE_MSG, language));
+                put(BUNDLE_LABEL, l10n(BUNDLE_LABEL, language));
+                put(BUNDLE_ACTION, l10n(BUNDLE_ACTION, language));
+            }
         }};
 
         for (Class<?> cl : dolda.jglob.Loader.get(LayerName.class).classes()) {
@@ -941,7 +931,7 @@ public class Resource implements Serializable {
             Resource res = super.getres();
             String locText = getLocString(BUNDLE_TOOLTIP, res, text);
 
-            if (res != null && !language.equals("en")) {
+            if (!language.equals("en")) {
                 if (locText.equals(text) || !res.name.startsWith("gfx/invobjs") ||
                         // exclude meat "conditions" since the tooltip is dynamically generated and it won't be in right order
                         text.contains("Raw ") || text.contains("Filet of ") || text.contains("Sizzling") ||
