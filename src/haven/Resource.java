@@ -1862,13 +1862,28 @@ public class Resource implements Serializable {
             "Errands for %s",
             "Affair with %s",
             "%s's Catch",
-            "As %s Wishes"
+            "As %s Wishes",
+            "%s has invited you to join his party. Do you wish to do so?",
+            "%s has requested to spar with you. Do you accept?"
     };
 
     private static final String[] fmtLocStringsFlower = new String[]{
             "Gild (%s%% chance)",
             "Follow %s",
             "Travel along %s"
+    };
+
+    private static final String[] fmtLocStringsMsg = new String[]{
+            "That land is owned by %s.",
+            "The name of this charterstone is \"%s\"",
+            "Will refill in %s days",
+            "Will refill in %s day",
+            "Will refill in %s hours",
+            "Will refill in %s hour",
+            "Will refill in %s minutes",
+            "Will refill in %s minute",
+            "Will refill in %s seconds",
+            "Will refill in %s second"
     };
 
     public static String getLocString(String bundle, String key) {
@@ -1878,29 +1893,21 @@ public class Resource implements Serializable {
         if (Resource.L10N_DEBUG)
             Resource.saveStrings(bundle, key, key);
         String ll = map.get(key);
-        // strings which require special handling
+        // strings which need to be formatted
         if (ll == null && bundle == BUNDLE_LABEL) {
             for (String s : fmtLocStringsLabel) {
                 String llfmt = fmtLocString(map, key, s);
                 if (llfmt != null)
                     return llfmt;
             }
-
-            // following strings are handled differently since character name could contain format characters
-            final String partyInvite = " has invited you to join his party. Do you wish to do so?";
-            if (key.endsWith(partyInvite)) {
-                ll = map.get("%s" + partyInvite);
-                if (ll != null)
-                    return String.format(ll, key.substring(0, key.indexOf(partyInvite)));
-            }
-            final String spar = "has requested to spar with you. Do you accept?";
-            if (key.endsWith(spar)) {
-                ll = map.get("%s " + spar);
-                if (ll != null)
-                    return String.format(ll, key.substring(0, key.length() - spar.length()));
-            }
         } else if (ll == null && bundle == BUNDLE_FLOWER) {
             for (String s : fmtLocStringsFlower) {
+                String llfmt = fmtLocString(map, key, s);
+                if (llfmt != null)
+                    return llfmt;
+            }
+        } else if (ll == null && bundle == BUNDLE_MSG) {
+            for (String s : fmtLocStringsMsg) {
                 String llfmt = fmtLocString(map, key, s);
                 if (llfmt != null)
                     return llfmt;
