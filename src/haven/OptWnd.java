@@ -593,7 +593,7 @@ public class OptWnd extends Window {
                 }
             }
         });
-        appender.add(new CheckBox("Show player paths") {
+        appender.add(new CheckBox("Show player's path") {
             {
                 a = Config.showplayerpaths;
             }
