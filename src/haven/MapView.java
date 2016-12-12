@@ -949,10 +949,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     private Outlines outlines = new Outlines(false);
 
     public void setup(RenderList rl) {
-        Gob pl = player();
-        if(pl != null)
-            this.cc = new Coord2d(pl.getc());
-
         synchronized (glob) {
             if (glob.lightamb != null) {
                 Color lightamb, lightdif, lightspc;
@@ -1424,9 +1420,9 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         try {
             if (camload != null)
                 throw (new Loading(camload));
-          //  Gob pl = player();
-            //if (pl != null)
-           //     this.cc = new Coord(pl.getc());
+            Gob pl = player();
+            if (pl != null)
+                this.cc = new Coord2d(pl.getc());
             undelay(delayed, g);
             super.draw(g);
             undelay(delayed2, g);
