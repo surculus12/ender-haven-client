@@ -1581,8 +1581,14 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         } else if (msg == "unplace") {
             placing = null;
         } else if (msg == "move") {
+            // "move" is always sent for transitions between houses, mines, and cross-road access (viewing the distention, but not the actual travel).
+            // However, unlike the houses/mines case if cross road destination is within the view distance of the source (e.g. blocked CR or a very short road)
+            // map data won't be fetched since character remains in the same grid cut, thus we need to avoid clearing the local map cache.
+            // It can be observed that plc will always (?) differ from new map cc in case of CR, while for houses/mines it will be an identical match.
             cc = ((Coord)args[0]).mul(posres);
-            gameui().minimapWnd.clearmap();
+            Gob pl = ui.sess.glob.oc.getgob(plgob);
+            if(pl == null || (pl != null && cc.equals(pl.rc)))
+                gameui().minimapWnd.clearmap();
         } else if (msg == "plob") {
             if (args[0] == null)
                 plgob = -1;
