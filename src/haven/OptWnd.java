@@ -1412,6 +1412,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Automatically select 'Skin' action") {
+            {
+                a = Config.autoskin;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("autoskin", val);
+                Config.autoskin = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Automatically select 'Butcher' action") {
             {
                 a = Config.autobutcher;

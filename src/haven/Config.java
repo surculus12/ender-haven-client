@@ -109,6 +109,7 @@ public class Config {
     public static boolean autoslice = Utils.getprefb("autoslice", false);
     public static boolean autoclean = Utils.getprefb("autoclean", false);
     public static boolean autopluck = Utils.getprefb("autopluck", false);
+    public static boolean autoskin = Utils.getprefb("autoskin", false);
     public static boolean autobutcher = Utils.getprefb("autobutcher", false);
     public static boolean runonlogin = Utils.getprefb("runonlogin", false);
     public static Coord chatsz = Utils.getprefc("chatsz", new Coord(683, 111));

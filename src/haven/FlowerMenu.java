@@ -113,6 +113,7 @@ public class FlowerMenu extends Widget {
                         Config.autoslice && p.name.equals("Slice") ||
                         Config.autopluck && p.name.equals("Pluck") ||
                         Config.autoclean && p.name.equals("Clean") ||
+                        Config.autoskin && p.name.equals("Skin") ||
                         Config.autobutcher && p.name.equals("Butcher"))) {
                     choose(p);
                     break;
