@@ -46,7 +46,6 @@ public class Config {
     public static boolean dbtext = false;
     public static boolean profile = false;
     public static boolean profilegpu = false;
-    public static String resdir = null;
     public static boolean nopreload = false;
     public static int mainport = 1870;
     public static int authport = 1871;
@@ -515,7 +514,6 @@ public class Config {
         out.println("  -G                 Enable GPU profiling");
         out.println("  -p FILE            Write player position to a memory mapped file");
         out.println("  -U URL             Use specified external resource URL");
-        out.println("  -r DIR             Use specified resource directory (or HAVEN_RESDIR)");
         out.println("  -A AUTHSERV[:PORT] Use specified authentication server");
         out.println("  -u USER            Authenticate as USER (together with -C)");
         out.println("  -C HEXCOOKIE       Authenticate with specified hex-encoded cookie");
@@ -541,9 +539,6 @@ public class Config {
                     break;
                 case 'G':
                     profilegpu = true;
-                    break;
-                case 'r':
-                    resdir = opt.arg;
                     break;
                 case 'A':
                     int p = opt.arg.indexOf(':');

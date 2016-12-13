@@ -40,7 +40,6 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class Resource implements Serializable {
-    private static File rescustom = new File("res");
     private static ResCache prscache;
     public static ThreadGroup loadergroup = null;
     private static Map<String, LayerFactory<?>> ltypes = new TreeMap<String, LayerFactory<?>>();
@@ -641,19 +640,8 @@ public class Resource implements Serializable {
         if (_local == null) {
             synchronized (Resource.class) {
                 if (_local == null) {
-                    Pool local = new Pool(new FileSource(rescustom));
+                    Pool local = new Pool(new FileSource(new File("res")));
                     local.add(new JarSource());
-                    try {
-                        String dir = Config.resdir;
-                        if (dir == null)
-                            dir = System.getenv("HAFEN_RESDIR");
-                        if (dir != null)
-                            local.add(new FileSource(new File(dir)));
-                    } catch (Exception e) {
-			/* Ignore these. We don't want to be crashing the client
-			 * for users just because of errors in development
-			 * aids. */
-                    }
                     _local = local;
                 }
             }
