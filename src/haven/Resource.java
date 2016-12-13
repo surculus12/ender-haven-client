@@ -1852,7 +1852,8 @@ public class Resource implements Serializable {
             "%s's Catch",
             "As %s Wishes",
             "%s has invited you to join his party. Do you wish to do so?",
-            "%s has requested to spar with you. Do you accept?"
+            "%s has requested to spar with you. Do you accept?",
+            "Experience points gained: %s"
     };
 
     private static final String[] fmtLocStringsFlower = new String[]{
