@@ -28,7 +28,7 @@ public class MenuSearch extends Window {
         };
         add(search, new Coord(10, 5));
 
-        list = new ActionsList(210, Config.iswindows ? 9 : 10);
+        list = new ActionsList(210, 10);
         add(list, new Coord(10, 35));
     }
 
