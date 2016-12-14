@@ -1587,7 +1587,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
             // It can be observed that plc will always (?) differ from new map cc in case of CR, while for houses/mines it will be an identical match.
             cc = ((Coord)args[0]).mul(posres);
             Gob pl = ui.sess.glob.oc.getgob(plgob);
-            if(pl == null || (pl != null && cc.equals(pl.rc)))
+            if (pl == null || cc.equals(pl.rc))
                 gameui().minimapWnd.clearmap();
         } else if (msg == "plob") {
             if (args[0] == null)
