@@ -1,3 +1,22 @@
+Version 1.45.0
+    New:
+        * Craft/Build search window.
+        * Visited charter stones list.
+        * Added Skin option to Menu Settings.
+
+    Fixed:
+        * Client locking up during "Waiting for map data..." under certain conditions.
+        * Auto-miner.
+        * Multiple player's movement vector issues.
+        * Local minimap disappearing while using cross-roads/charters under certain conditions.
+        * Remaining study time erroneously displayed instead of percentage for curios placed in cauldrons etc.
+        * kbd console command not being preserved across client restarts,
+
+    Misc:
+        * Extended localization support.
+        * Updated Russian localization.
+
+
 Version 1.44.0
     New:
         * Added pluck, clean, and butcher options to Menu Settings.
