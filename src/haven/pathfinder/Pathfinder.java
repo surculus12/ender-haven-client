@@ -21,6 +21,7 @@ public class Pathfinder implements Runnable {
     public Coord mc;
     private int modflags;
     private int interruptedRetries = 5;
+    private static final int RESPONSE_TIMEOUT = 800;
 
     public Pathfinder(MapView mv, Coord dest, String action) {
         this.dest = dest;
@@ -61,7 +62,7 @@ public class Pathfinder implements Runnable {
     public void run() {
         do {
             moveinterupted = false;
-          //  pathfind(mv.player().rc);
+            pathfind(mv.player().rc.floor());
         } while (moveinterupted && !terminate);
 
         notifyListeners();
@@ -70,10 +71,10 @@ public class Pathfinder implements Runnable {
     public void pathfind(Coord src) {
         long starttotal = System.nanoTime();
         haven.pathfinder.Map m = new haven.pathfinder.Map(src, dest, map);
+        Gob player = mv.player();
 
         long start = System.nanoTime();
         synchronized (oc) {
-            Gob player = mv.player();
             for (Gob gob : oc) {
                 if (gob.isplayer())
                     continue;
@@ -90,7 +91,7 @@ public class Pathfinder implements Runnable {
         }
 
         // if player is located at a position occupied by a gob (can happen when starting too close to gobs)
-        // move it 1 unit away from it
+        // move it slightly away from it
         if (m.isOriginBlocked()) {
             Pair<Integer, Integer> freeloc = m.getFreeLocation();
 
@@ -100,7 +101,7 @@ public class Pathfinder implements Runnable {
                 return;
             }
 
-            mc = new Coord(src.x + freeloc.a - Map.origin, src.y + freeloc.b - Map.origin);
+            mc = new Coord2d(src.x + freeloc.a - Map.origin, src.y + freeloc.b - Map.origin).floor(OCache.posres);
             mv.wdgmsg("click", Coord.z, mc, 1, 0);
 
             // FIXME
@@ -116,8 +117,6 @@ public class Pathfinder implements Runnable {
             return;
         }
 
-
-
         // exclude any bounding boxes overlapping the destination gob
         if (this.gob != null)
             m.excludeGob(this.gob);
@@ -132,11 +131,10 @@ public class Pathfinder implements Runnable {
         m.dbgdump();
 
         Iterator<Edge> it = path.iterator();
-        lastmsg = System.currentTimeMillis();
         while (it.hasNext() && !moveinterupted && !terminate) {
             Edge e = it.next();
 
-            mc = new Coord(src.x + e.dest.x - Map.origin, src.y + e.dest.y - Map.origin);
+            mc = new Coord2d(src.x + e.dest.x - Map.origin, src.y + e.dest.y - Map.origin).floor(OCache.posres);
 
             if (action != null && !it.hasNext())
                 mv.gameui().menu.wdgmsg("act", new Object[]{action});
@@ -146,23 +144,35 @@ public class Pathfinder implements Runnable {
             else
                 mv.wdgmsg("click", Coord.z, mc, 1, 0);
 
-            while (!moveinterupted && !terminate && !mv.player().rc.equals(mc)) {
+            // wait for gob to start moving
+            long moveWaitStart = System.currentTimeMillis();
+            while (!player.isMoving() && !terminate) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e1) {
+                    return;
+                }
+                if (System.currentTimeMillis() - moveWaitStart > RESPONSE_TIMEOUT)
+                    return;
+            }
+
+            // wait for it to finish
+            while (player.isMoving() && !moveinterupted && !terminate && !mv.player().rc.equals(mc)) {
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e1) {
                     return;
                 }
 
+                long now = System.currentTimeMillis();
+
+                // FIXME
                 // when right clicking gobs, char will try to navigate towards gob's rc
                 // however he will be blocked by gob's bounding box.
-                // no step/count notification will be send by the server for last segment
-                // and player's position won't match mc either
                 // therefore we just wait for a bit
-                if (gob != null && !it.hasNext() && System.currentTimeMillis() - lastmsg > 500) {
+                LinMove lm = player.getLinMove();
+                if (gob != null && !it.hasNext() && lm != null && now - lm.lastupd > 500)
                     break;
-                } else if (System.currentTimeMillis() - lastmsg > 800) { // make sure we don't get stuck indefinitely
-                    break;
-                }
             }
 
             if (moveinterupted) {
@@ -175,20 +185,6 @@ public class Pathfinder implements Runnable {
         }
 
         terminate = true;
-    }
-
-    public void moveStop(int step) {
-        moveinterupted = true;
-        lastmsg = System.currentTimeMillis();
-    }
-
-    private long lastmsg;
-    public void moveStep(int step) {
-        lastmsg = System.currentTimeMillis();
-    }
-
-    public void moveCount(int count) {
-        lastmsg = System.currentTimeMillis();
     }
 
     static public boolean isInsideBoundBox(Coord gobRc, double gobA, GobHitbox.BBox gobBBox, Coord point) {

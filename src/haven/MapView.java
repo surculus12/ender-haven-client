@@ -1745,7 +1745,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                 }
 
                 if (Config.pf && clickb == 1 && curs != null && !curs.name.equals("gfx/hud/curs/study")) {
-                    pfLeftClick(mc.floor(posres), null);
+                    pfLeftClick(mc.floor(), null);
                 } else {
                     wdgmsg("click", pc, mc.floor(posres), clickb, modflags);
                 }
@@ -1798,7 +1798,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     }
 
     public void pfLeftClick(Coord mc, String action) {
-      /*  Gob player = player();
+        Gob player = player();
         if (player == null)
             return;
         synchronized (Pathfinder.class) {
@@ -1810,22 +1810,21 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     wdgmsg("gk", 27);
             }
 
-            Coord src = player.rc;
+            Coord src = player.rc.floor();
             int gcx = haven.pathfinder.Map.origin - (src.x - mc.x);
             int gcy = haven.pathfinder.Map.origin - (src.y - mc.y);
             if (gcx < 0 || gcx >= haven.pathfinder.Map.sz || gcy < 0 || gcy >= haven.pathfinder.Map.sz)
                 return;
 
             pf = new Pathfinder(this, new Coord(gcx, gcy), action);
-            glob.oc.setPathfinder(pf);
             pf.addListener(this);
             pfthread = new Thread(pf, "Pathfinder");
             pfthread.start();
-        }*/
+        }
     }
 
     public void pfRightClick(Gob gob, int meshid, int clickb, int modflags, String action) {
-      /*  Gob player = player();
+        Gob player = player();
         if (player == null)
             return;
         synchronized (Pathfinder.class) {
@@ -1837,18 +1836,17 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     wdgmsg("gk", 27);
             }
 
-            Coord src = player.rc;
-            int gcx = haven.pathfinder.Map.origin - (src.x - gob.rc.x);
-            int gcy = haven.pathfinder.Map.origin - (src.y - gob.rc.y);
+            Coord src = player.rc.floor();
+            int gcx = haven.pathfinder.Map.origin - (src.x - gob.rc.floor().x);
+            int gcy = haven.pathfinder.Map.origin - (src.y - gob.rc.floor().y);
             if (gcx < 0 || gcx >= haven.pathfinder.Map.sz || gcy < 0 || gcy >= haven.pathfinder.Map.sz)
                 return;
 
             pf = new Pathfinder(this, new Coord(gcx, gcy), gob, meshid, clickb, modflags, action);
-            glob.oc.setPathfinder(pf);
             pf.addListener(this);
             pfthread = new Thread(pf, "Pathfinder");
             pfthread.start();
-        }*/
+        }
     }
 
     public void pfDone(final Pathfinder thread) {
