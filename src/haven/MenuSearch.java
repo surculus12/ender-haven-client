@@ -16,6 +16,8 @@ public class MenuSearch extends Window {
         search = new TextEntry(210, "") {
             @Override
             public boolean type(char c, KeyEvent ev) {
+                if (!parent.visible)
+                    return false;
                 if (c == '\n' && list.acts.size() > 0) {
                     list.change(list.acts.get(0));
                     return true;
@@ -129,17 +131,21 @@ public class MenuSearch extends Window {
 
     @Override
     public void wdgmsg(Widget sender, String msg, Object... args) {
-        if (sender == cbtn)
+        if (sender == cbtn) {
             reqdestroy();
-        else
+            visible = false;
+        } else {
             super.wdgmsg(sender, msg, args);
+        }
     }
 
     @Override
     public boolean type(char key, KeyEvent ev) {
         if (key == 27) {
-            if (cbtn.visible)
+            if (cbtn.visible) {
                 reqdestroy();
+                visible = false;
+            }
             return true;
         }
         return super.type(key, ev);
