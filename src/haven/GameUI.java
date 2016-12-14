@@ -1087,6 +1087,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         msg(msg, new Color(192, 0, 0), new Color(255, 0, 0));
     }
 
+    private static final String charterMsg = "The name of this charterstone is \"";
+
     public void msg(String msg) {
         Matcher m = esvMsgPattern.matcher(msg);
         if (m.find()) {
@@ -1107,6 +1109,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                     break;
             }
             msg += "  (Avg: " + Utils.fmt1DecPlace(avg) + ")";
+        } else if (msg.startsWith(charterMsg)) {
+            CharterList.addCharter(msg.substring(charterMsg.length(), msg.length() - 2));
         }
         msg(msg, Color.WHITE, Color.WHITE);
     }
