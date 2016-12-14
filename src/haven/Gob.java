@@ -697,6 +697,17 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
         return MapView.plgob == id;
     }
 
+    public boolean isMoving() {
+        if (getattr(LinMove.class) != null)
+            return true;
+
+        Following follow = getattr(Following.class);
+        if (follow != null && follow.tgt().getattr(LinMove.class) != null)
+            return true;
+
+        return false;
+    }
+
     public boolean isFriend() {
         synchronized (glob.party.memb) {
             for (Party.Member m : glob.party.memb.values()) {
