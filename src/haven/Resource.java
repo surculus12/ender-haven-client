@@ -1864,7 +1864,7 @@ public class Resource implements Serializable {
 
     private static final String[] fmtLocStringsMsg = new String[]{
             "That land is owned by %s.",
-            "The name of this charterstone is \"%s\"",
+            "The name of this charterstone is \"%s\".",
             "Will refill in %s days",
             "Will refill in %s day",
             "Will refill in %s hours",
