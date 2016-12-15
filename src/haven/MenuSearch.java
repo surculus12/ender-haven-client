@@ -112,7 +112,9 @@ public class MenuSearch extends Window {
         public void change(Action a) {
             if (a != null) {
                 super.change(a);
-                gameui().act(a.pagina.act().ad);
+                GameUI gui = gameui();
+                gui.histbelt.push(a.pagina);
+                gui.act(a.pagina.act().ad);
             }
         }
     }
