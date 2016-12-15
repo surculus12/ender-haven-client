@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+import static haven.OCache.posres;
+
 public class Pathfinder implements Runnable {
     private OCache oc;
     private MCache map;
@@ -101,7 +103,7 @@ public class Pathfinder implements Runnable {
                 return;
             }
 
-            mc = new Coord2d(src.x + freeloc.a - Map.origin, src.y + freeloc.b - Map.origin).floor(OCache.posres);
+            mc = new Coord2d(src.x + freeloc.a - Map.origin, src.y + freeloc.b - Map.origin).floor(posres);
             mv.wdgmsg("click", Coord.z, mc, 1, 0);
 
             // FIXME
@@ -134,13 +136,13 @@ public class Pathfinder implements Runnable {
         while (it.hasNext() && !moveinterupted && !terminate) {
             Edge e = it.next();
 
-            mc = new Coord2d(src.x + e.dest.x - Map.origin, src.y + e.dest.y - Map.origin).floor(OCache.posres);
+            mc = new Coord2d(src.x + e.dest.x - Map.origin, src.y + e.dest.y - Map.origin).floor(posres);
 
             if (action != null && !it.hasNext())
                 mv.gameui().menu.wdgmsg("act", new Object[]{action});
 
             if (gob != null && !it.hasNext())
-                mv.wdgmsg("click", gob.sc, mc, clickb, modflags, 0, (int) gob.id, gob.rc, 0, meshid);
+                mv.wdgmsg("click", gob.sc, mc, clickb, modflags, 0, (int) gob.id, gob.rc.floor(posres), 0, meshid);
             else
                 mv.wdgmsg("click", Coord.z, mc, 1, 0);
 
