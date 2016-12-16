@@ -1,10 +1,7 @@
 package haven;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class MenuSearch extends GameUI.Hidewnd {
     private TextEntry search;
@@ -38,6 +35,7 @@ public class MenuSearch extends GameUI.Hidewnd {
         private static final Coord nameoff = new Coord(34, 5);
         public List<Action> acts = new ArrayList<>(50);
         private boolean refresh = true;
+        private int pagnum = 0;
         private final Comparator<Action> comp = (a, b) -> (a.sortkey.compareTo(b.sortkey));
         private String filter = "";
 
@@ -52,21 +50,24 @@ public class MenuSearch extends GameUI.Hidewnd {
 
         @Override
         public void tick(double dt) {
-            if (refresh && ui != null) {
+            if (ui != null && (refresh || pagnum != ui.sess.glob.paginae.size())) {
                 refresh = false;
+                pagnum = ui.sess.glob.paginae.size();
 
                 acts.clear();
-                for (Glob.Pagina pag : ui.sess.glob.paginae) {
-                    try {
-                        Resource res = pag.res.get();
-                        if (!res.name.startsWith("paginae/bld") && !res.name.startsWith("paginae/craft"))
-                            continue;
+                synchronized (ui.sess.glob.paginae) {
+                    for (Glob.Pagina pag : ui.sess.glob.paginae) {
+                        try {
+                            Resource res = pag.res.get();
+                            if (!res.name.startsWith("paginae/bld") && !res.name.startsWith("paginae/craft"))
+                                continue;
 
-                        String name =  res.layer(Resource.action).name.toLowerCase();
-                        if (name.contains(filter))
-                            acts.add(new Action(pag, name));
-                    } catch (Loading l) {
-                        refresh = true;
+                            String name = res.layer(Resource.action).name.toLowerCase();
+                            if (name.contains(filter))
+                                acts.add(new Action(pag, name));
+                        } catch (Loading l) {
+                            refresh = true;
+                        }
                     }
                 }
 
