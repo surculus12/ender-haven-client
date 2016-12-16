@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MenuSearch extends Window {
+public class MenuSearch extends GameUI.Hidewnd {
     private TextEntry search;
     private ActionsList list;
 
@@ -129,27 +129,5 @@ public class MenuSearch extends Window {
             this.pagina = pagina;
             this.sortkey = sortkey;
         }
-    }
-
-    @Override
-    public void wdgmsg(Widget sender, String msg, Object... args) {
-        if (sender == cbtn) {
-            reqdestroy();
-            visible = false;
-        } else {
-            super.wdgmsg(sender, msg, args);
-        }
-    }
-
-    @Override
-    public boolean type(char key, KeyEvent ev) {
-        if (key == 27) {
-            if (cbtn.visible) {
-                reqdestroy();
-                visible = false;
-            }
-            return true;
-        }
-        return super.type(key, ev);
     }
 }
