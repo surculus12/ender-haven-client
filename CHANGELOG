@@ -1,3 +1,14 @@
+Version 1.45.1
+    Fixed:
+        * Craft/build window issues: actions not being saved to history bar, list of actions not 
+          updating when discovering new items.
+        * Auto-leveler.
+        * Auto-miner not working under certain conditions.
+
+    Misc:
+        * Updated Russian localization.
+
+
 Version 1.45.0
     New:
         * Craft/Build search window.
@@ -10,7 +21,7 @@ Version 1.45.0
         * Multiple player's movement vector issues.
         * Local minimap disappearing while using cross-roads/charters under certain conditions.
         * Remaining study time erroneously displayed instead of percentage for curios placed in cauldrons etc.
-        * kbd console command not being preserved across client restarts,
+        * kbd console command not being preserved across client restarts.
 
     Misc:
         * Extended localization support.
