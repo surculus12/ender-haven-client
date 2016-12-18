@@ -114,6 +114,7 @@ public class FlowerMenu extends Widget {
                         Config.autopluck && p.name.equals("Pluck") ||
                         Config.autoclean && p.name.equals("Clean") ||
                         Config.autoskin && p.name.equals("Skin") ||
+                        Config.autoflay && p.name.equals("Flay") ||
                         Config.autobutcher && p.name.equals("Butcher"))) {
                     choose(p);
                     break;

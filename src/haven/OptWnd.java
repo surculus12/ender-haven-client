@@ -1434,6 +1434,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Automatically select 'Flay' action") {
+            {
+                a = Config.autoflay;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("autoflay", val);
+                Config.autoflay = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Automatically pick all clustered mussels (auto 'Pick' needs to be enabled)") {
             {
                 a = Config.autopickmussels;
