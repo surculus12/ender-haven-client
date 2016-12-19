@@ -26,6 +26,8 @@
 
 package haven;
 
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.io.*;
 import java.nio.channels.FileLock;
@@ -229,12 +231,7 @@ public class HashDirCache implements ResCache {
 
             public void close() throws IOException {
                 fp.close();
-                if (!tmp.renameTo(path)) {
-			/* Apparently Java doesn't support atomic
-			 * renames on Windows... :-/ */
-                    path.delete();
-                    tmp.renameTo(path);
-                }
+                Files.move(tmp.toPath(), path.toPath(), StandardCopyOption.ATOMIC_MOVE);
             }
         });
     }
