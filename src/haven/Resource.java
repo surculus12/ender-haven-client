@@ -1844,7 +1844,7 @@ public class Resource implements Serializable {
             "A Favor for %s",
             "%s's Laughter",
             "Blood for %s",
-            "s's Follies",
+            "%s's Follies",
             "Under %s's Star",
             "%s's Story",
             "Errands for %s",
