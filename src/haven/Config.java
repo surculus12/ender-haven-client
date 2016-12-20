@@ -393,7 +393,7 @@ public class Config {
                 "gfx/invobjs/gauze"
         });
         put("paginae/wound/bruise", new String[]{
-                "gfx/invobjs/herbs/leech"
+                "gfx/invobjs/leech"
         });
         put("paginae/wound/concussion", new String[]{
                 "gfx/invobjs/coldcompress"
