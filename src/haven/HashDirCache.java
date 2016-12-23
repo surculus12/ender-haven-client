@@ -26,12 +26,15 @@
 
 package haven;
 
+import java.io.*;
+import java.net.URI;
+import java.nio.channels.FileLock;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.*;
-import java.io.*;
-import java.nio.channels.FileLock;
-import java.net.URI;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.WeakHashMap;
 
 public class HashDirCache implements ResCache {
     private final File base;
@@ -231,7 +234,26 @@ public class HashDirCache implements ResCache {
 
             public void close() throws IOException {
                 fp.close();
-                Files.move(tmp.toPath(), path.toPath(), StandardCopyOption.ATOMIC_MOVE);
+                // move will throw if destination file is locked
+                // thus we retry up to five times
+                Defer.later(new Defer.Callable<Void>() {
+                    private int retries = 5;
+                    public Void call() {
+                        try {
+                            Files.move(tmp.toPath(), path.toPath(), StandardCopyOption.ATOMIC_MOVE);
+                        } catch (IOException ioe) {
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e) {
+                                return null;
+                            }
+                            if (retries-- == 0)
+                                return null;
+                            Defer.later(this);
+                        }
+                        return null;
+                    }
+                });
             }
         });
     }
