@@ -84,6 +84,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     private final PartyHighlight partyHighlight;
     public static final Set<Long> markedGobs = new HashSet<>();
     public static final Material.Colors markedFx = new Material.Colors(new Color(21, 127, 208, 255));
+    public Gob lastItemactGob;
+    private int lastItemactMeshId;
 
     public interface Delayed {
         public void run(GOut g);
@@ -2015,12 +2017,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         return (true);
     }
 
-    public Coord lastinterpc;
-    private Coord lastintermc;
-    private int lastintergobid;
-    private Coord lastintergobrc;
-    private int lastintermid;
-
     public boolean iteminteract(Coord cc, Coord ul) {
         delay(new Hittest(cc) {
             public void hit(Coord pc, Coord2d mc, ClickInfo inf) {
@@ -2032,12 +2028,9 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     wdgmsg("itemact", pc, mc.floor(posres), ui.modflags());
                 } else {
                     if (inf.ol == null) {
-                        lastinterpc = pc;
-                        lastintermc = mc.floor(posres);
-                        lastintergobid = (int) inf.gob.id;
-                        lastintergobrc = inf.gob.rc.floor(posres);
-                        lastintermid = inf.clickid();
-                        wdgmsg("itemact", pc, mc.floor(posres), ui.modflags(), 0, lastintergobid, lastintergobrc, 0, lastintermid);
+                        lastItemactGob = inf.gob;
+                        lastItemactMeshId = inf.clickid();
+                        wdgmsg("itemact", pc, mc.floor(posres), ui.modflags(), 0, (int) inf.gob.id, inf.gob.rc.floor(posres), 0, lastItemactMeshId);
                     } else {
                         wdgmsg("itemact", pc, mc.floor(posres), ui.modflags(), 1, (int) inf.gob.id, inf.gob.rc.floor(posres), inf.ol.id, inf.clickid());
                     }
@@ -2048,7 +2041,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     }
 
     public void iteminteractreplay() {
-        wdgmsg("itemact", lastinterpc, lastintermc, ui.modflags(), 0, lastintergobid, lastintergobrc, 0, lastintermid);
+        Coord grc = lastItemactGob.rc.floor(posres);
+        wdgmsg("itemact", Coord.z, lastItemactGob.rc.floor(posres) , ui.modflags(), 0, (int) lastItemactGob.id, grc, 0, lastItemactMeshId);
     }
 
     public boolean keydown(KeyEvent ev) {

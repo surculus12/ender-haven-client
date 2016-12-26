@@ -443,7 +443,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         if ((hand.isEmpty() && (vhand != null)) || ((vhand != null) && !hand.contains(vhand.item))) {
             ui.destroy(vhand);
             vhand = null;
-            if (ui.modshift && ui.keycode == Config.zkey && map.lastinterpc != null)
+            if (ui.modshift && ui.keycode == Config.zkey && map.lastItemactGob != null)
                 updhanddestroyed = true;
         }
         if (!hand.isEmpty() && (vhand == null)) {
