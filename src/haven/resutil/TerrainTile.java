@@ -67,13 +67,17 @@ public class TerrainTile extends Tiler implements Tiler.MCons, Tiler.CTrans {
             vs = new Scan(Coord.z.sub(sr, sr), m.sz.add(sr * 2 + 1, sr * 2 + 1));
             float[][] buf1 = new float[var.length + 1][vs.l];
             float[][] lwc = new float[var.length + 1][vs.l];
-            for (int i = 0; i < var.length + 1; i++) {
+
+            // Huge performance improvement
+            // TODO: add option to menu to toggle this, with warning of low performance. name it "Terrain Noise(causes stuttering)"
+            /*for (int i = 0; i < var.length + 1; i++) {
                 for (int y = vs.ul.y; y < vs.br.y; y++) {
                     for (int x = vs.ul.x; x < vs.br.x; x++) {
                         lwc[i][vs.o(x, y)] = (float) noise.getr(0.5, 1.5, 32, x + m.ul.x, y + m.ul.y, i * 23);
                     }
                 }
-            }
+            }*/
+                
             setbase(buf1);
             for (int i = 0; i < sr; i++) {
                 float[][] buf2 = new float[var.length + 1][vs.l];
@@ -149,7 +153,23 @@ public class TerrainTile extends Tiler implements Tiler.MCons, Tiler.CTrans {
         }
 
         private void setbase(float[][] bv) {
+            // Huge performance improvement
+            // TODO: add option to menu to toggle this, with warning of low performance. name it "Terrain Noise(causes stuttering)"
             for (int y = vs.ul.y; y < vs.br.y - 1; y++) {
+                for (int x = vs.ul.x; x < vs.br.x - 1; x++) {
+                    bv[0][vs.o(x, y)] = 1;
+                    bv[0][vs.o(x + 1, y)] = 1;
+                    bv[0][vs.o(x, y + 1)] = 1;
+                    bv[0][vs.o(x + 1, y + 1)] = 1;
+                    for (int i = var.length - 1; i >= 0; i--) {
+                        bv[i + 1][vs.o(x, y)] = 1;
+                        bv[i + 1][vs.o(x + 1, y)] = 1;
+                        bv[i + 1][vs.o(x, y + 1)] = 1;
+                        bv[i + 1][vs.o(x + 1, y + 1)] = 1;
+                    }
+                }
+            }
+            /* for (int y = vs.ul.y; y < vs.br.y - 1; y++) {
                 for (int x = vs.ul.x; x < vs.br.x - 1; x++) {
                     fall:
                     {
@@ -172,7 +192,7 @@ public class TerrainTile extends Tiler implements Tiler.MCons, Tiler.CTrans {
                         bv[0][vs.o(x + 1, y + 1)] = 1;
                     }
                 }
-            }
+            }*/
         }
 
         final VertFactory[] lvfac = new VertFactory[var.length + 1];
