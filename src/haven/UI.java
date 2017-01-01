@@ -48,10 +48,6 @@ public class UI {
     private Collection<AfterDraw> afterdraws = new LinkedList<AfterDraw>();
     public final ActAudio audio = new ActAudio();
 
-    public static String fmAutoSelName = "";
-    public static long fmAutoTime;
-    private static final int FM_AUTO_TIMEOUT = 2000;
-
     {
         lastevent = lasttick = System.currentTimeMillis();
     }
@@ -152,24 +148,6 @@ public class UI {
             Widget pwdg = widgets.get(parent);
             if (pwdg == null)
                 throw (new UIException("Null parent widget " + parent + " for " + id, type, cargs));
-
-            if (type.equals("sm")) {
-                synchronized (fmAutoSelName) {
-                    if (System.currentTimeMillis() - fmAutoTime < FM_AUTO_TIMEOUT) {
-                        Widget w = new WidgetDummy();
-                        pwdg.addchild(w, pargs);
-                        bind(w, id);
-                        for (int i = 0; i < cargs.length; i++) {
-                            if (cargs[i].equals(fmAutoSelName)) {
-                                rcvr.rcvmsg(id, "cl", new Object[]{i, 0});
-                                fmAutoSelName = "";
-                                return;
-                            }
-                        }
-                        fmAutoSelName = "";
-                    }
-                }
-            }
 
             Widget wdg = pwdg.makechild(f, pargs, cargs);
 
