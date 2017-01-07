@@ -1673,7 +1673,7 @@ public class CharWnd extends Window {
             y += aw.sz.y;
             base.add(aw = battr.add(new Attr(glob, "dex", every), wbox.btloff().add(x, y)));
             y += aw.sz.y;
-            base.add(aw = battr.add(new Attr(glob, "wil", other), wbox.btloff().add(x, y))); y += aw.sz.y;
+            base.add(aw = battr.add(new Attr(glob, "wil", other), wbox.btloff().add(x, y)));
             y += aw.sz.y;
             base.add(aw = battr.add(new Attr(glob, "psy", every), wbox.btloff().add(x, y)));
             y += aw.sz.y;
