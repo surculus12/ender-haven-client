@@ -32,17 +32,16 @@ import java.awt.*;
 import java.awt.image.*;
 import java.util.*;
 import java.util.List;
-import static haven.MCache.tilesz2;
+
 import static haven.OCache.posres;
-import haven.automation.MusselPicker;
+
 import haven.resutil.Ridges;
 
 public class LocalMiniMap extends Widget {
     private static final Tex resize = Resource.loadtex("gfx/hud/wndmap/lg/resize");
     private static final Tex gridblue = Resource.loadtex("gfx/hud/mmap/gridblue");
     private static final Tex gridred = Resource.loadtex("gfx/hud/mmap/gridred");
-    public static final Text.Foundry bushf = new Text.Foundry(Text.sans.deriveFont(Font.BOLD), 12);
-    private static final Text.Foundry partyf = bushf;
+    public static final Text.Foundry bld12fnd = new Text.Foundry(Text.sans.deriveFont(Font.BOLD), 12);
     public final MapView mv;
     public final MapFile save;
     private Coord cc = null;
@@ -71,8 +70,8 @@ public class LocalMiniMap extends Widget {
             return size() > 7;
         }
     };
-    private final static Tex bushicn = Text.renderstroked("\u22C6", Color.CYAN, Color.BLACK, bushf).tex();
-    private final static Tex treeicn = Text.renderstroked("\u25B2", Color.CYAN, Color.BLACK, bushf).tex();
+    private final static Tex bushicn = Text.renderstroked("\u22C6", Color.CYAN, Color.BLACK, bld12fnd).tex();
+    private final static Tex treeicn = Text.renderstroked("\u25B2", Color.CYAN, Color.BLACK, bld12fnd).tex();
     private Map<Color, Tex> xmap = new HashMap<Color, Tex>(6);
     public static Coord plcrel = null;
 
@@ -482,7 +481,7 @@ public class LocalMiniMap extends Widget {
                     if (gob == null) {
                         Tex tex = xmap.get(m.col);
                         if (tex == null) {
-                            tex = Text.renderstroked("\u2716",  m.col, Color.BLACK, partyf).tex();
+                            tex = Text.renderstroked("\u2716",  m.col, Color.BLACK, bld12fnd).tex();
                             xmap.put(m.col, tex);
                         }
                         g.image(tex, ptc.sub(6, 6));
