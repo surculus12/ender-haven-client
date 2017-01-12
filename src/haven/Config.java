@@ -378,6 +378,7 @@ public class Config {
                 "gfx/invobjs/herbs/yarrow"
         });
         put("paginae/wound/blunttrauma", new String[]{
+                "gfx/invobjs/toadbutter",
                 "gfx/invobjs/leech",
                 "gfx/invobjs/gauze"
         });
@@ -420,6 +421,7 @@ public class Config {
                 "gfx/invobjs/stingingpoultice"
         });
         put("paginae/wound/unfaced", new String[]{
+                "gfx/invobjs/toadbutter",
                 "gfx/invobjs/leech",
                 "gfx/invobjs/mudointment"
         });
