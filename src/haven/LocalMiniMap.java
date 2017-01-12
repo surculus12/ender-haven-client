@@ -53,6 +53,7 @@ public class LocalMiniMap extends Widget {
     private static final Resource foragablesfx = Resource.local().loadwait("sfx/awwyeah");
     private static final Resource bearsfx = Resource.local().loadwait("sfx/bear");
     private static final Resource lynxfx = Resource.local().loadwait("sfx/lynx");
+    private static final Resource walrusfx = Resource.local().loadwait("sfx/walrus");
     private static final Resource trollsfx = Resource.local().loadwait("sfx/troll");
     private static final Resource mammothsfx = Resource.local().loadwait("sfx/mammoth");
     private static final Resource doomedsfx = Resource.local().loadwait("sfx/doomed");
@@ -302,6 +303,9 @@ public class LocalMiniMap extends Widget {
                     } else if (Config.alarmbears && res.name.equals("gfx/kritter/lynx/lynx") && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(lynxfx, Config.alarmbearsvol);
+                    } else if (Config.alarmbears && res.name.equals("gfx/kritter/walrus/walrus") && gob.knocked == Boolean.FALSE) {
+                        sgobs.add(gob.id);
+                        Audio.play(walrusfx, Config.alarmbearsvol);
                     } else if (res.name.equals("gfx/kritter/troll/troll")) {
                         if (mv.areamine != null)
                             mv.areamine.terminate();
