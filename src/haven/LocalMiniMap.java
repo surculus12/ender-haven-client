@@ -214,12 +214,12 @@ public class LocalMiniMap extends Widget {
                     } else if (res.name.startsWith("gfx/terobjs/bushes")) {
                         CheckListboxItem itm = Config.bushes.get(basename);
                         if (itm != null && itm.selected) {
-                            g.image(bushicn, p2c(gob.rc).add(delta).sub(3, 3));
+                            g.image(bushicn, p2c(gob.rc).add(delta).sub(bushicn.sz().div(2)));
                         }
                     } else if (res.name.startsWith("gfx/terobjs/trees")) {
                         CheckListboxItem itm = Config.trees.get(basename);
                         if (itm != null && itm.selected) {
-                            g.image(treeicn, p2c(gob.rc).add(delta).sub(3, 3));
+                            g.image(treeicn, p2c(gob.rc).add(delta).sub(treeicn.sz().div(2)));
                         }
                     }
                 } catch (Loading l) {
