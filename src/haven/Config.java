@@ -342,6 +342,7 @@ public class Config {
         put("gfx/kritter/moose/moose", Resource.loadtex("gfx/icons/moose"));
         put("gfx/kritter/reddeer/reddeer", Resource.loadtex("gfx/icons/reddeer"));
         put("gfx/kritter/troll/troll", Resource.loadtex("gfx/icons/troll"));
+        put("gfx/kritter/walrus/walrus", Resource.loadtex("gfx/icons/walrus"));
     }};
 
     public final static Set<String> dangerousgobres = new HashSet<String>(Arrays.asList(
