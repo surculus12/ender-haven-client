@@ -1,3 +1,20 @@
+Version 1.48.0
+    New:
+        * Clover feeder.
+        * Walrus sound alarm (controlled by same option as bear and lynx alarms).
+
+    Fixed:
+        * Search window filter not being cleared when closing the window with shift+s.
+        * Bush and tree icon positions being slightly off.
+
+    Misc:
+        * Updated curio timings (thanks to NicholasSavard).
+        * Added Toad Butter to relevant wound descriptions.
+        * Add timers to extensions menu.
+        * Upstream code merge.
+        * Updated Russian localization.
+
+
 Version 1.47.1
     Fixed:
         * Map tile dumper saving tiles into wrong session under certain conditions.
