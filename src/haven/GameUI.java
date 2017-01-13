@@ -912,10 +912,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         } else if ((key == 27) && (map != null) && !map.hasfocus) {
             setfocus(map);
             return (true);
-        } else if (key == 17 /*ctrl+q*/) {
-            timerswnd.show(!timerswnd.visible);
-            timerswnd.raise();
-            return true;
         } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_G) {
             if (map != null)
                 map.togglegrid();
