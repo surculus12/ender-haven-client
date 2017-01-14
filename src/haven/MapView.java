@@ -262,6 +262,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         public void tick(double dt) {
             Coord3f cc = getcc();
             cc.y = -cc.y;
+            if (Config.disableelev)
+                cc.z = 0;
             view.update(PointedCam.compute(cc.add(camoff).add(0.0f, 0.0f, 15f), dist, elev, angl));
         }
 
@@ -324,6 +326,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         public void tick2(double dt) {
             Coord3f cc = getcc();
             cc.y = -cc.y;
+            if (Config.disableelev)
+                cc.z = 0;
             this.cc = cc;
         }
 
@@ -390,6 +394,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         public void tick2(double dt) {
             Coord3f mc = getcc();
             mc.y = -mc.y;
+            if (Config.disableelev)
+                mc.z = 0;
             if ((cc == null) || (Math.hypot(mc.x - cc.x, mc.y - cc.y) > 250))
                 cc = mc;
             else if (!exact || (mc.dist(cc) > 2))

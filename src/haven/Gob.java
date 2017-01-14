@@ -680,6 +680,8 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             try {
                 Coord3f c = getc();
                 c.y = -c.y;
+                if (Config.disableelev)
+                    c.z = 0;
                 if ((this.c == null) || !c.equals(this.c))
                     xl.update(Transform.makexlate(new Matrix4f(), this.c = c));
                 if (this.a != Gob.this.a)
