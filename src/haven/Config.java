@@ -169,7 +169,7 @@ public class Config {
     public static boolean studybuff =  Utils.getprefb("studybuff", false);
     public static int zkey =  Utils.getprefi("zkey", KeyEvent.VK_Z);
     public static boolean disableterrainsmooth =  Utils.getprefb("disableterrainsmooth", false);
-    public static boolean disableelev =  Utils.getprefb("disableelev", true);
+    public static boolean disableelev =  Utils.getprefb("disableelev", false);
     private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(3) {{
         put("zh", 16);
         put("en", 11);
