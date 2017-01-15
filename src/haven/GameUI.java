@@ -27,6 +27,7 @@
 package haven;
 
 import haven.automation.ErrorSysMsgCallback;
+import haven.automation.PickForageable;
 
 import java.awt.*;
 import java.util.*;
@@ -995,8 +996,12 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 mapfile.raise();
                 fitwdg(mapfile);
             }
+            return true;
+        } else if (!ev.isShiftDown() && ev.getKeyCode() == KeyEvent.VK_Q) {
+            Thread t = new Thread(new PickForageable(this), "PickForageable");
+            t.start();
+            return true;
         }
-
         return (super.globtype(key, ev));
     }
 
