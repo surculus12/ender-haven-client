@@ -1,3 +1,12 @@
+Version 1.49.0
+    New:
+        * Option to disable terrain elevation.
+        * Pressing Q key will pick nearest forageable or the stuff from the icons list which is not currently hidden.
+
+    Fixed:
+        * Auto-lever stop button not working.
+
+
 Version 1.48.1
     Fixed:
         * Missing icon for dead walruses.
