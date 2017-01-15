@@ -1373,6 +1373,8 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     }
 
     public Coord3f screenxf(Coord3f mc) {
+        if (Config.disableelev)
+            mc.z = 0;
         Coord3f mloc = new Coord3f(mc.x, -mc.y, mc.z);
 	    /* XXX: Peeking into the camera really is doubtfully nice. */
         return(camera.proj.toscreen(camera.view.fin(Matrix4f.id).mul4(mloc), sz));
