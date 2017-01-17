@@ -28,7 +28,9 @@ package haven;
 
 import java.io.*;
 import java.net.URI;
+import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.channels.FileLockInterruptionException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
@@ -124,6 +126,27 @@ public class HashDirCache implements ResCache {
         fp.writeUTF(name);
     }
 
+    /* These locks should never have to be waited for long at all, so
+     * blocking interruptions until complete should be perfectly
+     * okay. */
+    private static FileLock lock2(FileChannel ch) throws IOException {
+        boolean intr = false;
+        try {
+            while(true) {
+                try {
+                    return(ch.lock());
+                } catch(FileLockInterruptionException e) {
+                    Thread.currentThread().interrupted();
+                    intr = true;
+                }
+            }
+        } finally {
+            if(intr)
+                Thread.currentThread().interrupt();
+        }
+    }
+
+
     private static final Map<File, Object> monitors = new WeakHashMap<File, Object>();
 
     private File lookup(String name, boolean creat) throws IOException {
@@ -142,7 +165,7 @@ public class HashDirCache implements ResCache {
             RandomAccessFile lf = new RandomAccessFile(lfn, "rw");
             FileLock lk = null;
             try {
-                lk = lf.getChannel().lock();
+                lk = lock2(lf.getChannel());
                 for (int idx = 0; ; idx++) {
                     File path = new File(base, String.format("%016x.%d", h, idx));
                     if (!path.exists() && !creat)
@@ -150,7 +173,9 @@ public class HashDirCache implements ResCache {
                     RandomAccessFile fp = (idx == 0) ? lf : new RandomAccessFile(path, "rw");
                     try {
                         Header head = readhead(fp);
-                        if ((head == null) && creat) {
+                        if(head == null) {
+                            if (!creat)
+                                return (null);
                             fp.setLength(0);
                             writehead(fp, name);
                             return (path);

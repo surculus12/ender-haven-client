@@ -29,19 +29,25 @@ package haven;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 import java.io.*;
-import java.nio.*;
+import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.lang.ref.*;
-import java.lang.reflect.*;
-import java.util.prefs.*;
+import java.nio.*;
 import java.util.*;
-import java.util.function.*;
-import java.awt.Graphics;
-import java.awt.Color;
-import java.awt.image.*;
+import java.util.function.IntPredicate;
+import java.util.function.Supplier;
+import java.util.prefs.Preferences;
 
 public class Utils {
     public static final java.nio.charset.Charset utf8 = java.nio.charset.Charset.forName("UTF-8");
@@ -1208,6 +1214,16 @@ public class Utils {
     }
 
     public static float[] splice(float[] src, int off) {
+        return (splice(src, off, src.length - off));
+    }
+
+    public static double[] splice(double[] src, int off, int len) {
+        double[] dst = new double[len];
+        System.arraycopy(src, off, dst, 0, len);
+        return (dst);
+    }
+
+    public static double[] splice(double[] src, int off) {
         return (splice(src, off, src.length - off));
     }
 
