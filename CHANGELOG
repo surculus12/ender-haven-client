@@ -1,3 +1,18 @@
+Version 1.49.2
+    Fixed:
+        * Crash in PickForagable.
+
+    Misc:
+        * Add radius for walruses.
+        * Upstream code merge.
+        * Updated Russian localization.
+
+
+Version 1.49.1
+    Misc:
+        * Enable terrain elevation by default.
+
+
 Version 1.49.0
     New:
         * Option to disable terrain elevation.
