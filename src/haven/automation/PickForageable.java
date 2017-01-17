@@ -17,7 +17,11 @@ public class PickForageable implements Runnable {
         Gob herb = null;
         synchronized (gui.map.glob.oc) {
             for (Gob gob : gui.map.glob.oc) {
-                Resource res = gob.getres();
+                Resource res = null;
+                try {
+                    res = gob.getres();
+                } catch (Loading l) {
+                }
                 if (res != null) {
                     CheckListboxItem itm = Config.icons.get(res.basename());
                     Boolean hidden = Boolean.FALSE;
