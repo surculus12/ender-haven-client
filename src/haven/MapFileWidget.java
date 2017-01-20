@@ -48,7 +48,7 @@ public class MapFileWidget extends Widget {
     private boolean dragging;
     private Coord dsc, dmc;
     public static int zoom = 0;
-    private static final int[] scaleFactors = new int[]{1, 2, 4, 5, 10};
+    private static final double[] scaleFactors = new double[]{1, 100 / 75.0, 100 / 50.0, 100 / 25.0, 100 / 15.0, 100 / 8.0};
 
     public MapFileWidget(MapFile file, Coord sz) {
         super();
@@ -370,7 +370,7 @@ public class MapFileWidget extends Widget {
         return(super.tooltip(c, prev));
     }
 
-    public static int scalef() {
+    public static double scalef() {
         return scaleFactors[zoom];
     }
 }
