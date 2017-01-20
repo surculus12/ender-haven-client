@@ -1,3 +1,15 @@
+Version 1.50.0
+    New:
+        * Worldmap zoom.
+
+    Fixed:
+        * Local minimap borking sometimes.
+
+    Misc:
+        * Limited auto-picker (Q key) to 10 tiles
+        * Added ladybug, moths, etc to hide icons list thus allowing them to be picked with the Q key.
+
+
 Version 1.49.2
     Fixed:
         * Crash in PickForagable.
