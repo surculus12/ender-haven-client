@@ -75,6 +75,7 @@ public class LocalMiniMap extends Widget {
     private final static Tex treeicn = Text.renderstroked("\u25B2", Color.CYAN, Color.BLACK, bld12fnd).tex();
     private Map<Color, Tex> xmap = new HashMap<Color, Tex>(6);
     public static Coord plcrel = null;
+    public long lastnewgid;
 
 
     private static class MapTile {
@@ -399,8 +400,10 @@ public class LocalMiniMap extends Widget {
                         if (cur != null && plg != cur.grid) {
                             int x = Math.abs(plg.gc.x);
                             int y = Math.abs(plg.gc.y);
-                            if (x == 0 && y == 0 || x == 10 && y == 10)
+                            if ((x == 0 && y == 0 || x == 10 && y == 10) && lastnewgid != plg.id) {
                                 maptiles.clear();
+                                lastnewgid = plg.id;
+                            }
                         }
                         f = Defer.later(() -> {
                             Coord ul = plg.ul;
