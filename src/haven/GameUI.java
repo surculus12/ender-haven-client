@@ -262,7 +262,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             this.id = id;
             this.base = base;
             this.g = g;
-            cur = show(tvis = Utils.getprefb(id + "-visible", true)) ? 0 : 1;
+            cur = show(tvis = true) ? 0 : 1;
         }
 
         public <T extends Widget> T add(T child) {
@@ -318,12 +318,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             return (vis);
         }
 
-        public boolean mshow() {
-            return (mshow(Utils.getprefb(id + "-visible", true)));
-        }
-
         public boolean cshow(boolean vis) {
-            Utils.setprefb(id + "-visible", vis);
             if (vis != tvis)
                 mshow(vis);
             return (vis);
