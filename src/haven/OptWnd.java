@@ -767,17 +767,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Auto hearth") {
-            {
-                a = Config.autohearth;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autohearth", val);
-                Config.autohearth = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Auto logout on unknown/red players") {
             {
                 a = Config.autologout;
