@@ -319,7 +319,7 @@ public class Config {
         put("rabbit", new CheckListboxItem("Rabbit"));
     }};
 
-    public final static Map<String, Tex> additonalicons = new HashMap<String, Tex>(25) {{
+    public final static Map<String, Tex> additonalicons = new HashMap<String, Tex>(26) {{
         put("gfx/terobjs/vehicle/bram", Resource.loadtex("gfx/icons/bram"));
         put("gfx/kritter/toad/toad", Resource.loadtex("gfx/icons/toad"));
         put("gfx/terobjs/vehicle/rowboat", Resource.loadtex("gfx/icons/rowboat"));
@@ -335,6 +335,7 @@ public class Config {
         put("gfx/terobjs/vehicle/wheelbarrow", Resource.loadtex("gfx/icons/wheelbarrow"));
         put("gfx/terobjs/vehicle/cart", Resource.loadtex("gfx/icons/cart"));
         put("gfx/terobjs/vehicle/wreckingball", Resource.loadtex("gfx/icons/wball"));
+        put("gfx/kritter/nidbane/nidbane", Resource.loadtex("gfx/icons/spooky"));
         // grayscale icons for dead animals
         put("gfx/kritter/badger/badger", Resource.loadtex("gfx/icons/badger"));
         put("gfx/kritter/bear/bear", Resource.loadtex("gfx/icons/bear"));
