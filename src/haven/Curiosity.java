@@ -26,7 +26,6 @@
 
 package haven;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class Curiosity extends ItemInfo.Tip {
@@ -39,11 +38,36 @@ public class Curiosity extends ItemInfo.Tip {
         this.enc = enc;
     }
 
+    private String LPH() {
+        Resource res;
+        try {
+            res = ((GItem) owner).resource();
+        } catch (Loading l) {
+            return "";
+        }
+
+        Double st = CurioStudyTimes.curios.get(res.basename());
+        if (st == null)
+            return "";
+
+        int studytime = (int) (st * 60);
+        int hours = studytime / 60;
+        int minutes = studytime - hours * 60;
+
+        String fmt = Resource.getLocString(Resource.BUNDLE_LABEL, "Study time: %s (LP/hour: $col[255,192,255]{%d})");
+
+        String hstr = hours > 0 ? String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "$col[255,192,255]{%d} h "), hours) : "";
+        String mstr = minutes > 0 ? String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "$col[255,192,255]{%d} m"), minutes) : "";
+
+        return String.format(fmt, hstr + mstr, (int) (exp / st));
+    }
+
     public BufferedImage tipimg() {
         StringBuilder buf = new StringBuilder();
         buf.append(String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "Learning points: $col[192,192,255]{%s}\nMental weight: $col[255,192,255]{%d}\n"), Utils.thformat(exp), mw));
         if (enc > 0)
             buf.append(String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "Experience cost: $col[255,255,192]{%d}\n"), enc));
+        buf.append(LPH());
         return (RichText.render(buf.toString(), 0).img);
     }
 }
