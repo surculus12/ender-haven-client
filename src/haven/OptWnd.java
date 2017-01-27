@@ -1419,6 +1419,28 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Automatically select 'Giddyup!' action") {
+            {
+                a = Config.autogiddyup;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("autogiddyup", val);
+                Config.autogiddyup = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Automatically select 'Shear wool' action") {
+            {
+                a = Config.autoshear;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("autoshear", val);
+                Config.autoshear = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Automatically pick all clustered mussels (auto 'Pick' needs to be enabled)") {
             {
                 a = Config.autopickmussels;
