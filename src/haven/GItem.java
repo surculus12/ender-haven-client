@@ -217,7 +217,7 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
         for (ItemInfo info : infolist) {
             if (info instanceof QBuff)
                 q = ((QBuff)info).q;
-            else if (info.getClass() == Curiosity.class)
+            else if (info.getClass() == haven.resutil.Curiosity.class)
                 curio = true;
         }
         quality = new Quality(q, curio);

@@ -27,6 +27,7 @@
 package haven;
 
 import haven.resutil.FoodInfo;
+import haven.resutil.Curiosity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -34,6 +35,7 @@ import java.util.*;
 import java.util.List;
 
 import static haven.PUtils.*;
+
 
 public class CharWnd extends Window {
     public static final RichText.Foundry ifnd = new RichText.Foundry(Resource.remote(), java.awt.font.TextAttribute.FAMILY, "SansSerif", java.awt.font.TextAttribute.SIZE, Config.fontsizeglobal).aa(true);

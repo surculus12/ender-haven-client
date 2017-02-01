@@ -156,7 +156,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 return (new Coord(GameUI.this.sz.x, Math.min(brpanel.c.y - 79, GameUI.this.sz.y - menupanel.sz.y)));
             }
         }, new Coord(1, 0)));
-        menu = brpanel.add(new MenuGrid(), 20, 34);
 
         brpanel.add(new Img(Resource.loadtex("gfx/hud/brframe")), 0, 0);
         menupanel.add(new MainMenu(), 0, 0);
@@ -497,6 +496,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 buffs.addchild(new BuffToggle("swim", Bufflist.buffswim));
                 errornosfx("Swimming is now turned on.");
             }
+        } else if(place == "menu") {
+            menu = (MenuGrid)brpanel.add(child, 20, 34);
         } else if (place == "fight") {
             fv = urpanel.add((Fightview) child, 0, 0);
         } else if (place == "fsess") {
@@ -774,10 +775,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     }
 
     public void wdgmsg(Widget sender, String msg, Object... args) {
-        if (sender == menu) {
-            wdgmsg(msg, args);
-            return;
-        } else if ((sender == chrwdg) && (msg == "close")) {
+        if ((sender == chrwdg) && (msg == "close")) {
             chrwdg.hide();
         } else if((polities.contains(sender)) && (msg == "close")) {
             sender.hide();
