@@ -30,6 +30,7 @@ import java.awt.*;
 import java.util.*;
 
 public class Glob {
+    public static final double SERVER_TIME_RATIO = 3.29d;
     public long time, epoch = System.currentTimeMillis();
     public Astronomy ast;
     public OCache oc = new OCache(this);
