@@ -59,13 +59,18 @@ public class MenuSearch extends GameUI.Hidewnd {
 
         @Override
         public void tick(double dt) {
-            if (ui != null && (refresh || pagnum != gameui().menu.paginae.size())) {
+            GameUI gui = gameui();
+            if (gui == null)
+                return;
+
+            Set<MenuGrid.Pagina> paginae = gui.menu.paginae;
+            if (ui != null && (refresh || pagnum != paginae.size())) {
                 refresh = false;
-                pagnum =gameui().menu.paginae.size();
+                pagnum = paginae.size();
 
                 acts.clear();
-                synchronized (gameui().menu.paginae) {
-                    for (MenuGrid.Pagina pag : gameui().menu.paginae) {
+                synchronized (paginae) {
+                    for (MenuGrid.Pagina pag : paginae) {
                         try {
                             Resource res = pag.res.get();
                             if (!res.name.startsWith("paginae/bld") && !res.name.startsWith("paginae/craft"))
