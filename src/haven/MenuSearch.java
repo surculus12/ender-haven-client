@@ -60,7 +60,7 @@ public class MenuSearch extends GameUI.Hidewnd {
         @Override
         public void tick(double dt) {
             GameUI gui = gameui();
-            if (gui == null)
+            if (gui == null || gui.menu == null)
                 return;
 
             Set<MenuGrid.Pagina> paginae = gui.menu.paginae;
