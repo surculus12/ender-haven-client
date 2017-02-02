@@ -48,6 +48,7 @@ public class MenuGrid extends Widget {
     private int curoff = 0;
     private boolean recons = true;
     private Map<Character, Pagina> hotmap = new TreeMap<Character, Pagina>();
+    private boolean togglestuff = true;
 
     @RName("scm")
     public static class $_ implements Factory {
@@ -200,7 +201,6 @@ public class MenuGrid extends Widget {
     @Override
     protected void attach(UI ui) {
         super.attach(ui);
-        Glob glob = ui.sess.glob;
         synchronized (paginae) {
             Collection<Pagina> p = paginae;
             p.add(paginafor(Resource.local().load("paginae/amber/coal11")));
@@ -518,6 +518,19 @@ public class MenuGrid extends Widget {
     public void tick(double dt) {
         if (recons)
             updlayout();
+
+        if (togglestuff) {
+            GameUI gui = gameui();
+            if (Config.enabletracking && !GameUI.trackon) {
+                wdgmsg("act", new Object[]{"tracking"});
+                gui.trackautotgld = true;
+            }
+            if (Config.enablecrime && !GameUI.crimeon) {
+                gui.crimeautotgld = true;
+                wdgmsg("act", new Object[]{"crime"});
+            }
+            togglestuff = false;
+        }
     }
 
     public boolean mouseup(Coord c, int button) {

@@ -83,8 +83,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public static boolean swimon = false;
     public static boolean crimeon = false;
     public static boolean trackon = false;
-    private boolean crimeautotgld = false;
-    private boolean trackautotgld = false;
+    public boolean crimeautotgld = false;
+    public boolean trackautotgld = false;
     public FBelt fbelt;
     public CraftHistoryBelt histbelt;
     private ErrorSysMsgCallback errmsgcb;
@@ -474,16 +474,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 minimapWnd.mapfile = mapfile;
             }
 
-
-            if (Config.enabletracking && menu != null && !trackon) {
-                menu.wdgmsg("act", new Object[]{"tracking"});
-                trackautotgld = true;
-            }
-            if (Config.enablecrime && menu != null && !crimeon) {
-                crimeautotgld = true;
-                menu.wdgmsg("act", new Object[]{"crime"});
-            }
-
             if (trackon) {
                 buffs.addchild(new BuffToggle("track", Bufflist.bufftrack));
                 errornosfx("Tracking is now turned on.");
@@ -496,7 +486,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 buffs.addchild(new BuffToggle("swim", Bufflist.buffswim));
                 errornosfx("Swimming is now turned on.");
             }
-        } else if(place == "menu") {
+        } else if (place == "menu") {
             menu = (MenuGrid)brpanel.add(child, 20, 34);
         } else if (place == "fight") {
             fv = urpanel.add((Fightview) child, 0, 0);
