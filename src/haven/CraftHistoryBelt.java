@@ -47,7 +47,7 @@ public class CraftHistoryBelt extends Widget {
         if (slot != -1) {
             if (button == 1 && belt[slot] != null) {
                 String[] ad = belt[slot].act().ad;
-                gameui().menu.wdgmsg("act", (Object[]) ad);
+                gameui().act(ad);
             } else if (button == 1 && belt[slot] == null) {
                 if (ui.modshift) {
                     if (vertical) {
