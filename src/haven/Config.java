@@ -362,13 +362,12 @@ public class Config {
             "gfx/terobjs/caveorgan",
             "gfx/terobjs/crystalpatch"));
 
-    public final static ArrayList<Pair<String, String>> disableanim = new ArrayList<Pair<String, String>>(4) {{
-        add(new Pair<String, String>("Beehives", "gfx/terobjs/beehive"));
-        add(new Pair<String, String>("Fires", "gfx/terobjs/pow"));
-        add(new Pair<String, String>("Full trash stockpiles", "gfx/terobjs/stockpile-trash"));
-        add(new Pair<String, String>("Idle animals", "/idle"));
+    public final static HashMap<String, CheckListboxItem> disableanim = new HashMap<String, CheckListboxItem>(4) {{
+        put("gfx/terobjs/beehive", new CheckListboxItem("Beehives"));
+        put("gfx/terobjs/pow", new CheckListboxItem("Fires"));
+        put("gfx/terobjs/stockpile-trash", new CheckListboxItem("Full trash stockpiles"));
+        put("/idle", new CheckListboxItem("Idle animals"));
     }};
-    public final static Set<String> disableanimSet = new HashSet<String>(disableanim.size());
 
     public final static HashMap<String, String[]> cures = new HashMap<String, String[]>(14) {{
         put("paginae/wound/antburn", new String[]{
@@ -428,19 +427,7 @@ public class Config {
     }};
 
     static {
-        Collections.sort(disableanim, (o1, o2) -> o1.a.compareTo(o2.a));
-
-        String[] disableanimsel = Utils.getprefsa("disableanim", null);
-        if (disableanimsel != null) {
-            for (String selname : disableanimsel) {
-                for (Pair<String, String> selpair : Config.disableanim) {
-                    if (selpair.a.equals(selname)) {
-                        Config.disableanimSet.add(selpair.b);
-                        break;
-                    }
-                }
-            }
-        }
+        Utils.loadprefchklist("disableanim", Config.disableanim);
 
         String p;
         if ((p = getprop("haven.authck", null)) != null)

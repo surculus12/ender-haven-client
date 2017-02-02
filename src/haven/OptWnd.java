@@ -295,32 +295,16 @@ public class OptWnd extends Window {
                 });
 
                 add(new Label("Disable animations (req. restart):"), new Coord(440, 0));
-                CheckListbox animlist = new CheckListbox(180, 18) {
+                CheckListbox disanimlist = new CheckListbox(180, 8) {
+                    @Override
                     protected void itemclick(CheckListboxItem itm, int button) {
                         super.itemclick(itm, button);
-
-                        String[] selected = getselected();
-                        Utils.setprefsa("disableanim", selected);
-
-                        Config.disableanimSet.clear();
-                        for (String selname : selected) {
-                            for (Pair<String, String> selpair : Config.disableanim) {
-                                if (selpair.a.equals(selname)) {
-                                    Config.disableanimSet.add(selpair.b);
-                                    break;
-                                }
-                            }
-                        }
+                        Utils.setprefchklst("disableanim", Config.disableanim);
                     }
                 };
-
-                for (Pair<String, String> obj : Config.disableanim) {
-                    boolean selected = false;
-                    if (Config.disableanimSet.contains(obj.b))
-                        selected = true;
-                    animlist.items.add(new CheckListboxItem(obj.a, selected));
-                }
-                add(animlist, new Coord(440, 15));
+                for (CheckListboxItem itm : Config.disableanim.values())
+                    disanimlist.items.add(itm);
+                add(disanimlist, new Coord(440, 15));
 
                 pack();
             }
