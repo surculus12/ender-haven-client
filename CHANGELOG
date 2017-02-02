@@ -1,3 +1,11 @@
+Version 1.52.2
+    Fixed:
+        * Crash in menu search.
+
+    Misc:
+        * Add radius to wolverines.
+
+
 Version 1.52.1
     Fixed:
         * Crime and tracking automatic toggle not working.
