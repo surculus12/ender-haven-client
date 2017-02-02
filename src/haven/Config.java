@@ -99,19 +99,6 @@ public class Config {
     public static boolean showplayerpaths = Utils.getprefb("showplayerpaths", false);
     public static boolean showstudylefttime = Utils.getprefb("showstudylefttime", false);
     public static boolean showinvonlogin = Utils.getprefb("showinvonlogin", false);
-    public static boolean autopick = Utils.getprefb("autopick", false);
-    public static boolean autoharvest = Utils.getprefb("autoharvest", false);
-    public static boolean autosplit = Utils.getprefb("autosplit", false);
-    public static boolean autoeat = Utils.getprefb("autoeat", false);
-    public static boolean autokill = Utils.getprefb("autokill", false);
-    public static boolean autoslice = Utils.getprefb("autoslice", false);
-    public static boolean autoclean = Utils.getprefb("autoclean", false);
-    public static boolean autopluck = Utils.getprefb("autopluck", false);
-    public static boolean autoskin = Utils.getprefb("autoskin", false);
-    public static boolean autobutcher = Utils.getprefb("autobutcher", false);
-    public static boolean autoflay = Utils.getprefb("autoflay", false);
-    public static boolean autogiddyup = Utils.getprefb("autogiddyup", false);
-    public static boolean autoshear = Utils.getprefb("autoshear", false);
     public static boolean runonlogin = Utils.getprefb("runonlogin", false);
     public static Coord chatsz = Utils.getprefc("chatsz", new Coord(683, 111));
     public static boolean autostudy = Utils.getprefb("autostudy", true);
@@ -320,6 +307,22 @@ public class Config {
         put("hedgehog", new CheckListboxItem("Hedgehog"));
         put("squirrel", new CheckListboxItem("Squirrel"));
         put("rabbit", new CheckListboxItem("Rabbit"));
+    }};
+
+    public final static HashMap<String, CheckListboxItem> flowermenus = new HashMap<String, CheckListboxItem>(13) {{
+        put("Pick", new CheckListboxItem("Pick", Resource.BUNDLE_FLOWER));
+        put("Harvest", new CheckListboxItem("Harvest", Resource.BUNDLE_FLOWER));
+        put("Eat", new CheckListboxItem("Eat", Resource.BUNDLE_FLOWER));
+        put("Split", new CheckListboxItem("Split", Resource.BUNDLE_FLOWER));
+        put("Kill", new CheckListboxItem("Kill", Resource.BUNDLE_FLOWER));
+        put("Slice", new CheckListboxItem("Slice", Resource.BUNDLE_FLOWER));
+        put("Pluck", new CheckListboxItem("Pluck", Resource.BUNDLE_FLOWER));
+        put("Clean", new CheckListboxItem("Clean", Resource.BUNDLE_FLOWER));
+        put("Skin", new CheckListboxItem("Skin", Resource.BUNDLE_FLOWER));
+        put("Flay", new CheckListboxItem("Flay", Resource.BUNDLE_FLOWER));
+        put("Butcher", new CheckListboxItem("Butcher", Resource.BUNDLE_FLOWER));
+        put("Giddyup!", new CheckListboxItem("Giddyup!", Resource.BUNDLE_FLOWER));
+        put("Shear wool", new CheckListboxItem("Shear wool", Resource.BUNDLE_FLOWER));
     }};
 
     public final static Map<String, Tex> additonalicons = new HashMap<String, Tex>(16) {{

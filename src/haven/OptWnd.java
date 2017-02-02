@@ -1282,149 +1282,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Automatically select 'Pick' action") {
-            {
-                a = Config.autopick;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autopick", val);
-                Config.autopick = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Harvest' action") {
-            {
-                a = Config.autoharvest;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autoharvest", val);
-                Config.autoharvest = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Eat' action") {
-            {
-                a = Config.autoeat;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autoeat", val);
-                Config.autoeat = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Split' action") {
-            {
-                a = Config.autosplit;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autosplit", val);
-                Config.autosplit = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Kill' action") {
-            {
-                a = Config.autokill;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autokill", val);
-                Config.autokill = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Slice' action") {
-            {
-                a = Config.autoslice;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autoslice", val);
-                Config.autoslice = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Pluck' action") {
-            {
-                a = Config.autopluck;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autopluck", val);
-                Config.autopluck = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Clean' action") {
-            {
-                a = Config.autoclean;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autoclean", val);
-                Config.autoclean = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Skin' action") {
-            {
-                a = Config.autoskin;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autoskin", val);
-                Config.autoskin = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Butcher' action") {
-            {
-                a = Config.autobutcher;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autobutcher", val);
-                Config.autobutcher = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Flay' action") {
-            {
-                a = Config.autoflay;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autoflay", val);
-                Config.autoflay = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Giddyup!' action") {
-            {
-                a = Config.autogiddyup;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autogiddyup", val);
-                Config.autogiddyup = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Automatically select 'Shear wool' action") {
-            {
-                a = Config.autoshear;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("autoshear", val);
-                Config.autoshear = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Automatically pick all clustered mussels (auto 'Pick' needs to be enabled)") {
             {
                 a = Config.autopickmussels;
@@ -1436,6 +1293,20 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new Label("Automatic selecton:"));
+
+        CheckListbox flowerlist = new CheckListbox(140, 15) {
+            @Override
+            protected void itemclick(CheckListboxItem itm, int button) {
+                super.itemclick(itm, button);
+                Utils.setprefchklst("flowersel", Config.flowermenus);
+            }
+        };
+
+        Utils.loadprefchklist("flowersel", Config.flowermenus);
+        for (CheckListboxItem itm : Config.flowermenus.values())
+            flowerlist.items.add(itm);
+        flowermenus.add(flowerlist, new Coord(0, 70));
 
         flowermenus.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         flowermenus.pack();
