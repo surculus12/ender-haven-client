@@ -210,6 +210,7 @@ public class MenuGrid extends Widget {
             p.add(paginafor(Resource.local().load("paginae/amber/autosurvey")));
             p.add(paginafor(Resource.local().load("paginae/amber/torch")));
             p.add(paginafor(Resource.local().load("paginae/amber/clover")));
+            p.add(paginafor(Resource.local().load("paginae/amber/fish")));
             p.add(paginafor(Resource.local().load("paginae/amber/timers")));
         }
     }
@@ -422,14 +423,14 @@ public class MenuGrid extends Widget {
                 }
             }
         } else if (ad[1].equals("torch")) {
-            Thread t = new Thread(new LightWithTorch(gui), "LightWithTorch");
-            t.start();
+            new Thread(new LightWithTorch(gui), "LightWithTorch").start();
         } else if (ad[1].equals("timers")) {
             gui.timerswnd.show(!gui.timerswnd.visible);
             gui.timerswnd.raise();
         } else if (ad[1].equals("clover")) {
-            Thread t = new Thread(new FeedClover(gui), "FeedClover");
-            t.start();
+            new Thread(new FeedClover(gui), "FeedClover").start();
+        } else if (ad[1].equals("fish")) {
+            new Thread(new ButcherFish(gui), "ButcherFish").start();
         }
     }
 
