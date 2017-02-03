@@ -283,6 +283,9 @@ public class MapWnd extends Window {
                 else
                     filter = (m -> m instanceof SMarker && ((SMarker)m).res.name.endsWith(item.b));
                 markerseq = -1;
+                // reset scrollbar
+                if (list != null)
+                    list.sb.val = list.sb.min;
             }
         };
         modes.change(filters[0]);
