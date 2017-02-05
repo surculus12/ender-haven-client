@@ -251,6 +251,7 @@ public class MapWnd extends Window {
             new Pair<>("Jotun Mussel", "jotunmussel"),
             new Pair<>("Quest Givers", "qst"),
             new Pair<>("Salt Basin", "saltbasin"),
+            new Pair<>("Swirling Vortex", "watervortex")
     };
 
     @SuppressWarnings("unchecked")
