@@ -200,15 +200,15 @@ public class LocalMiniMap extends Widget {
                     }
 
                     String basename = res.basename();
-                    if (res.name.startsWith("gfx/terobjs/bumlings")) {
+                    if (gob.type == Gob.Type.BOULDER) {
                         CheckListboxItem itm = Config.boulders.get(basename.substring(0, basename.length() - 1));
                         if (itm != null && itm.selected)
                             g.image(bldricn, p2c(gob.rc).add(delta).sub(bldricn.sz().div(2)));
-                    } else if (res.name.startsWith("gfx/terobjs/bushes")) {
+                    } else if (gob.type == Gob.Type.BUSH) {
                         CheckListboxItem itm = Config.bushes.get(basename);
                         if (itm != null && itm.selected)
                             g.image(bushicn, p2c(gob.rc).add(delta).sub(bushicn.sz().div(2)));
-                    } else if (res.name.startsWith("gfx/terobjs/trees")) {
+                    } else if (gob.type == Gob.Type.TREE) {
                         CheckListboxItem itm = Config.trees.get(basename);
                         if (itm != null && itm.selected)
                             g.image(treeicn, p2c(gob.rc).add(delta).sub(treeicn.sz().div(2)));
@@ -238,7 +238,7 @@ public class LocalMiniMap extends Widget {
                     if (res == null)
                         continue;
 
-                    if (res.name.endsWith("/body") && gob.id != mv.player().id) {
+                    if (gob.type == Gob.Type.PLAYER && gob.id != mv.player().id) {
                         if (ui.sess.glob.party.memb.containsKey(gob.id))
                             continue;
 
@@ -284,26 +284,26 @@ public class LocalMiniMap extends Widget {
                     } else if (Config.alarmlocres && Config.locres.contains(res.name)) {
                         sgobs.add(gob.id);
                         Audio.play(swagsfx, Config.alarmlocresvol);
-                    } else if (Config.alarmbears && res.name.equals("gfx/kritter/bear/bear") && gob.knocked == Boolean.FALSE) {
+                    } else if (Config.alarmbears && gob.type == Gob.Type.BEAR && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(bearsfx, Config.alarmbearsvol);
-                    } else if (Config.alarmbears && res.name.equals("gfx/kritter/lynx/lynx") && gob.knocked == Boolean.FALSE) {
+                    } else if (Config.alarmbears && gob.type == Gob.Type.LYNX && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(lynxfx, Config.alarmbearsvol);
-                    } else if (Config.alarmbears && res.name.equals("gfx/kritter/walrus/walrus") && gob.knocked == Boolean.FALSE) {
+                    } else if (Config.alarmbears && gob.type == Gob.Type.WALRUS && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(walrusfx, Config.alarmbearsvol);
-                    } else if (res.name.equals("gfx/kritter/troll/troll")) {
+                    } else if (gob.type == Gob.Type.TROLL) {
                         if (mv.areamine != null)
                             mv.areamine.terminate();
                         if (Config.alarmtroll) {
                             sgobs.add(gob.id);
                             Audio.play(trollsfx, Config.alarmtrollvol);
                         }
-                    } else if (Config.alarmmammoth && res.name.equals("gfx/kritter/mammoth/mammoth") && gob.knocked == Boolean.FALSE) {
+                    } else if (Config.alarmmammoth && gob.type == Gob.Type.MAMMOTH && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(mammothsfx, Config.alarmmammothvol);
-                    } else if (Config.alarmbram && (res.name.equals("gfx/terobjs/vehicle/bram") || res.name.equals("gfx/terobjs/vehicle/catapult"))) {
+                    } else if (Config.alarmbram && gob.type == Gob.Type.SIEGE_MACHINE) {
                         sgobs.add(gob.id);
                         Audio.play(doomedsfx, Config.alarmbramvol);
                     }
@@ -332,7 +332,6 @@ public class LocalMiniMap extends Widget {
                         Coord gc = p2c(gob.rc);
                         Coord sz = new Coord(18, 18);
                         if (c.isect(gc.sub(sz.div(2)), sz)) {
-                            boolean ignore = false;
                             Resource res = gob.getres();
                             if (res != null && Config.additonalicons.containsKey(res.name)) {
                                 CheckListboxItem itm = Config.icons.get(res.basename());
