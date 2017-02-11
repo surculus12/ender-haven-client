@@ -375,7 +375,7 @@ public class Config {
         put("/idle", new CheckListboxItem("Idle animals"));
     }};
 
-    public final static HashMap<String, String[]> cures = new HashMap<String, String[]>(14) {{
+    public final static HashMap<String, String[]> cures = new HashMap<String, String[]>(15) {{
         put("paginae/wound/antburn", new String[]{
                 "gfx/invobjs/herbs/yarrow"
         });
@@ -429,6 +429,9 @@ public class Config {
         });
         put("paginae/wound/wretchedgore", new String[]{
                 "gfx/invobjs/stitchpatch"
+        });
+        put("paginae/wound/blackeye", new String[]{
+                "gfx/invobjs/toadbutter"
         });
     }};
 
