@@ -59,11 +59,10 @@ public class LocalMiniMap extends Widget {
     private static final Resource doomedsfx = Resource.local().loadwait("sfx/doomed");
     private static final Resource swagsfx = Resource.local().loadwait("sfx/swag");
 	private final HashSet<Long> sgobs = new HashSet<Long>();
-    private final HashMap<Coord, Tex> maptiles = new HashMap<Coord, Tex>(28, 0.75f) {
+    private final Map<Coord, Tex> maptiles = new LinkedHashMap<Coord, Tex>(28, 0.75f, false) {
         @Override
-        public void clear() {
-            values().forEach(Tex::dispose);
-            super.clear();
+        protected boolean removeEldestEntry(Map.Entry<Coord, Tex> eldest) {
+            return size() > 28;
         }
     };
     private final Map<Pair<MCache.Grid, Integer>, Defer.Future<MapTile>> cache = new LinkedHashMap<Pair<MCache.Grid, Integer>, Defer.Future<MapTile>>(7, 0.75f, true) {
