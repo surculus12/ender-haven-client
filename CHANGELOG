@@ -1,3 +1,8 @@
+Version 1.54.1
+    Fixed:
+        * Regression introduced in v1.54.0
+
+
 Version 1.54.0
     New:
         * Allow removing resource markers.
