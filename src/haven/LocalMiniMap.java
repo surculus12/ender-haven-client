@@ -62,7 +62,20 @@ public class LocalMiniMap extends Widget {
     private final Map<Coord, Tex> maptiles = new LinkedHashMap<Coord, Tex>(28, 0.75f, false) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Coord, Tex> eldest) {
-            return size() > 28;
+            if (size() > 28) {
+                try {
+                    eldest.getValue().dispose();
+                } catch (RuntimeException e) {
+                }
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void clear() {
+            values().forEach(Tex::dispose);
+            super.clear();
         }
     };
     private final Map<Pair<MCache.Grid, Integer>, Defer.Future<MapTile>> cache = new LinkedHashMap<Pair<MCache.Grid, Integer>, Defer.Future<MapTile>>(7, 0.75f, true) {
