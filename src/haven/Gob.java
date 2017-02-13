@@ -70,9 +70,9 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     public Type type = null;
 
     public enum Type {
-        OTHER(0), DFRAME(1), TREE(2), BUSH(3), BOULDER(4), PLAYER(5), SIEGE_MACHINE(6),
+        OTHER(0), DFRAME(1), TREE(2), BUSH(3), BOULDER(4), PLAYER(5), SIEGE_MACHINE(6), MAMMOTH(7),
         PLANT(16), MULTISTAGE_PLANT(17),
-        MOB(32), MAMMOTH(33), BEAR(34), LYNX(35), TROLL(38), WALRUS(39),
+        MOB(32), BEAR(34), LYNX(35), TROLL(38), WALRUS(39),
         WOODEN_SUPPORT(64), STONE_SUPPORT(65), TROUGH(66), BEEHIVE(67);
 
         public final int value;
