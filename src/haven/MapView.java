@@ -79,7 +79,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     private Pathfinder pf;
     public Thread pfthread;
     public SteelRefueler steelrefueler;
-    public AutoLeveler autoleveler;
     private Thread musselPicker;
     private final PartyHighlight partyHighlight;
     public static final Set<Long> markedGobs = new HashSet<>();
@@ -1865,10 +1864,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     areamine.terminate();
                     areamine = null;
                 }
-                if (autoleveler != null && autoleveler.running) {
-                    autoleveler.terminate();
-                    autoleveler = null;
-                }
                 Resource curs = ui.root.getcurs(c);
                 if (curs != null && curs.name.equals("gfx/hud/curs/mine")) {
                     if (ui.modshift && selection == null) {
@@ -2332,8 +2327,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
             areamine.terminate();
         if (steelrefueler != null)
             steelrefueler.terminate();
-        if (autoleveler != null)
-            autoleveler.terminate();
         if (musselPicker != null)
             musselPicker.interrupt();
     }
