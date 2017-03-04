@@ -207,7 +207,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }
 
         fbelt = new FBelt(chrid, Utils.getprefb("fbelt_vertical", true));
-        fbelt.load();
+        fbelt.loadLocal();
         add(fbelt, Utils.getprefc("fbelt_c", new Coord(20, 200)));
         if (!Config.fbelt)
             fbelt.hide();
@@ -728,8 +728,12 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             int slot = (Integer) args[0];
             if (args.length < 2) {
                 belt[slot] = null;
+                if (fbelt != null)
+                    fbelt.delete(slot);
             } else {
                 belt[slot] = ui.sess.getres((Integer) args[1]);
+                if (fbelt != null)
+                    fbelt.add(slot, belt[slot]);
             }
         } else if (msg == "polowner") {
             int id = (Integer)args[0];
@@ -1216,8 +1220,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                         g.image(belt[slot].get().layer(Resource.imgc).tex(), c.add(1, 1));
                 } catch (Loading e) {
                 }
-                g.chcolor(156, 180, 158, 255);
-                FastText.aprintf(g, c.add(invsq.sz().sub(2, 0)), 1, 1, "%d", (i + 1) % 10);
+                g.chcolor(FBelt.keysClr);
+                FastText.aprint(g, new Coord(c.x + invsq.sz().x - 2, c.y + invsq.sz().y), 1, 1, "" + (i + 1));
                 g.chcolor();
             }
             super.draw(g);
