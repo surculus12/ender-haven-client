@@ -65,7 +65,6 @@ public class Config {
     public static boolean qualitywhole = Utils.getprefb("qualitywhole", true);
     public static int badcamsensitivity = Utils.getprefi("badcamsensitivity", 5);
     public static List<LoginData> logins = new ArrayList<LoginData>();
-    public static boolean maplocked = Utils.getprefb("maplocked", false);
     public static boolean mapshowgrid = Utils.getprefb("mapshowgrid", false);
     public static boolean mapshowviewdist = Utils.getprefb("mapshowviewdist", false);
     public static boolean disabletiletrans = Utils.getprefb("disabletiletrans", false);
@@ -431,6 +430,8 @@ public class Config {
         });
     }};
 
+    public static final Map<Long, Pair<String, String>> gridIdsMap = new HashMap<>(58000);
+
     static {
         Utils.loadprefchklist("disableanim", Config.disableanim);
 
@@ -438,19 +439,43 @@ public class Config {
         if ((p = getprop("haven.authck", null)) != null)
             authck = Utils.hex2byte(p);
 
+        java.util.Scanner s = null;
         try {
-            InputStream in = ErrorHandler.class.getResourceAsStream("/buildinfo");
-            try {
-                if (in != null) {
-                    java.util.Scanner s = new java.util.Scanner(in);
-                    String[] binfo = s.next().split(",");
-                    version = binfo[0];
-                    gitrev = binfo[1];
+            InputStream in =  Config.class.getClassLoader().getResourceAsStream("/buildinfo");
+            s = new java.util.Scanner(in);
+            s.close();
+            String[] binfo = s.next().split(",");
+            version = binfo[0];
+            gitrev = binfo[1];
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            if (s != null)
+                s.close();
+        }
+
+        // populate grid ids map
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("grid_ids.txt"));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] tknzed = line.split(",");
+                try {
+                    gridIdsMap.put(Long.parseLong(tknzed[2]), new Pair<>(tknzed[0], tknzed[1]));
+                } catch (NumberFormatException nfe) {
                 }
-            } finally {
-                in.close();
             }
-        } catch (Exception e) {}
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) { // ignored
+                }
+            }
+        }
 
         loadLogins();
     }
