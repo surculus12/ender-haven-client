@@ -1,3 +1,8 @@
+Version 1.55.1
+    Fixed:
+        * F-key bar related crashes.
+
+
 Version 1.55.0
     New:
         * Geolocation using odditown world map.
