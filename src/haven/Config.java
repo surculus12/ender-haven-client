@@ -439,20 +439,19 @@ public class Config {
         if ((p = getprop("haven.authck", null)) != null)
             authck = Utils.hex2byte(p);
 
-        java.util.Scanner s = null;
         try {
-            InputStream in =  Config.class.getClassLoader().getResourceAsStream("/buildinfo");
-            s = new java.util.Scanner(in);
-            s.close();
-            String[] binfo = s.next().split(",");
-            version = binfo[0];
-            gitrev = binfo[1];
-        } catch (Exception e){
-            e.printStackTrace();
-        } finally {
-            if (s != null)
-                s.close();
-        }
+            InputStream in = ErrorHandler.class.getResourceAsStream("/buildinfo");
+            try {
+                if (in != null) {
+                    java.util.Scanner s = new java.util.Scanner(in);
+                    String[] binfo = s.next().split(",");
+                    version = binfo[0];
+                    gitrev = binfo[1];
+                }
+            } finally {
+                in.close();
+            }
+        } catch (Exception e) {}
 
         // populate grid ids map
         BufferedReader reader = null;
