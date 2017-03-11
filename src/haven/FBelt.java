@@ -83,7 +83,7 @@ public class FBelt extends Widget implements DTarget, DropTarget {
                 if (ires != null)
                     g.image(ires.get().layer(Resource.imgc).tex(), c.add(1, 1));
             } catch (Loading e) {
-            } catch (Resource.LoadException le) {
+            } catch (Exception re) {
                 // possibly a resource from another client
                 belt[slot] = null;
             }
@@ -228,8 +228,11 @@ public class FBelt extends Widget implements DTarget, DropTarget {
         int slot = serverSlot - SERVER_FSLOT_INDEX;
 
         Indir<Resource> ires = belt[slot];
-        if (ires == null || ires.get().name.startsWith("paginae/amber"))
-            return;
+        try {
+            if (ires == null || ires.get().name.startsWith("paginae/amber"))
+                return;
+        } catch (Exception e) {
+        }
 
         belt[slot] = null;
         saveLocally();
