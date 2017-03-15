@@ -279,7 +279,9 @@ public class LocalMiniMap extends Widget {
                             enemy = true;
                         }
 
-                        if (Config.autohearth && enemy)
+                        if (Config.autologout && enemy)
+                            gameui().act("lo");
+                        else if (Config.autohearth && enemy)
                             gameui().act("travel", "hearth");
 
                         continue;
