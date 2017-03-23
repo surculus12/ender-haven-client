@@ -265,7 +265,7 @@ public class Makewindow extends Widget {
                 if (product != qModProduct) {
                     qModProduct = product;
                     softcap = Text.renderstroked("" + (int) Math.pow(product, 1.0 / qmodValues.size()),
-                            Color.WHITE, Color.BLACK, Glob.CAttr.capval).tex();
+                            Color.WHITE, Color.BLACK, Text.sans12bold).tex();
                 }
 
                 Coord sz = softcap.sz();
