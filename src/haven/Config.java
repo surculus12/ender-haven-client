@@ -313,7 +313,7 @@ public class Config {
         put("rustroot", new CheckListboxItem("Rustroot"));
     }};
 
-    public final static HashMap<String, CheckListboxItem> flowermenus = new HashMap<String, CheckListboxItem>(14) {{
+    public final static HashMap<String, CheckListboxItem> flowermenus = new HashMap<String, CheckListboxItem>(15) {{
         put("Pick", new CheckListboxItem("Pick", Resource.BUNDLE_FLOWER));
         put("Harvest", new CheckListboxItem("Harvest", Resource.BUNDLE_FLOWER));
         put("Eat", new CheckListboxItem("Eat", Resource.BUNDLE_FLOWER));
@@ -328,6 +328,7 @@ public class Config {
         put("Giddyup!", new CheckListboxItem("Giddyup!", Resource.BUNDLE_FLOWER));
         put("Shear wool", new CheckListboxItem("Shear wool", Resource.BUNDLE_FLOWER));
         put("Harvest wax", new CheckListboxItem("Harvest wax", Resource.BUNDLE_FLOWER));
+        put("Slice up", new CheckListboxItem("Slice up", Resource.BUNDLE_FLOWER));
     }};
 
     public final static Map<String, Tex> additonalicons = new HashMap<String, Tex>(16) {{
