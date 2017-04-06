@@ -20,7 +20,7 @@ public class TimersThread extends Thread {
             synchronized (timers) {
                 for (int i = 0; i < timers.size(); i++) {
                     TimerWdg timer = timers.get(i);
-                    if (!timer.active)
+                    if (!timer.active || timer.ui == null)
                         continue;
 
                     Session sess = timer.ui.sess;
