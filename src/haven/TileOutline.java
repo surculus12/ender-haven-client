@@ -1,7 +1,6 @@
 package haven;
 
 import javax.media.opengl.GL2;
-import java.nio.BufferOverflowException;
 import java.nio.FloatBuffer;
 
 import static haven.MCache.tilesz;
@@ -52,7 +51,7 @@ public class TileOutline implements Rendered {
         try {
             this.ul = ul;
             this.location = Location.xlate(new Coord3f((float) (ul.x * tilesz.x), (float) (-ul.y * tilesz.y), 0.0F));
-            swapBuffers();
+            curIndex = (curIndex + 1) % 2; // swap buffers
             Coord c = new Coord();
             Coord size = ul.add(MCache.cutsz.mul(5));
             for (c.y = ul.y; c.y < size.y; c.y++)
@@ -68,22 +67,15 @@ public class TileOutline implements Rendered {
 
     private void addLineStrip(Coord3f... vertices) {
         FloatBuffer vbuf = getCurrentBuffer();
-        try {
-            for (int i = 0; i < vertices.length - 1; i++) {
-                Coord3f a = vertices[i];
-                Coord3f b = vertices[i + 1];
-                vbuf.put(a.x).put(a.y).put(a.z);
-                vbuf.put(b.x).put(b.y).put(b.z);
-            }
-        } catch (BufferOverflowException e) { // ignored
+        for (int i = 0; i < vertices.length - 1; i++) {
+            Coord3f a = vertices[i];
+            Coord3f b = vertices[i + 1];
+            vbuf.put(a.x).put(a.y).put(a.z);
+            vbuf.put(b.x).put(b.y).put(b.z);
         }
     }
 
     private FloatBuffer getCurrentBuffer() {
         return vertexBuffers[curIndex];
-    }
-
-    private void swapBuffers() {
-        curIndex = (curIndex + 1) % 2;
     }
 }
