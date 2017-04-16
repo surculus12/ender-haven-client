@@ -1030,6 +1030,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Disable dropping items over anywhere (overridable with Ctrl)") {
+            {
+                a = Config.nodropping_all;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("nodropping_all", val);
+                Config.nodropping_all = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Enable full zoom-out in Ortho cam") {
             {
                 a = Config.enableorthofullzoom;
