@@ -17,7 +17,7 @@ import java.util.Random;
 // ui/barterstand
 public class Shopbox extends Widget implements SpriteOwner, Owner {
     public static final Text any = Text.render(Resource.getLocString(Resource.BUNDLE_LABEL, "Any"));
-    public static final Text qlbl = Text.render(Resource.getLocString(Resource.BUNDLE_LABEL, "Quality:"), Color.LIGHT_GRAY);
+    public static final Text qlbl = Text.render(Resource.getLocString(Resource.BUNDLE_LABEL, "Quality:"));
     public static final Tex bg = Resource.loadtex("ui/shopbox");
     public static final Coord itemc = new Coord(5, 5);
     public static final Coord buyc = new Coord(5, 66);
