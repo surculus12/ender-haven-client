@@ -212,6 +212,7 @@ public class MenuGrid extends Widget {
             p.add(paginafor(Resource.local().load("paginae/amber/rope")));
             p.add(paginafor(Resource.local().load("paginae/amber/fish")));
             p.add(paginafor(Resource.local().load("paginae/amber/timers")));
+            p.add(paginafor(Resource.local().load("paginae/amber/livestock")));
         }
     }
 
@@ -421,6 +422,9 @@ public class MenuGrid extends Widget {
             new Thread(new ButcherFish(gui), "ButcherFish").start();
         } else if (ad[1].equals("rope")) {
             new Thread(new LeashAnimal(gui), "LeashAnimal").start();
+        } else if (ad[1].equals("livestock")) {
+            gui.livestockwnd.show(!gui.livestockwnd.visible);
+            gui.livestockwnd.raise();
         }
     }
 
