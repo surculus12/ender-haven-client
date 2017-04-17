@@ -202,13 +202,16 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
 
     public QBuff quality() {
         if (quality == null) {
-            for (ItemInfo info : info()) {
-                if (info instanceof ItemInfo.Contents) {
-                    qualitycalc(((ItemInfo.Contents) info).sub);
-                    return quality;
+            try {
+                for (ItemInfo info : info()) {
+                    if (info instanceof ItemInfo.Contents) {
+                        qualitycalc(((ItemInfo.Contents) info).sub);
+                        return quality;
+                    }
                 }
+                qualitycalc(info());
+            } catch (Loading l) {
             }
-            qualitycalc(info());
         }
         return quality;
     }
