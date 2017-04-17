@@ -26,6 +26,8 @@
 
 package haven;
 
+import haven.res.ui.tt.q.qbuff.QBuff;
+
 import java.util.*;
 
 public class Inventory extends Widget implements DTarget {
@@ -119,19 +121,17 @@ public class Inventory extends Widget implements DTarget {
             Window kiln = gameui().getwnd("Kiln");
             if (stockpile == null || smelter != null || kiln != null) {
                 List<WItem> items = getIdenticalItems((GItem) args[0]);
-                Collections.sort(items, new Comparator<WItem>() {
-                    public int compare(WItem a, WItem b) {
-                        GItem.Quality aq = a.item.quality();
-                        GItem.Quality bq = b.item.quality();
-                        if (aq == null || bq == null)
-                            return 0;
-                        else if (aq.q == bq.q)
-                            return 0;
-                        else if (aq.q > bq.q)
-                            return msg.endsWith("asc") ? 1 : -1;
-                        else
-                            return msg.endsWith("asc") ? -1 : 1;
-                    }
+                Collections.sort(items, (a, b) -> {
+                    QBuff aq = a.item.quality();
+                    QBuff bq = b.item.quality();
+                    if (aq == null || bq == null)
+                        return 0;
+                    else if (aq.q == bq.q)
+                        return 0;
+                    else if (aq.q > bq.q)
+                        return msg.endsWith("asc") ? 1 : -1;
+                    else
+                        return msg.endsWith("asc") ? -1 : 1;
                 });
                 for (WItem item : items)
                     item.item.wdgmsg("transfer", Coord.z);

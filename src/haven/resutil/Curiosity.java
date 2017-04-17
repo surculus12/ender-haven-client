@@ -40,6 +40,7 @@ public class Curiosity extends ItemInfo.Tip {
         this.mw = mw;
         this.enc = enc;
         this.time = time / Glob.SERVER_TIME_RATIO / 60;
+        ((GItem)owner).isCurio = true;
     }
 
     private String timefmt() {

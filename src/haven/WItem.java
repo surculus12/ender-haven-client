@@ -28,6 +28,7 @@ package haven;
 
 import haven.automation.WItemDestroyCallback;
 import haven.res.ui.tt.Wear;
+import haven.res.ui.tt.q.qbuff.QBuff;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -236,7 +237,7 @@ public class WItem extends Widget implements DTarget {
                 }
             }
 
-            GItem.Quality quality = item.quality();
+            QBuff quality = item.quality();
             if (Config.showquality) {
                 if (quality != null && quality.qtex != null) {
                     Coord btm = new Coord(0, sz.y - 12);
@@ -251,7 +252,7 @@ public class WItem extends Widget implements DTarget {
             }
 
             boolean studylefttimedisplayed = false;
-            if (Config.showstudylefttime && quality != null && quality.curio && item.meter > 0 && parent instanceof InventoryStudy) {
+            if (Config.showstudylefttime && quality != null && item.isCurio && item.meter > 0 && parent instanceof InventoryStudy) {
                 if (item.timelefttex == null) {
                     item.updatetimelefttex();
                 }

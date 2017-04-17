@@ -42,25 +42,12 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
     private GSprite spr;
     private Object[] rawinfo;
     private List<ItemInfo> info = Collections.emptyList();
-    private Quality quality;
+    private QBuff quality;
     public Tex metertex;
     private double studytime = 0.0;
     public Tex timelefttex;
+    public boolean isCurio;
 
-    public static class Quality {
-        public double q;
-        public Tex qtex, qwtex;
-        public boolean curio;
-
-        public Quality(double q, boolean curio) {
-            this.q = q;
-            this.curio = curio;
-            if (q != 0) {
-                qtex = Text.renderstroked(Utils.fmt1DecPlace(q), Color.WHITE, Color.BLACK, numfnd).tex();
-                qwtex = Text.renderstroked(Math.round(q) + "", Color.WHITE, Color.BLACK, numfnd).tex();
-            }
-        }
-    }
 
     @RName("item")
     public static class $_ implements Factory {
@@ -205,29 +192,23 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
     }
 
     public void qualitycalc(List<ItemInfo> infolist) {
-        double q = 0;
-        boolean curio = false;
         for (ItemInfo info : infolist) {
-            if (info instanceof QBuff)
-                q = ((QBuff)info).q;
-            else if (info.getClass() == haven.resutil.Curiosity.class)
-                curio = true;
+            if (info instanceof QBuff) {
+                this.quality = (QBuff) info;
+                break;
+            }
         }
-        quality = new Quality(q, curio);
     }
 
-    public Quality quality() {
+    public QBuff quality() {
         if (quality == null) {
-            try {
-                for (ItemInfo info : info()) {
-                    if (info instanceof ItemInfo.Contents) {
-                        qualitycalc(((ItemInfo.Contents) info).sub);
-                        return quality;
-                    }
+            for (ItemInfo info : info()) {
+                if (info instanceof ItemInfo.Contents) {
+                    qualitycalc(((ItemInfo.Contents) info).sub);
+                    return quality;
                 }
-                qualitycalc(info());
-            } catch (Exception ex) { // ignored
             }
+            qualitycalc(info());
         }
         return quality;
     }
