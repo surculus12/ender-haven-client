@@ -184,14 +184,13 @@ public class UI {
 
     private void processWindowContent(long wndid, GameUI gui, Window pwdg, Widget wdg) {
         String cap = pwdg.origcap;
-        LivestockManager lstock = gui.livestockwnd;
-        if (lstock.pendingAnimal != null && lstock.pendingAnimal.wndid == wndid) {
+        if (gui != null && gui.livestockwnd.pendingAnimal != null && gui.livestockwnd.pendingAnimal.wndid == wndid) {
             if (wdg instanceof TextEntry)
-                lstock.applyName(wdg);
+                gui.livestockwnd.applyName(wdg);
             else if (wdg instanceof Label)
-                lstock.applyAttr(cap, wdg);
+                gui.livestockwnd.applyAttr(cap, wdg);
             else if (wdg instanceof Avaview)
-                lstock.applyId(wdg);
+                gui.livestockwnd.applyId(wdg);
         } else if (wdg instanceof ISBox && cap.equals("Stockpile")) {
             TextEntry entry = new TextEntry(40, "") {
                 @Override
