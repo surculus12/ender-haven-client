@@ -11,10 +11,11 @@ public class LivestockManager extends Window {
     private Panel current;
     public static final int COLUMN_TITLE_X = 60;
     public static final int ENTRY_X = 20;
+    private static final int WINDOW_WIDTH = 790;
     public Animal pendingAnimal;
 
     public LivestockManager() {
-        super(new Coord(800, 380), "Livestock Manager");
+        super(new Coord(WINDOW_WIDTH, 380), "Livestock Manager");
 
         Coord pc = new Coord(20, 55);
         cattle = add(new Panel(), pc);
@@ -82,7 +83,7 @@ public class LivestockManager extends Window {
         public Panel() {
             visible = false;
             c = Coord.z;
-            scrollPort = new Scrollport(new Coord(800 - 40, 290)) {
+            scrollPort = new Scrollport(new Coord(WINDOW_WIDTH - 40, 290)) {
                 @Override
                 public void draw(GOut g) {
                     g.chcolor(0, 0, 0, 128);

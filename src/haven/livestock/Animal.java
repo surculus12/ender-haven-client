@@ -10,33 +10,42 @@ import java.util.List;
 
 
 public abstract class Animal extends HashMap<String, Integer> {
+    private final static int COL_SPACE;
     public long gobid;
     public long wndid;
     public String name;
     public String type;
 
+    static {
+        if (Resource.language.equals("ru"))
+            COL_SPACE = 18;
+        else
+            COL_SPACE = 24;
+    }
+
     public Animal(long wndid, String type) {
         super(12);
         this.wndid = wndid;
         this.type = type;
-        put("Quality:", null);
-        put("Breeding quality:", null);
-        put("Meat quantity:", null);
-        put("Milk quantity:", null);
-        put("Meat quality:", null);
-        put("Milk quality:", null);
-        put("Hide quality:", null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Quality:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Breeding quality:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Meat quantity:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Milk quantity:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Meat quality:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Milk quality:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Hide quality:"), null);
         // horse
-        put("Endurance:", null);
-        put("Stamina:", null);
-        put("Metabolism:", null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Endurance:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Stamina:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Metabolism:"), null);
         // sheep
-        put("Wool quantity:", null);
-        put("Wool quality:", null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Wool quantity:"), null);
+        put(Resource.getLocString(Resource.BUNDLE_LABEL, "Wool quality:"), null);
     }
 
     public static int addColumn(Map<String, Column> columns, String name, String displayName, int index, int x) {
-        Label lbl = new Label(displayName, Text.std, true) {
+        String nameloc = Resource.getLocString(Resource.BUNDLE_LABEL, name);
+        Label lbl = new Label(displayName, Text.std) {
             @Override
             public boolean mousedown(Coord c, int button) {
                 for (Widget child = parent.lchild; child != null; child = child.prev) {
@@ -59,7 +68,7 @@ public abstract class Animal extends HashMap<String, Integer> {
                     int result = a.animal.type.compareTo(b.animal.type);
                     if (result != 0)
                         return result;
-                    return a.animal.get(name) < b.animal.get(name) ? -1 : 1;
+                    return a.animal.get(nameloc) < b.animal.get(nameloc) ? -1 : 1;
                 });
 
                 int y = 0;
@@ -71,8 +80,8 @@ public abstract class Animal extends HashMap<String, Integer> {
                 return true;
             }
         };
-        columns.put(name, new Column(lbl, index, x));
-        return x + lbl.sz.x + 25;
+        columns.put(nameloc, new Column(lbl, index, x));
+        return x + lbl.sz.x + COL_SPACE;
     }
 
     public abstract boolean hasAllAttributes();

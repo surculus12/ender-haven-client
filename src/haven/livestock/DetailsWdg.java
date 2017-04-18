@@ -30,10 +30,10 @@ public class DetailsWdg extends Widget {
             Column col = animal.getColumns().get(key);
 
             String valStr = val.toString();
-            if (key.equals("Meat quality:") ||
-                    key.equals("Milk quality:") ||
-                    key.equals("Hide quality:") ||
-                    key.equals("Wool quality:"))
+            if (key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Meat quality:")) ||
+                key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Milk quality:")) ||
+                key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Hide quality:")) ||
+                key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Wool quality:")))
                 valStr += "%";
 
             Label lbl = new Label(valStr, Text.std);
