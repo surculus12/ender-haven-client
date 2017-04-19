@@ -651,6 +651,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Highlight finished garden pots") {
+            {
+                a = Config.highlightpots;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("highlightpots", val);
+                Config.highlightpots = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Draw circles around party members") {
             {
                 a = Config.partycircles;

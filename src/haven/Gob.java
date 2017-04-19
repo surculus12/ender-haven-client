@@ -60,12 +60,13 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     private Overlay bowvector = null;
     private static final Material.Colors dframeEmpty = new Material.Colors(new Color(87, 204, 73, 255));
     private static final Material.Colors dframeDone = new Material.Colors(new Color(209, 42, 42, 255));
+    private static final Material.Colors potDOne = new Material.Colors(new Color(0, 0, 0, 255));
     private static final Gob.Overlay animalradius = new Gob.Overlay(new BPRadSprite(100.0F, -10.0F, BPRadSprite.smatDanger));
     public Boolean knocked = null;  // knocked will be null if pose update request hasn't been received yet
     public Type type = null;
 
     public enum Type {
-        OTHER(0), DFRAME(1), TREE(2), BUSH(3), BOULDER(4), PLAYER(5), SIEGE_MACHINE(6), MAMMOTH(7), BAT(8), OLDTRUNK(9),
+        OTHER(0), DFRAME(1), TREE(2), BUSH(3), BOULDER(4), PLAYER(5), SIEGE_MACHINE(6), MAMMOTH(7), BAT(8), OLDTRUNK(9), GARDENPOT(10),
         PLANT(16), MULTISTAGE_PLANT(17),
         MOB(32), BEAR(34), LYNX(35), TROLL(38), WALRUS(39),
         WOODEN_SUPPORT(64), STONE_SUPPORT(65), TROUGH(66), BEEHIVE(67);
@@ -487,6 +488,8 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             type = Type.BEEHIVE;
         else if (name.endsWith("/dframe"))
             type = Type.DFRAME;
+        else if (name.endsWith("/gardenpot"))
+            type = Type.GARDENPOT;
         else
             type = Type.OTHER;
     }
@@ -533,6 +536,9 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             else if (empty)
                 rl.prepc(dframeEmpty);
         }
+
+        if (Config.highlightpots && type == Type.GARDENPOT && ols.size() == 2)
+            rl.prepc(potDOne);
 
         GobHighlight highlight = getattr(GobHighlight.class);
         if (highlight != null) {

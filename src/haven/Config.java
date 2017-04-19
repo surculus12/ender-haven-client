@@ -158,6 +158,7 @@ public class Config {
     public static boolean disableterrainsmooth =  Utils.getprefb("disableterrainsmooth", false);
     public static boolean disableelev =  Utils.getprefb("disableelev", false);
     public static String treeboxclr =  Utils.getpref("treeboxclr", "D7FF00");
+    public static boolean highlightpots = Utils.getprefb("highlightpots", false);
     private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(3) {{
         put("zh", 16);
         put("en", 11);
