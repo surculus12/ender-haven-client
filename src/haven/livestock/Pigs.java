@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class Pigs extends Animal {
     private int attributesRequired = columns.size() + 1;
-    private static final Tex texSaw = Resource.loadtex("gfx/livestockava/cow"); // FIXME
-    private static final Tex texHog = Resource.loadtex("gfx/livestockava/bull");// FIXME
+    private static final Tex texSow = Resource.loadtex("gfx/livestockava/sow");
+    private static final Tex texHog = Resource.loadtex("gfx/livestockava/hog");
 
     public static final Map<String, Column> columns = new HashMap<>(8);
 
@@ -43,6 +43,6 @@ public class Pigs extends Animal {
     }
 
     public Tex getAvatar() {
-        return type.equals("Saw") ? texSaw : texHog;
+        return type.equals("Sow") ? texSow : texHog;
     }
 }

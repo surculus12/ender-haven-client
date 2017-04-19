@@ -135,7 +135,7 @@ public class LivestockManager extends Window {
                 pendingAnimal = new Sheep(wdgid, type);
                 break;
             case "Hog":
-            case "Saw":
+            case "Sow":
                 pendingAnimal = new Pigs(wdgid, type);
                 break;
         }
@@ -153,7 +153,7 @@ public class LivestockManager extends Window {
             case "Ewe":
                 return sheep;
             case "Hog":
-            case "Saw":
+            case "Sow":
                 return pigs;
             default:
                 return null;

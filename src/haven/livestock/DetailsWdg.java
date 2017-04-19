@@ -33,7 +33,8 @@ public class DetailsWdg extends Widget {
             if (key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Meat quality:")) ||
                 key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Milk quality:")) ||
                 key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Hide quality:")) ||
-                key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Wool quality:")))
+                key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Wool quality:")) ||
+                key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Endurance:")))
                 valStr += "%";
 
             Label lbl = new Label(valStr, Text.std);
