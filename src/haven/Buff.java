@@ -44,6 +44,7 @@ public class Buff extends Widget {
     Tex ntext = null;
     int a = 255;
     boolean dest = false;
+    public Tex atex;
 
     @RName("buff")
     public static class $_ implements Factory {
@@ -169,6 +170,9 @@ public class Buff extends Widget {
         } else if (msg == "am") {
             this.ameter = (Integer) args[0];
             shorttip = longtip = null;
+            if (atex != null)
+                atex.dispose();
+            atex = null;
         } else if (msg == "nm") {
             this.nmeter = (Integer) args[0];
         } else if (msg == "cm") {
