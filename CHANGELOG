@@ -1,3 +1,20 @@
+Version 1.56.0
+    New:
+        * Livestock manager.
+		* Animal leashing extension.
+		* Option to highlight finished pots.
+
+    Fixed:
+        * Incorrect error message when geolocation fails.
+		* Show container's content quality instead that of container in barterstands.
+
+    Misc:
+		* More sensible settings defaults
+		* Update treatments for Black-Eyed and Blade Kiss wounds.
+		* Some other minor changes...
+		* Upstream code merge.
+
+
 Version 1.55.4
     Fixed:
         * Crash in timers thread.
