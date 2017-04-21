@@ -132,16 +132,31 @@ public class Shopbox extends Widget implements SpriteOwner, Owner {
     public List<ItemInfo> info() {
         if (this.cinfo == null) {
             this.cinfo = ItemInfo.buildinfo(this, this.info);
-
-            for (ItemInfo info : cinfo) {
-                if (info instanceof QBuff) {
-                    QBuff qb = (QBuff)info;
-                    quality = Text.render((int) qb.q + "");
-                    break;
-                }
-            }
+            QBuff qb = quality();
+            if (qb != null)
+                quality = Text.render((int) qb.q + "");
         }
         return this.cinfo;
+    }
+
+    private QBuff getQBuff(List<ItemInfo> infolist) {
+        for (ItemInfo info : infolist) {
+            if (info instanceof QBuff)
+                return (QBuff) info;
+        }
+        return null;
+    }
+
+    private QBuff quality() {
+        try {
+            for (ItemInfo info : info()) {
+                if (info instanceof ItemInfo.Contents)
+                    return getQBuff(((ItemInfo.Contents) info).sub);
+            }
+            return getQBuff(info());
+        } catch (Loading l) {
+        }
+        return null;
     }
 
     public Object tooltip(Coord var1, Widget var2) {
