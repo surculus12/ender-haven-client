@@ -673,6 +673,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Miniature trees (req. logout)") {
+            {
+                a = Config.bonsai;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("bonsai", val);
+                Config.bonsai = val;
+                a = val;
+            }
+        });
     }
 
     private void initMap() {
