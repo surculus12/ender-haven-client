@@ -16,8 +16,6 @@ public class PlantStageSprite extends Sprite {
     };
     public int stg;
     private Tex tex;
-    private static Matrix4f cam = new Matrix4f();
-    private static Matrix4f wxf = new Matrix4f();
     private static Matrix4f mv = new Matrix4f();
     private Projection proj;
     private Coord wndsz;
@@ -32,9 +30,11 @@ public class PlantStageSprite extends Sprite {
     }
 
     public void draw(GOut g) {
-        mv.load(cam.load(camp.fin(Matrix4f.id))).mul1(wxf.load(loc.fin(Matrix4f.id)));
-        Coord3f s = proj.toscreen(mv.mul4(Coord3f.o), wndsz);
-        g.image(tex, new Coord((int) s.x - tex.sz().x/2, (int) s.y - 10));
+        float[] c = mv.load(camp.fin(Matrix4f.id)).mul1(loc.fin(Matrix4f.id)).homoc();
+        Coord sc = proj.get2dCoord(c, wndsz);
+        sc.x -= tex.sz().x/2;
+        sc.y -= 10;
+        g.image(tex, sc);
     }
 
     public boolean setup(RenderList rl) {
