@@ -69,7 +69,6 @@ public class Config {
     public static boolean mapshowviewdist = Utils.getprefb("mapshowviewdist", false);
     public static boolean disabletiletrans = Utils.getprefb("disabletiletrans", false);
     public static boolean itemmeterbar = Utils.getprefb("itemmeterbar", false);
-    public static boolean itempercentage = Utils.getprefb("itempercentage", true);
     public static boolean showprogressperc = Utils.getprefb("showprogressperc", true);
     public static boolean timersalarm = Utils.getprefb("timersalarm", false);
     public static double timersalarmvol = Utils.getprefd("timersalarmvol", 0.8);
@@ -95,7 +94,6 @@ public class Config {
     public static boolean showfps = Utils.getprefb("showfps", false);
     public static boolean autohearth = Utils.getprefb("autohearth", false);
     public static boolean showplayerpaths = Utils.getprefb("showplayerpaths", false);
-    public static boolean showstudylefttime = Utils.getprefb("showstudylefttime", true);
     public static boolean showinvonlogin = Utils.getprefb("showinvonlogin", false);
     public static boolean runonlogin = Utils.getprefb("runonlogin", false);
     public static Coord chatsz = Utils.getprefc("chatsz", new Coord(683, 111));

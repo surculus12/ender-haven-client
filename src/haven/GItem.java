@@ -44,10 +44,8 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
     private List<ItemInfo> info = Collections.emptyList();
     private QBuff quality;
     public Tex metertex;
-    private double studytime = 0.0;
+    public double studytime = 0.0;
     public Tex timelefttex;
-    public boolean isCurio;
-
 
     @RName("item")
     public static class $_ implements Factory {
@@ -105,20 +103,13 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
         }
     }
 
-    public boolean updatetimelefttex() {
-        if (studytime == 0.0) {
-            Curiosity ci = ItemInfo.find(Curiosity.class,  info());
-            if (ci == null || ci.time < 1)
-                return false;
-            studytime = ci.time;
-        }
-
+    public void updatetimelefttex() {
+        if (studytime == 0.0)
+            return;
         int timeleft = (int) studytime * (100 - meter) / 100;
         int hoursleft = timeleft / 60;
         int minutesleft = timeleft - hoursleft * 60;
-
         timelefttex = Text.renderstroked(String.format("%d:%02d", hoursleft, minutesleft), Color.WHITE, Color.BLACK, numfnd).tex();
-        return true;
     }
 
     private Random rnd = null;

@@ -544,17 +544,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Display item completion as percentage") {
-            {
-                a = Config.itempercentage;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("itempercentage", val);
-                Config.itempercentage = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Show hourglass percentage") {
             {
                 a = Config.showprogressperc;
@@ -604,17 +593,6 @@ public class OptWnd extends Window {
             public void set(boolean val) {
                 Utils.setprefb("showplayerpaths", val);
                 Config.showplayerpaths = val;
-                a = val;
-            }
-        });
-        appender.add(new CheckBox("Show study remaining time") {
-            {
-                a = Config.showstudylefttime;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("showstudylefttime", val);
-                Config.showstudylefttime = val;
                 a = val;
             }
         });

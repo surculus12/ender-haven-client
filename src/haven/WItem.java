@@ -224,17 +224,10 @@ public class WItem extends Widget implements DTarget {
             }
 
             Double meter = item.meter > 0 ? item.meter / 100.0 : itemmeter.get();
-            if (meter != null && meter > 0) {
-                if (Config.itemmeterbar) {
-                    g.chcolor(220, 60, 60, 255);
-                    g.frect(Coord.z, new Coord((int) (sz.x / (100 / (meter * 100))), 4));
-                    g.chcolor();
-                } else if (!Config.itempercentage) {
-                    g.chcolor(255, 255, 255, 64);
-                    Coord half = sz.div(2);
-                    g.prect(half, half.inv(), half, meter * Math.PI * 2);
-                    g.chcolor();
-                }
+            if (Config.itemmeterbar && meter != null && meter > 0) {
+                g.chcolor(220, 60, 60, 255);
+                g.frect(Coord.z, new Coord((int) (sz.x / (100 / (meter * 100))), 4));
+                g.chcolor();
             }
 
             QBuff quality = item.quality();
@@ -251,19 +244,12 @@ public class WItem extends Widget implements DTarget {
                 }
             }
 
-            boolean studylefttimedisplayed = false;
-            if (Config.showstudylefttime && quality != null && item.isCurio && item.meter > 0 && parent instanceof InventoryStudy) {
-                if (item.timelefttex == null) {
+            if (item.studytime > 0 && parent instanceof InventoryStudy) {
+                if (item.timelefttex == null)
                     item.updatetimelefttex();
-                }
-
-                if (item.timelefttex != null) {
+                if (item.timelefttex != null)
                     g.image(item.timelefttex, Coord.z);
-                    studylefttimedisplayed = true;
-                }
-            }
-
-            if (!studylefttimedisplayed && item.meter > 0 && Config.itempercentage && item.metertex != null) {
+            } else if (item.meter > 0 && item.metertex != null) {
                 g.image(item.metertex, Coord.z);
             }
 
