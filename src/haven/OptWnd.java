@@ -533,7 +533,7 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Display item completion as progress bar") {
+        appender.add(new CheckBox("Display item completion progress bar") {
             {
                 a = Config.itemmeterbar;
             }
