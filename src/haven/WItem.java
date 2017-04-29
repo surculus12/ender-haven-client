@@ -179,10 +179,15 @@ public class WItem extends Widget implements DTarget {
         return(ret);
     });
 
-    public final AttrCache<Tex> itemnum = new AttrCache<Tex>(info -> {
+    public final AttrCache<Tex> itemnum = new AttrCache<>(info -> {
         GItem.NumberInfo ninf = ItemInfo.find(GItem.NumberInfo.class, info);
-        if(ninf == null) return(null);
-        return(new TexI(Utils.outline2(Text.render(Integer.toString(ninf.itemnum()), Color.WHITE).img, Utils.contrast(Color.WHITE))));
+        if (ninf == null)
+            return null;
+
+        if (ninf instanceof GItem.GildingInfo && ((GItem.GildingInfo) ninf).hasGildableSlots())
+            return Text.renderstroked(ninf.itemnum() + "", new Color(0, 169, 224), Color.BLACK).tex();
+
+        return Text.renderstroked(ninf.itemnum() + "", Color.WHITE, Color.BLACK).tex();
     });
 
     public final AttrCache<Double> itemmeter = new AttrCache<Double>(info -> {

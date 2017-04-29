@@ -64,6 +64,10 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
         public int itemnum();
     }
 
+    public interface GildingInfo {
+        public boolean hasGildableSlots();
+    }
+
     public interface MeterInfo {
         public double meter();
     }
