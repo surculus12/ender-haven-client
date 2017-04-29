@@ -431,6 +431,7 @@ public class Config {
                 "gfx/invobjs/stitchpatch"
         });
         put("paginae/wound/blackeye", new String[]{
+                "gfx/invobjs/hartshornsalve",
                 "gfx/invobjs/toadbutter",
                 "gfx/invobjs/rootfill"
         });
