@@ -289,10 +289,10 @@ public class LocalMiniMap extends Widget {
                     if (sgobs.contains(gob.id))
                         continue;
 
-                    if (Config.alarmonforagables && Config.foragables.contains(res.name)) {
+                    if (Config.alarmonforagables && gob.type == Gob.Type.FU_YE_CURIO) {
                         sgobs.add(gob.id);
                         Audio.play(foragablesfx, Config.alarmonforagablesvol);
-                    } else if (Config.alarmlocres && Config.locres.contains(res.name)) {
+                    } else if (Config.alarmlocres && gob.type == Gob.Type.LOC_RESOURCE) {
                         sgobs.add(gob.id);
                         Audio.play(swagsfx, Config.alarmlocresvol);
                     } else if (Config.alarmbears && gob.type == Gob.Type.BEAR && gob.knocked == Boolean.FALSE) {
@@ -526,7 +526,7 @@ public class LocalMiniMap extends Widget {
                 mv.wdgmsg("click", rootpos().add(csd), mc.floor(posres), button, ui.modflags());
             } else {
                 mv.wdgmsg("click", rootpos().add(csd), mc.floor(posres), button, ui.modflags(), 0, (int) gob.id, gob.rc.floor(posres), 0, -1);
-                if (Config.autopickmussels)
+                if (Config.autopickmussels && gob.type == Gob.Type.MUSSEL)
                     mv.startMusselsPicker(gob);
             }
         } else if (button == 2) {

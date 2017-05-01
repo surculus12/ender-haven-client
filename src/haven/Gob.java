@@ -66,7 +66,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     public Type type = null;
 
     public enum Type {
-        OTHER(0), DFRAME(1), TREE(2), BUSH(3), BOULDER(4), PLAYER(5), SIEGE_MACHINE(6), MAMMOTH(7), BAT(8), OLDTRUNK(9), GARDENPOT(10),
+        OTHER(0), DFRAME(1), TREE(2), BUSH(3), BOULDER(4), PLAYER(5), SIEGE_MACHINE(6), MAMMOTH(7), BAT(8), OLDTRUNK(9), GARDENPOT(10), MUSSEL(11), LOC_RESOURCE(12), FU_YE_CURIO(13),
         PLANT(16), MULTISTAGE_PLANT(17),
         MOB(32), BEAR(34), LYNX(35), TROLL(38), WALRUS(39),
         WOODEN_SUPPORT(64), STONE_SUPPORT(65), TROUGH(66), BEEHIVE(67);
@@ -438,16 +438,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
     public void draw(GOut g) {
     }
 
-    private void determineType() {
-        Resource res = null;
-        try {
-            res = getres();
-        } catch (Loading l) {
-        }
-        if (res == null)
-            return;
-        String name = res.name;
-
+    public void determineType(String name) {
         if (name.startsWith("gfx/terobjs/trees") && !name.endsWith("log") && !name.endsWith("oldtrunk"))
             type = Type.TREE;
         else if (name.endsWith("oldtrunk"))
@@ -490,6 +481,12 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             type = Type.DFRAME;
         else if (name.endsWith("/gardenpot"))
             type = Type.GARDENPOT;
+        else if (name.endsWith("/mussels"))
+            type = Type.MUSSEL;
+        else if (Config.foragables.contains(name))
+            type = Type.FU_YE_CURIO;
+        else if (Config.locres.contains(name))
+            type = Type.LOC_RESOURCE;
         else
             type = Type.OTHER;
     }
@@ -508,9 +505,6 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 
         if (MapView.markedGobs.contains(id))
             rl.prepc(MapView.markedFx);
-
-        if (type == null)
-            determineType();
 
         if (Config.showdframestatus && type == Type.DFRAME) {
             boolean done = true;
@@ -567,31 +561,21 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 
             if (Config.showplantgrowstage) {
                 if (Type.PLANT.has(type)) {
-                    Resource res = null;
-                    try {
-                        res = getres();
-                    } catch (Loading l) {
-                    }
-                    if (res != null) {
-                        GAttrib rd = getattr(ResDrawable.class);
-                        if (rd != null) {
-                            int stage = ((ResDrawable) rd).sdt.peekrbuf(0);
-                            if (cropstgmaxval == 0) {
-                                for (FastMesh.MeshRes layer : res.layers(FastMesh.MeshRes.class)) {
-                                    int stg = layer.id / 10;
-                                    if (stg > cropstgmaxval)
-                                        cropstgmaxval = stg;
-                                }
-                            }
-                            Overlay ol = findol(Sprite.GROWTH_STAGE_ID);
-                            if (ol == null && (stage == cropstgmaxval || stage > 0 && stage < 6)) {
-                                addol(new Gob.Overlay(Sprite.GROWTH_STAGE_ID, new PlantStageSprite(stage, cropstgmaxval, type == Type.MULTISTAGE_PLANT)));
-                            } else if (stage <= 0 || (stage != cropstgmaxval && stage >= 6)) {
-                                ols.remove(ol);
-                            } else if (((PlantStageSprite) ol.spr).stg != stage) {
-                                ((PlantStageSprite) ol.spr).update(stage, cropstgmaxval);
-                            }
+                    int stage = getattr(ResDrawable.class).sdt.peekrbuf(0);
+                    if (cropstgmaxval == 0) {
+                        for (FastMesh.MeshRes layer : getres().layers(FastMesh.MeshRes.class)) {
+                            int stg = layer.id / 10;
+                            if (stg > cropstgmaxval)
+                                cropstgmaxval = stg;
                         }
+                    }
+                    Overlay ol = findol(Sprite.GROWTH_STAGE_ID);
+                    if (ol == null && (stage == cropstgmaxval || stage > 0 && stage < 6)) {
+                        addol(new Gob.Overlay(Sprite.GROWTH_STAGE_ID, new PlantStageSprite(stage, cropstgmaxval, type == Type.MULTISTAGE_PLANT)));
+                    } else if (stage <= 0 || (stage != cropstgmaxval && stage >= 6)) {
+                        ols.remove(ol);
+                    } else if (((PlantStageSprite) ol.spr).stg != stage) {
+                        ((PlantStageSprite) ol.spr).update(stage, cropstgmaxval);
                     }
                 }
 

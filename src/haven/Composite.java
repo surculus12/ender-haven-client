@@ -55,8 +55,11 @@ public class Composite extends Drawable {
     private void init() {
         if (comp != null)
             return;
-        comp = new Composited(base.get().layer(Skeleton.Res.class).s);
+        Resource res = base.get();
+        comp = new Composited(res.layer(Skeleton.Res.class).s);
         comp.eqowner = gob;
+        if (gob.type == null)
+            gob.determineType(res.name);
     }
 
     public void setup(RenderList rl) {

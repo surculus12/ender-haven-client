@@ -1762,7 +1762,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                         pfRightClick(inf.gob, inf.clickid(), clickb, 0, null);
                     } else {
                         wdgmsg("click", pc, mc.floor(posres), clickb, modflags, 0, (int) inf.gob.id, inf.gob.rc.floor(posres), 0, inf.clickid());
-                        if (Config.autopickmussels)
+                        if (Config.autopickmussels && inf.gob.type == Gob.Type.MUSSEL)
                             startMusselsPicker(inf.gob);
                     }
                 } else {
@@ -2388,12 +2388,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     }
 
     public void startMusselsPicker(Gob gob) {
-        try {
-            if (gob.getres().name.equals("gfx/terobjs/herbs/mussels")) {
-                musselPicker = new Thread(new MusselPicker(gameui(), gob), "MusselPicker");
-                musselPicker.start();
-            }
-        } catch (Loading l) {
-        }
+        musselPicker = new Thread(new MusselPicker(gameui(), gob), "MusselPicker");
+        musselPicker.start();
     }
 }
