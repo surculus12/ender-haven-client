@@ -1493,17 +1493,7 @@ public class OptWnd extends Window {
             }
         });
         appender.setVerticalMargin(0);
-        appender.add(new CheckBox("Alarm on bears & lynx") {
-            {
-                a = Config.alarmbears;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("alarmbears", val);
-                Config.alarmbears = val;
-                a = val;
-            }
-        });
+        appender.add(new Label("Alarm on bears & lynx"));
         appender.setVerticalMargin(VERTICAL_AUDIO_MARGIN);
         appender.add(new HSlider(200, 0, 1000, 0) {
             protected void attach(UI ui) {
@@ -1518,17 +1508,7 @@ public class OptWnd extends Window {
             }
         });
         appender.setVerticalMargin(0);
-        appender.add(new CheckBox("Alarm on mammoths") {
-            {
-                a = Config.alarmmammoth;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("alarmmammoth", val);
-                Config.alarmmammoth = val;
-                a = val;
-            }
-        });
+        appender.add(new Label("Alarm on mammoths"));
         appender.setVerticalMargin(VERTICAL_AUDIO_MARGIN);
         appender.add(new HSlider(200, 0, 1000, 0) {
             protected void attach(UI ui) {

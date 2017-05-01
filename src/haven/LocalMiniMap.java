@@ -295,13 +295,13 @@ public class LocalMiniMap extends Widget {
                     } else if (Config.alarmlocres && gob.type == Gob.Type.LOC_RESOURCE) {
                         sgobs.add(gob.id);
                         Audio.play(swagsfx, Config.alarmlocresvol);
-                    } else if (Config.alarmbears && gob.type == Gob.Type.BEAR && gob.knocked == Boolean.FALSE) {
+                    } else if (gob.type == Gob.Type.BEAR && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(bearsfx, Config.alarmbearsvol);
-                    } else if (Config.alarmbears && gob.type == Gob.Type.LYNX && gob.knocked == Boolean.FALSE) {
+                    } else if (gob.type == Gob.Type.LYNX && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(lynxfx, Config.alarmbearsvol);
-                    } else if (Config.alarmbears && gob.type == Gob.Type.WALRUS && gob.knocked == Boolean.FALSE) {
+                    } else if (gob.type == Gob.Type.WALRUS && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(walrusfx, Config.alarmbearsvol);
                     } else if (gob.type == Gob.Type.TROLL) {
@@ -311,7 +311,7 @@ public class LocalMiniMap extends Widget {
                             sgobs.add(gob.id);
                             Audio.play(trollsfx, Config.alarmtrollvol);
                         }
-                    } else if (Config.alarmmammoth && gob.type == Gob.Type.MAMMOTH && gob.knocked == Boolean.FALSE) {
+                    } else if (gob.type == Gob.Type.MAMMOTH && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(mammothsfx, Config.alarmmammothvol);
                     } else if (Config.alarmbram && gob.type == Gob.Type.SIEGE_MACHINE) {
