@@ -1985,7 +1985,7 @@ public class Resource implements Serializable {
                     || key.startsWith("paginae/atk/ashoot") || key.startsWith("paginae/seid")))
                 return;
 
-            if (key == null || key.equals("") || val.equals("") || map.containsKey(key))
+            if (key == null || key.equals("") || val.equals(""))
                 return;
 
             if (val.charAt(0) >= '0' && val.charAt(0) <= '9')
@@ -2008,6 +2008,12 @@ public class Resource implements Serializable {
                 }
             }
 
+            val = sanitizeVal(val);
+
+            String valOld = map.get(key);
+            if (valOld != null && sanitizeVal(valOld).equals(val))
+                return;
+
             new File("l10n").mkdirs();
 
             CharsetEncoder encoder = Charset.forName("UTF-8").newEncoder();
@@ -2021,11 +2027,6 @@ public class Resource implements Serializable {
                     key = "\\u0020" + key.substring(2);
                 if (key.endsWith("\\ "))
                     key = "\\u0020" + key.substring(0, key.length() - 2);
-                val = val.replace("\\", "\\\\").replace("\n", "\\n").replace("\u0000", "");
-                if (val.startsWith(" "))
-                    val = "\\u0020" + val.substring(1);
-                if (val.endsWith(" "))
-                    val = "\\u0020" + val.substring(0, val.length() - 1);
                 out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("l10n/" + bundle + "_new.properties", true), encoder));
                 out.write(key + " = " + val);
                 out.newLine();
@@ -2045,6 +2046,19 @@ public class Resource implements Serializable {
 
             return;
         }
+    }
+
+    private static String sanitizeVal(String val) {
+        val = val.replace("\\", "\\\\").replace("\n", "\\n").replace("\u0000", "");
+        if (val.startsWith(" "))
+            val = "\\u0020" + val.substring(1);
+        if (val.endsWith(" "))
+            val = "\\u0020" + val.substring(0, val.length() - 1);
+
+        while (val.endsWith("\\n"))
+            val = val.substring(0, val.length() - 2);
+
+        return val;
     }
 
     public static void main(String[] args) throws Exception {
