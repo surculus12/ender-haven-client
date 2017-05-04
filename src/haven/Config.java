@@ -380,6 +380,7 @@ public class Config {
                 "gfx/invobjs/toadbutter",
                 "gfx/invobjs/leech",
                 "gfx/invobjs/gauze",
+                "gfx/invobjs/hartshornsalve",
                 "gfx/invobjs/camomilecompress"
         });
         put("paginae/wound/bruise", new String[]{
@@ -430,10 +431,10 @@ public class Config {
         });
         put("paginae/wound/blackeye", new String[]{
                 "gfx/invobjs/hartshornsalve",
-                "gfx/invobjs/toadbutter",
-                "gfx/invobjs/rootfill"
+                "gfx/invobjs/toadbutter"
         });
         put("paginae/wound/bladekiss", new String[]{
+                "gfx/invobjs/gauze",
                 "gfx/invobjs/toadbutter"
         });
         put("paginae/wound/somethingbroken", new String[]{
