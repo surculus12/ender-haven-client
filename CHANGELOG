@@ -1,3 +1,19 @@
+Version 1.57.0
+    New:
+        * Draw gilding number in blue for items with available gilding slots (by Jynx). 
+
+    Fixed:
+        * Leashing extension not working with domesticated horses. 
+		* Last entry in livestock manager not displaying properly.
+
+    Misc:
+		* Russian localization has been significantly improved (by mdsanta, not_a_cat, North Grey).
+		* Hide bushes in addition to trees on Ctrl+H.
+		* Updated wound treatments.
+		* Some other minor changes.
+		* Upstream code merge.
+
+
 Version 1.56.0
     New:
         * Livestock manager.
