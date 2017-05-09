@@ -1271,17 +1271,6 @@ public class OptWnd extends Window {
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
 
-        appender.add(new CheckBox("Open object menus without delay") {
-            {
-                a = Config.instantflowermenu;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("instantflowermenu", val);
-                Config.instantflowermenu = val;
-                a = val;
-            }
-        });
         appender.add(new CheckBox("Automatically pick all clustered mussels (auto 'Pick' needs to be enabled)") {
             {
                 a = Config.autopickmussels;
@@ -1306,7 +1295,7 @@ public class OptWnd extends Window {
         Utils.loadprefchklist("flowersel", Config.flowermenus);
         for (CheckListboxItem itm : Config.flowermenus.values())
             flowerlist.items.add(itm);
-        flowermenus.add(flowerlist, new Coord(0, 70));
+        flowermenus.add(flowerlist, new Coord(0, 50));
 
         flowermenus.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         flowermenus.pack();
