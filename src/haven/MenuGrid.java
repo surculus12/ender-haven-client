@@ -213,6 +213,7 @@ public class MenuGrid extends Widget {
             p.add(paginafor(Resource.local().load("paginae/amber/fish")));
             p.add(paginafor(Resource.local().load("paginae/amber/timers")));
             p.add(paginafor(Resource.local().load("paginae/amber/livestock")));
+            p.add(paginafor(Resource.local().load("paginae/amber/shoo")));
         }
     }
 
@@ -425,6 +426,8 @@ public class MenuGrid extends Widget {
         } else if (ad[1].equals("livestock")) {
             gui.livestockwnd.show(!gui.livestockwnd.visible);
             gui.livestockwnd.raise();
+        } else if (ad[1].equals("shoo")) {
+            new Thread(new Shoo(gui), "Shoo").start();
         }
     }
 
