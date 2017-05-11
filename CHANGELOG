@@ -1,3 +1,12 @@
+Version 1.57.1
+    New:
+        * Shoo animals extension.
+
+    Misc:
+		* Added camomile to foragables alarm.
+		* Upstream code merge.
+
+
 Version 1.57.0
     New:
         * Draw gilding number in blue for items with available gilding slots (by Jynx). 
