@@ -1993,7 +1993,7 @@ public class Resource implements Serializable {
 
             if (key.startsWith("Village shield:") ||
                     key.endsWith("is ONLINE") || key.endsWith("is offline") ||
-                    key.startsWith("Experience points gained:"))
+                    key.startsWith("Born to "))
                 return;
             
             if (bundle == BUNDLE_LABEL) {
@@ -2003,6 +2003,11 @@ public class Resource implements Serializable {
                 }
             } else if (bundle == BUNDLE_FLOWER) {
                 for (String s : fmtLocStringsFlower) {
+                    if (fmtLocString(map, key, s) != null)
+                        return;
+                }
+            } else if (bundle == BUNDLE_MSG) {
+                for (String s : fmtLocStringsMsg) {
                     if (fmtLocString(map, key, s) != null)
                         return;
                 }
