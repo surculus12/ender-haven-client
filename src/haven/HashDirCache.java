@@ -30,6 +30,7 @@ import java.io.*;
 import java.net.URI;
 import java.nio.channels.FileLock;
 import java.nio.channels.FileLockInterruptionException;
+import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Iterator;
@@ -274,7 +275,10 @@ public class HashDirCache implements ResCache {
 
             public void close() throws IOException {
                 fp.close();
-                Files.move(tmp.toPath(), path.toPath(), StandardCopyOption.ATOMIC_MOVE);
+                try {
+                    Files.move(tmp.toPath(), path.toPath(), StandardCopyOption.ATOMIC_MOVE);
+                } catch (AccessDeniedException e) { // ignored
+                }
             }
         });
     }
