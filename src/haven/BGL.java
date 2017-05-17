@@ -86,7 +86,6 @@ public abstract class BGL {
     }
 
     public void bglCheckErr() {
-        final Throwable place = null;
         add(new Command() {
             public void run(GL2 gl) {
                 GOut.checkerr(gl);
