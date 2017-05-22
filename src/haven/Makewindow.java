@@ -40,7 +40,7 @@ public class Makewindow extends Widget {
     int xoff = 45;
     private static final int qmy = 38, outy = 65;
     public static final Text.Foundry nmf = new Text.Foundry(Text.serif, 20).aa(true);
-    private int qModProduct = -1;
+    private long qModProduct = -1;
     private static final Tex softcapl = Text.render("Softcap:").tex();
     private Tex softcap;
 
@@ -258,8 +258,8 @@ public class Makewindow extends Widget {
             }
 
             if (Config.showcraftcap && qmodValues.size() > 0) {
-                int product = 1;
-                for (int cap : qmodValues)
+                long product = 1;
+                for (long cap : qmodValues)
                     product *= cap;
 
                 if (product != qModProduct) {
