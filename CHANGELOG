@@ -1,3 +1,14 @@
+Version 1.57.2
+    Fixed:
+        * Crash when running multiple clients.
+        * Invalid softcap value on high stats.
+
+    Misc:
+        * Display system specs in error reports.
+        * Updated wound treatments.
+        * Show warning radius around adders.
+
+
 Version 1.57.1
     New:
         * Shoo animals extension.
