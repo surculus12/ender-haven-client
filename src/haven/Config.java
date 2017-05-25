@@ -441,7 +441,8 @@ public class Config {
                 "gfx/invobjs/camomilecompress"
         });
         put("paginae/wound/infectedsore", new String[]{
-                "gfx/invobjs/camomilecompress"
+                "gfx/invobjs/camomilecompress",
+                "gfx/invobjs/soapbar"
         });
     }};
 
