@@ -1284,7 +1284,7 @@ public class OptWnd extends Window {
         });
         appender.add(new Label("Automatic selecton:"));
 
-        CheckListbox flowerlist = new CheckListbox(140, 15) {
+        CheckListbox flowerlist = new CheckListbox(140, 16) {
             @Override
             protected void itemclick(CheckListboxItem itm, int button) {
                 super.itemclick(itm, button);
