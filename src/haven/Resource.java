@@ -1866,6 +1866,7 @@ public class Resource implements Serializable {
             "One for %s",
             "Fair Game for %s",
             "Meditations on %s",
+            "%s's Wild Harvest",
             "%s has invited you to join his party. Do you wish to do so?",
             "%s has requested to spar with you. Do you accept?",
             "Experience points gained: %s",
@@ -1887,7 +1888,8 @@ public class Resource implements Serializable {
             "Will refill in %s seconds",
             "Will refill in %s second",
             "Quality: %s",
-            "%s%% grown"
+            "%s%% grown",
+            "The battering ram cannot be used until the glue has dried, in %s hours."
     };
 
     public static String getLocString(String bundle, String key) {
@@ -1993,7 +1995,8 @@ public class Resource implements Serializable {
 
             if (key.startsWith("Village shield:") ||
                     key.endsWith("is ONLINE") || key.endsWith("is offline") ||
-                    key.startsWith("Born to "))
+                    key.startsWith("Born to ") ||
+                    key.equals("ui/r-enact"))
                 return;
             
             if (bundle == BUNDLE_LABEL) {
