@@ -98,6 +98,7 @@ public class Partyview extends Widget {
                             return (tooltip = ki.rendered());
                         }
                     });
+                    w.canactivate = true;
                     avs.put(m, w);
                 } else {
                     old.remove(m);

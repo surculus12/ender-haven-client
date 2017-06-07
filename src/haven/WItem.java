@@ -187,7 +187,7 @@ public class WItem extends Widget implements DTarget {
         if (ninf instanceof GItem.GildingInfo && ((GItem.GildingInfo) ninf).hasGildableSlots())
             return Text.renderstroked(ninf.itemnum() + "", new Color(0, 169, 224), Color.BLACK).tex();
 
-        return Text.renderstroked(ninf.itemnum() + "", Color.WHITE, Color.BLACK).tex();
+        return Text.renderstroked(ninf.itemnum() + "", ninf.numcolor(), Color.BLACK).tex();
     });
 
     public final AttrCache<Double> itemmeter = new AttrCache<Double>(info -> {
