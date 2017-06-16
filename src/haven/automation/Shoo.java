@@ -24,7 +24,7 @@ public class Shoo implements Runnable {
                             res.name.startsWith("gfx/kritter/cattle") ||
                             res.name.startsWith("gfx/kritter/pig"))) {
                         Coord2d plc = gui.map.player().rc;
-                        if ((animal == null || gob.rc.dist(plc) < animal.rc.dist(plc)) && animal.knocked == false)
+                        if ((animal == null || gob.rc.dist(plc) < animal.rc.dist(plc)) && gob.knocked == false)
                             animal = gob;
                     }
                 } catch (Loading l) {
