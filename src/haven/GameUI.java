@@ -76,7 +76,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     public Bufflist buffs;
     public MinimapWnd minimapWnd;
     public LocalMiniMap mmap;
-    public TimersWnd timerswnd;
+    public haven.timers.TimersWnd timerswnd;
     public QuickSlotsWdg quickslots;
     public StatusWdg statuswindow;
     public AlignPanel questpanel;
@@ -186,7 +186,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         zerg = add(new Zergwnd(), 187, 50);
         zerg.hide();
 
-        timerswnd = new TimersWnd(this);
+        timerswnd = new haven.timers.TimersWnd(this);
         timerswnd.hide();
         add(timerswnd, new Coord(HavenPanel.w / 2 - timerswnd.sz.x / 2, 100));
 

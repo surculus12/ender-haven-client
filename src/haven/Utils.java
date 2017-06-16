@@ -300,7 +300,7 @@ public class Utils {
         }
     }
 
-    static JSONObject[] getprefjsona(String prefname, JSONObject[] def) {
+    public static JSONObject[] getprefjsona(String prefname, JSONObject[] def) {
         try {
             String jsonstr = Utils.getpref(prefname, null);
             if (jsonstr == null)
@@ -318,7 +318,7 @@ public class Utils {
         }
     }
 
-    static void setprefjsona(String prefname, JSONObject[] val) {
+    public static void setprefjsona(String prefname, JSONObject[] val) {
         try {
             String jsonarr = "";
             for (JSONObject o : val)
@@ -370,7 +370,7 @@ public class Utils {
         }
     }
 
-    static void setprefb(String prefname, boolean val) {
+    public static void setprefb(String prefname, boolean val) {
         try {
             prefs().putBoolean(prefname, val);
         } catch (SecurityException e) {
