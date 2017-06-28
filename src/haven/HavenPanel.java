@@ -64,6 +64,7 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory 
     private GLConfig glconf = null;
     public static boolean needtotakescreenshot;
     public static boolean isATI;
+    private final boolean gldebug = false;
 
     private static GLCapabilities stdcaps() {
         GLProfile prof = GLProfile.getDefault();
@@ -80,6 +81,8 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory 
 
     public HavenPanel(int w, int h, GLCapabilitiesChooser cc) {
         super(stdcaps(), cc, null, null);
+        if (gldebug)
+            setContextCreationFlags(getContextCreationFlags() | GLContext.CTX_OPTION_DEBUG);
         setSize(this.w = w, this.h = h);
         newui(null);
         initgl();
@@ -144,6 +147,11 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory 
                         // h.lsetprop("gl.conf", glconf);
                     }
                     glconf = GLConfig.fromgl(gl, d.getContext(), getChosenGLCapabilities());
+                    if (gldebug) {
+                        if (!d.getContext().isGLDebugMessageEnabled())
+                            System.err.println("GL debugging not actually enabled");
+                        ((GL2) gl).glDebugMessageControl(GL.GL_DONT_CARE, GL.GL_DONT_CARE, GL.GL_DONT_CARE, 0, null, true);
+                    }
                     glconf.pref = GLSettings.load(glconf, true);
                     ui.cons.add(glconf);
                     gstate = new GLState() {
@@ -416,6 +424,8 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory 
         }
         state.clean();
         GLObject.disposeall(state.cgl, gl);
+        if (gldebug)
+            gl.bglGetDebugMessageLog(msg -> System.err.println(msg));
     }
 
     private static class Frame {
