@@ -1,3 +1,16 @@
+Version 1.57.4
+    New:
+        * Option to restrict dropping mouse held items (by lichengyu).
+
+    Fixed:
+        * Shoo extensions triggering on dead animals.
+		* Player alarms triggering on mannequins.
+
+    Misc:
+		* Dead adders are now pickable with the Q key.
+		* Upstream code merge.
+
+
 Version 1.57.3
     Fixed:
         * Possible crash when toggling grid overlay.
