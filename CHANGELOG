@@ -1,3 +1,8 @@
+Version 1.57.5
+    Misc:
+		* Upstream code merge.
+
+
 Version 1.57.4
     New:
         * Option to restrict dropping mouse held items (by lichengyu).
