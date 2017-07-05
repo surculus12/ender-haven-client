@@ -45,6 +45,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.*;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.IntPredicate;
 import java.util.function.Supplier;
 import java.util.prefs.Preferences;
@@ -1327,6 +1328,12 @@ public class Utils {
                 return(ret);
         }
         return(null);
+    }
+
+    public static <T> void clean(Collection<T> c, Consumer<? super T> clean) {
+        for (T item : c)
+            clean.accept(item);
+        c.clear();
     }
 
     public static <T> T construct(Constructor<T> cons, Object... args) {
