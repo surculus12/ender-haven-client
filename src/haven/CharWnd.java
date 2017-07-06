@@ -1415,8 +1415,8 @@ public class CharWnd extends Window {
 
         public SkillGrid(Coord sz) {
             super(sz);
-            nsk = new Group(new Coord(40, 40), new Coord(-1, 5), "Available Skills", Collections.emptyList());
-            csk = new Group(new Coord(40, 40), new Coord(-1, 5), "Known Skills", Collections.emptyList());
+            nsk = new Group(new Coord(40, 40), new Coord(-1, 5), Resource.getLocString(Resource.BUNDLE_LABEL, "Available Skills"), Collections.emptyList());
+            csk = new Group(new Coord(40, 40), new Coord(-1, 5), Resource.getLocString(Resource.BUNDLE_LABEL, "Known Skills"), Collections.emptyList());
             itemtooltip = Skill::tooltip;
         }
 
