@@ -1849,7 +1849,7 @@ public class CharWnd extends Window {
                     }
                 });
                 int rx = attrw + wbox.btloff().x - 10;
-                Frame.around(sktab, Area.sized(new Coord(0, y).add(wbox.btloff()), new Coord(attrw, 34)));
+                Frame.around(sktab, Area.sized(new Coord(0, y).add(wbox.btloff()), new Coord(attrw + 10, 34)));
                 /*
                 sktab.add(new Label("Learning points:"), new Coord(15, y + 10));
                 sktab.add(new ExpLabel(new Coord(rx, y + 10)));
