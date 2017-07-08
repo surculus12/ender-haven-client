@@ -223,16 +223,14 @@ public class LoginScreen extends Widget {
         @Override
         protected void itemclick(LoginData itm, int button) {
             if (button == 1) {
-                synchronized (Config.logins) {
-                    if (lastMouseDown.x >= sz.x - 25 && lastMouseDown.x <= sz.x - 25 + 20) {
-                        synchronized (Config.logins) {
-                            Config.logins.remove(itm);
-                            Config.saveLogins();
-                        }
-                    } else if (c.x < sz.x - 35) {
-                        parent.wdgmsg("forget");
-                        parent.wdgmsg("login", new Object[]{new AuthClient.NativeCred(itm.name, itm.pass), false});
+                if (lastMouseDown.x >= sz.x - 25 && lastMouseDown.x <= sz.x - 25 + 20) {
+                    synchronized (Config.logins) {
+                        Config.logins.remove(itm);
+                        Config.saveLogins();
                     }
+                } else if (c.x < sz.x - 35) {
+                    parent.wdgmsg("forget");
+                    parent.wdgmsg("login", new Object[]{new AuthClient.NativeCred(itm.name, itm.pass), false});
                 }
                 super.itemclick(itm, button);
             }
