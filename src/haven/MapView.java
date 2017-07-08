@@ -2015,8 +2015,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         delay(new Hittest(cc) {
             public void hit(Coord pc, Coord2d mc, ClickInfo inf) {
                 lastItemactGob = null;
-                System.out.println("null interact");
-
                 if (inf == null) {
                     if (Config.tilecenter) {
                         mc.x = ((int)mc.x / 11) * 11 + Integer.signum((int)mc.x) * 5;
