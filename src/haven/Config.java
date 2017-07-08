@@ -73,6 +73,7 @@ public class Config {
     public static boolean timersalarm = Utils.getprefb("timersalarm", false);
     public static double timersalarmvol = Utils.getprefd("timersalarmvol", 0.8);
     public static boolean quickslots = Utils.getprefb("quickslots", true);
+    public static boolean quickbelt = Utils.getprefb("quickbelt", false);
     public static boolean statuswdgvisible = Utils.getprefb("statuswdgvisible", false);
     public static boolean chatalarm = Utils.getprefb("chatalarm", true);
     public static double chatalarmvol = Utils.getprefd("chatalarmvol", 0.8);
