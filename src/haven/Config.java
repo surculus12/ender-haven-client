@@ -157,20 +157,23 @@ public class Config {
     public static String treeboxclr =  Utils.getpref("treeboxclr", "D7FF00");
     public static boolean highlightpots = Utils.getprefb("highlightpots", false);
     public static boolean bonsai = Utils.getprefb("bonsai", false);
-    private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(3) {{
+    private final static Map<String, Integer> defFontSzGlobal =  new HashMap<String, Integer>(4) {{
         put("zh", 16);
         put("en", 11);
         put("ru", 11);
+        put("ko", 11);
     }};
-    private final static Map<String, Integer> defFontSzButton =  new HashMap<String, Integer>(3) {{
+    private final static Map<String, Integer> defFontSzButton =  new HashMap<String, Integer>(4) {{
         put("zh", 14);
         put("en", 12);
         put("ru", 12);
+        put("ko", 12);
     }};
-    private final static Map<String, Integer> defFontSzAttr =  new HashMap<String, Integer>(3) {{
+    private final static Map<String, Integer> defFontSzAttr =  new HashMap<String, Integer>(4) {{
         put("zh", 14);
         put("en", 14);
         put("ru", 13);
+        put("ko", 13);
     }};
     public static int fontsizeglobal = Utils.getprefi("fontsizeglobal", defFontSzGlobal.get(Resource.language));
     public static int fontsizebutton = Utils.getprefi("fontsizebutton", defFontSzButton.get(Resource.language));
