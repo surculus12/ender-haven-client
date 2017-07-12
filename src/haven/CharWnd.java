@@ -178,7 +178,7 @@ public class CharWnd extends Window {
                     Collections.sort(etr, dcmp);
                     GameUI gui = getparent(GameUI.class);
                     if (gui != null)
-                        gui.msg(String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "You gained ") + Loading.waitfor(trev).layer(Event.class).nm), Color.WHITE);
+                        gui.msg(Resource.getLocString(Resource.BUNDLE_MSG, "You gained ") + Loading.waitfor(trev).layer(Event.class).nm, Color.WHITE);
                     trol = new TexI(mktrol(etr, trev));
                     trtm = System.currentTimeMillis();
                     trev = null;
