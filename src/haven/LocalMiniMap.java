@@ -61,7 +61,7 @@ public class LocalMiniMap extends Widget {
     private final Map<Coord, Tex> maptiles = new LinkedHashMap<Coord, Tex>(100, 0.75f, false) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Coord, Tex> eldest) {
-            if (size() > 28) {
+            if (size() > 100) {
                 try {
                     eldest.getValue().dispose();
                 } catch (RuntimeException e) {
