@@ -149,8 +149,7 @@ public class LoginScreen extends Widget {
     }
 
     public class LoginList extends Listbox<LoginData> {
-        private final Text.Foundry fnd = new Text.Foundry(Text.sans, 14);
-        private final Tex xicon = Text.render("\u2716", Color.RED, fnd).tex();
+        private final Tex xicon = Text.render("\u2716", Color.RED, textfs).tex();
         private int hover = -1;
         private final static int ITEM_HEIGHT = 20;
         private Coord lastMouseDown = Coord.z;
@@ -210,7 +209,7 @@ public class LoginScreen extends Widget {
                 g.frect(Coord.z, g.sz);
                 g.chcolor();
             }
-            g.image(Text.render(item.name, Color.WHITE, fnd).tex(), new Coord(5, 2));
+            g.image(Text.render(item.name, Color.WHITE, textfs).tex(), new Coord(5, 2));
             g.image(xicon, new Coord(sz.x - 25, 1));
         }
 
