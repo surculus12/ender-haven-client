@@ -58,7 +58,7 @@ public class LocalMiniMap extends Widget {
     private static final Resource doomedsfx = Resource.local().loadwait("sfx/doomed");
     private static final Resource swagsfx = Resource.local().loadwait("sfx/swag");
 	private final HashSet<Long> sgobs = new HashSet<Long>();
-    private final Map<Coord, Tex> maptiles = new LinkedHashMap<Coord, Tex>(28, 0.75f, false) {
+    private final Map<Coord, Tex> maptiles = new LinkedHashMap<Coord, Tex>(100, 0.75f, false) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<Coord, Tex> eldest) {
             if (size() > 28) {
