@@ -73,11 +73,11 @@ public class Fightsess extends Widget {
         this.dyn = new boolean[nact];
 
         for(int i = 0; i < 10; i++) {
-            keystex[i] = Text.renderstroked(FightWnd.keys[i], Color.WHITE, Color.BLACK, Text.sans12bold).tex();
+            keystex[i] = Text.renderstroked(FightWnd.keys[i], Color.WHITE, Color.BLACK, Text.num12boldFnd).tex();
             if (i < 5)
                 keysftex[i] = keystex[i];
             else
-                keysftex[i] = Text.renderstroked(FightWnd.keysf[i - 5], Color.WHITE, Color.BLACK, Text.sans12bold).tex();
+                keysftex[i] = Text.renderstroked(FightWnd.keysf[i - 5], Color.WHITE, Color.BLACK, Text.num12boldFnd).tex();
         }
     }
 
@@ -298,7 +298,7 @@ public class Fightsess extends Widget {
 
                 g.chcolor(Color.WHITE);
                 if (buff.atex == null)
-                    buff.atex = Text.renderstroked(buff.ameter + "", Color.WHITE, Color.BLACK, Text.sans12bold).tex();
+                    buff.atex = Text.renderstroked(buff.ameter + "", Color.WHITE, Color.BLACK, Text.num12boldFnd).tex();
                 Tex atex = buff.atex;
                 bc.x = bc.x + simpleOpeningSz.x / 2 - atex.sz().x / 2;
                 bc.y = bc.y + simpleOpeningSz.y / 2 - atex.sz().y / 2;

@@ -80,11 +80,11 @@ public class Label extends Widget {
     }
 
     public Label(String text, int w) {
-        this(text, w, Text.std);
+        this(text, w, Text.labelFnd);
     }
 
     public Label(String text) {
-        this(text, Text.std);
+        this(text, Text.labelFnd);
     }
 
     public void settext(String text) {

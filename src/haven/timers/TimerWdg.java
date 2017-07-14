@@ -2,9 +2,7 @@ package haven.timers;
 
 
 import haven.*;
-import haven.Button;
 import haven.Label;
-import haven.Window;
 
 import java.awt.*;
 import java.util.List;
@@ -25,9 +23,9 @@ public class TimerWdg extends Widget {
         this.duration = duration;
 
         sz = new Coord(420, height);
-        lblname = new haven.Label(name, Text.sans12bold, true);
+        lblname = new haven.Label(name, Text.num12boldFnd, true);
         add(lblname, new Coord(3, txty));
-        lbltime = new haven.Label(timeFormat(duration), Text.sans12bold, true);
+        lbltime = new haven.Label(timeFormat(duration), Text.num12boldFnd, true);
 
         add(lbltime, new Coord(190, txty));
 
@@ -139,7 +137,7 @@ public class TimerWdg extends Widget {
         public TimerDoneWindow(String timername) {
             super(new Coord(300, 130), "Hooray!");
 
-            haven.Label lbltimer = new haven.Label(timername, Text.sans12bold);
+            haven.Label lbltimer = new haven.Label(timername, Text.num12boldFnd);
             add(lbltimer, new Coord(300 / 2 - lbltimer.sz.x / 2, 20));
 
             haven.Label lblinf = new haven.Label("has finished running");

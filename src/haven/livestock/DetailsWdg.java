@@ -36,7 +36,7 @@ public class DetailsWdg extends Widget {
                 key.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "Endurance:")))
                 valStr += "%";
 
-            Label lbl = new Label(valStr, Text.std);
+            Label lbl = new Label(valStr, Text.labelFnd);
             add(lbl, new Coord(col.x + offx, 5));
         }
 

@@ -27,12 +27,11 @@
 package haven;
 
 import haven.res.ui.tt.q.qbuff.QBuff;
-import haven.resutil.Curiosity;
 
 import java.awt.Color;
 import java.util.*;
 
-import static haven.Text.numfnd;
+import static haven.Text.num10Fnd;
 
 public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owner {
     public Indir<Resource> res;
@@ -116,7 +115,7 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
         int timeleft = (int) studytime * (100 - meter) / 100;
         int hoursleft = timeleft / 60;
         int minutesleft = timeleft - hoursleft * 60;
-        timelefttex = Text.renderstroked(String.format("%d:%02d", hoursleft, minutesleft), Color.WHITE, Color.BLACK, numfnd).tex();
+        timelefttex = Text.renderstroked(String.format("%d:%02d", hoursleft, minutesleft), Color.WHITE, Color.BLACK, num10Fnd).tex();
     }
 
     private Random rnd = null;
@@ -184,7 +183,7 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
             rawinfo = args;
         } else if (name == "meter") {
             meter = (int)((Number)args[0]).doubleValue();
-            metertex = Text.renderstroked(String.format("%d%%", meter), Color.WHITE, Color.BLACK, numfnd).tex();
+            metertex = Text.renderstroked(String.format("%d%%", meter), Color.WHITE, Color.BLACK, num10Fnd).tex();
             timelefttex = null;
         }
     }

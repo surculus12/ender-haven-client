@@ -5,7 +5,7 @@ import haven.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static haven.Text.numfnd;
+import static haven.Text.num10Fnd;
 
 
 public class QBuff extends ItemInfo.Tip {
@@ -24,8 +24,8 @@ public class QBuff extends ItemInfo.Tip {
         this.name = Resource.getLocString(Resource.BUNDLE_LABEL, name);
         this.q = q;
         if (q != 0) {
-            qtex = Text.renderstroked(Utils.fmt1DecPlace(q), Color.WHITE, Color.BLACK, numfnd).tex();
-            qwtex = Text.renderstroked(Math.round(q) + "", Color.WHITE, Color.BLACK, numfnd).tex();
+            qtex = Text.renderstroked(Utils.fmt1DecPlace(q), Color.WHITE, Color.BLACK, num10Fnd).tex();
+            qwtex = Text.renderstroked(Math.round(q) + "", Color.WHITE, Color.BLACK, num10Fnd).tex();
         }
     }
 

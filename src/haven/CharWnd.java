@@ -30,6 +30,7 @@ import haven.resutil.Curiosity;
 import haven.resutil.FoodInfo;
 
 import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.util.*;
 import java.util.List;
@@ -40,10 +41,10 @@ import static haven.PUtils.*;
  * sheet into some more modular structure, as it is growing quite
  * large. */
 public class CharWnd extends Window {
-    public static final RichText.Foundry ifnd = new RichText.Foundry(Resource.remote(), java.awt.font.TextAttribute.FAMILY, "SansSerif", java.awt.font.TextAttribute.SIZE, Config.fontsizeglobal).aa(true);
+    public static final RichText.Foundry ifnd = new RichText.Foundry(Resource.remote(), TextAttribute.FAMILY, Text.cfg.font.get("sans"), TextAttribute.SIZE, Text.cfg.charWndBox).aa(true);
     public static final Text.Furnace catf = new BlurFurn(new TexFurn(new Text.Foundry(Text.sans, 20).aa(true), Window.ctex), 2, 2, new Color(96, 48, 0));
-    public static final Text.Furnace failf = new BlurFurn(new TexFurn(new Text.Foundry(Text.fraktur, 25).aa(true), Resource.loadimg("gfx/hud/fontred")), 3, 2, new Color(96, 48, 0));
-    public static final Text.Foundry attrf = new Text.Foundry(Text.sans.deriveFont(Font.BOLD), Config.fontsizeattr).aa(true);
+    public static final Text.Furnace failf = new BlurFurn(new TexFurn(new Text.Foundry(Text.sans, 25).aa(true), Resource.loadimg("gfx/hud/fontred")), 3, 2, new Color(96, 48, 0));
+    public static final Text.Foundry attrf = Text.attrf;
     public static final Text.Foundry numfnd = new Text.Foundry(Text.sans, 12);
     public static final Color debuff = new Color(255, 128, 128);
     public static final Color buff = new Color(128, 255, 128);

@@ -83,7 +83,7 @@ public class Glob {
             this.nm = nm.intern();
             this.base = base;
             this.comp = comp;
-            this.comptex = Text.renderstroked(comp + "", Color.WHITE, Color.BLACK, Text.sans12bold).tex();
+            this.comptex = Text.renderstroked(comp + "", Color.WHITE, Color.BLACK, Text.num12boldFnd).tex();
         }
 
         public void update(int base, int comp) {
@@ -93,7 +93,7 @@ public class Glob {
             this.comp = comp;
             setChanged();
             notifyObservers(null);
-            this.comptex = Text.renderstroked(comp + "", Color.WHITE, Color.BLACK, Text.sans12bold).tex();
+            this.comptex = Text.renderstroked(comp + "", Color.WHITE, Color.BLACK, Text.num12boldFnd).tex();
         }
     }
 
