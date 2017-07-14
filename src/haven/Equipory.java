@@ -120,7 +120,7 @@ public class Equipory extends Widget implements DTarget {
         if (Config.quickbelt && beltWndId == -1) {
             for (WItem itm[] : wmap.values()) {
                 try {
-                    if (itm[0].item.res.get().name.endsWith("belt"))
+                    if (itm.length > 0 && itm[0].item.res.get().name.endsWith("belt"))
                         itm[0].mousedown(Coord.z, 3);
                 } catch (Loading l) {
                 }
