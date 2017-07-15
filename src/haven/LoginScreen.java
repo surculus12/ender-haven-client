@@ -209,8 +209,10 @@ public class LoginScreen extends Widget {
                 g.frect(Coord.z, g.sz);
                 g.chcolor();
             }
-            g.image(Text.render(item.name, Color.WHITE, textfs).tex(), new Coord(5, 2));
-            g.image(xicon, new Coord(sz.x - 25, 1));
+            Tex tex = Text.render(item.name, Color.WHITE, textfs).tex();
+            int y = ITEM_HEIGHT / 2 - tex.sz().y / 2;
+            g.image(tex, new Coord(5, y));
+            g.image(xicon, new Coord(sz.x - 25, y));
         }
 
         @Override
