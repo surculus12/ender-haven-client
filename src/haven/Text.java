@@ -144,7 +144,7 @@ public class Text {
             default:
             case "en":
             case "ru":
-                slotFnd = new Text.Foundry(Text.dfont.deriveFont(2), new Color(0, 169, 224));
+                slotFnd = new Text.Foundry(Text.dfont.deriveFont(Font.ITALIC), new Color(0, 169, 224));
                 attrf = new Text.Foundry(Text.sans.deriveFont(Font.BOLD), Text.cfg.attr).aa(true);
                 break;
             case "ko":
@@ -474,8 +474,6 @@ public class Text {
         ge.registerFont(loadFont("DejaVuSans-Bold.ttf"));
         ge.registerFont(loadFont("DejaVuSerif.ttf"));
         ge.registerFont(loadFont("DejaVuSerif-Bold.ttf"));
-        ge.registerFont(loadFont("DejaVuSerif-Italic.ttf"));
-        ge.registerFont(loadFont("DejaVuSerif-BoldItalic.ttf"));
     }
 
     private static void registerCJKFonts(GraphicsEnvironment ge) {
