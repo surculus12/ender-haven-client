@@ -90,53 +90,37 @@ public class Text {
         // here be localization horrors...
 
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        ge.registerFont(loadFont("DejaVuSans.ttf"));
-
         switch (Resource.language) {
-            case "en":
             default:
-                cfg = new FontSettings(11, 11, 14, 11, 11, 14, 12, 14, 12, 12, 12, 11);
-                cfg.font.put("serif", "DejaVu Serif");
-                cfg.font.put("sans", "DejaVu Sans");
-                cfg.font.put("sansserif", "DejaVu Sans");
-                cfg.font.put("dialog", "DejaVu Sans");
-                registerLatinFonts(ge);
-                break;
+            case "en":
+                cfg = new FontSettings(11, 11, 14, 11, 11, 14, 12, 14, 12, 12, 12, 11); break;
             case "ru":
-                cfg = new FontSettings(11, 11, 13, 11, 11, 14, 12, 14, 12, 12, 12, 11);
-                cfg.font.put("serif", "DejaVu Serif");
-                cfg.font.put("sans", "DejaVu Sans");
-                cfg.font.put("sansserif", "DejaVu Sans");
-                cfg.font.put("dialog", "DejaVu Sans");
-                registerLatinFonts(ge);
-                break;
+                cfg = new FontSettings(11, 11, 13, 11, 11, 14, 12, 14, 12, 12, 12, 11); break;
             case "ko":
-                cfg = new FontSettings(14, 14, 16, 14, 14, 14, 14, 14, 12, 12, 12, 14);
-                cfg.font.put("serif", "Droid Sans Fallback");
-                cfg.font.put("sans", "Droid Sans Fallback");
-                cfg.font.put("sansserif", "Droid Sans Fallback");
-                cfg.font.put("dialog", "Droid Sans Fallback");
-                registerCJKFonts(ge);
-                break;
+                cfg = new FontSettings(14, 14, 16, 14, 14, 14, 14, 14, 12, 12, 12, 14); break;
             case "zh":
-                cfg = new FontSettings(14, 16, 14, 16, 16, 16, 16, 16, 12, 14, 16, 16);
-                cfg.font.put("serif", "Droid Sans Fallback");
-                cfg.font.put("sans", "Droid Sans Fallback");
-                cfg.font.put("sansserif", "Droid Sans Fallback");
-                cfg.font.put("dialog", "Droid Sans Fallback");
-                registerCJKFonts(ge);
-                break;
+                cfg = new FontSettings(14, 16, 14, 16, 16, 16, 16, 16, 12, 14, 16, 16); break;
         }
+
+        // this mapping is not really needed anymore.
+        // however it's still here just in case we would want to use custom fonts in the future.
+        cfg.font.put("serif", "Serif");
+        cfg.font.put("sans", "Dialog");
+        cfg.font.put("sansserif", "SansSerif");
+        cfg.font.put("dialog", "Dialog");
 
         dfont = sans = new Font(Text.cfg.font.get("sans"), Font.PLAIN, 12);
         serif = new Font(Text.cfg.font.get("serif"), Font.PLAIN, 12);
         mono = new Font("Monospace", Font.PLAIN, 12);
         fraktur = Resource.local().loadwait("ui/fraktur").layer(Resource.Font.class).font;
-        latin = new Font("DejaVu Sans", Font.PLAIN, 10);
+
+        latin = new Font("Dialog", Font.PLAIN, 10);
         num10Fnd = new Foundry(latin);
         num11Fnd = new Text.Foundry(latin, 11);
         num12boldFnd = new Text.Foundry(latin.deriveFont(Font.BOLD), 12).aa(true);
+
         delfnd = new Text.Foundry(latin.deriveFont(Font.BOLD), 16);
+
         std = new Foundry(sans, Text.cfg.def);
         labelFnd = new Foundry(sans, Text.cfg.label);
 
@@ -468,15 +452,5 @@ public class Text {
             throw new RuntimeException(e);
         }
        return font;
-    }
-
-    private static void registerLatinFonts(GraphicsEnvironment ge) {
-        ge.registerFont(loadFont("DejaVuSans-Bold.ttf"));
-        ge.registerFont(loadFont("DejaVuSerif.ttf"));
-        ge.registerFont(loadFont("DejaVuSerif-Bold.ttf"));
-    }
-
-    private static void registerCJKFonts(GraphicsEnvironment ge) {
-        ge.registerFont(loadFont("DroidSansFallback.ttf"));
     }
 }

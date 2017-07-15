@@ -783,11 +783,12 @@ public class FightWnd extends Widget {
         switch (Resource.language) {
             default:
             case "en":
+                return Config.iswindows ? 7 : 8;
             case "ru":
                 return 8;
-            case "ko":
-                return 6;
             case "zh":
+                return Config.iswindows ? 7 : 8;
+            case "ko":
                 return 7;
         }
     }
