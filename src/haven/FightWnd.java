@@ -725,7 +725,7 @@ public class FightWnd extends Widget {
         add(new Button(110, "Rename", false) {
             public void click() {
                 Pair<Text, Integer> sel = schoolsDropdown.sel;
-                if (sel == null || sel.a.text.equals("unused save"))
+                if (sel == null || sel.a.text.equals(Resource.getLocString(Resource.BUNDLE_LABEL, "unused save")))
                     return;
 
                 Window renwnd = new Window(new Coord(225, 100), "Rename School") {
@@ -800,7 +800,7 @@ public class FightWnd extends Widget {
         return(null);
     }
 
-    private final Text unused = new Text.Foundry(attrf.font.deriveFont(java.awt.Font.ITALIC)).aa(true).render("unused save");
+    private final Text unused = new Text.Foundry(Text.sans.deriveFont(Font.ITALIC, 14)).aa(true).render(Resource.getLocString(Resource.BUNDLE_LABEL, "unused save"));
 
     public void uimsg(String nm, Object... args) {
         if (nm == "avail") {
