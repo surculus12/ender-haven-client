@@ -27,8 +27,6 @@
 package haven;
 
 import java.awt.Color;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Label extends Widget {
     Text.Foundry f;
@@ -64,18 +62,11 @@ public class Label extends Widget {
         sz = this.text.sz();
     }
 
-    public Label(String text, Text.Foundry f, boolean noL10n) {
-        super(Coord.z);
-        this.f = f;
-        this.text = f.render(texts = text, this.col);
-        sz = this.text.sz();
-    }
-
-    public Label(String text, Text.Foundry f, Color col, boolean noL10n) {
+    public Label(String text, Text.Foundry f, Color col) {
         super(Coord.z);
         this.col = col;
         this.f = f;
-        this.text = f.render(texts = text, this.col);
+        this.text = f.render(texts = text, this.col); // used only for numbers and symbols. hence no localization.
         sz = this.text.sz();
     }
 

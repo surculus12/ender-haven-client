@@ -23,9 +23,9 @@ public class TimerWdg extends Widget {
         this.duration = duration;
 
         sz = new Coord(420, height);
-        lblname = new haven.Label(name, Text.num12boldFnd, true);
+        lblname = new haven.Label(name, Text.num12boldFnd, Color.WHITE);
         add(lblname, new Coord(3, txty));
-        lbltime = new haven.Label(timeFormat(duration), Text.num12boldFnd, true);
+        lbltime = new haven.Label(timeFormat(duration), Text.num12boldFnd, Color.WHITE);
 
         add(lbltime, new Coord(190, txty));
 
@@ -42,7 +42,7 @@ public class TimerWdg extends Widget {
             }
         };
         btnstop.hide();
-        btndel = new Label("\u2718", Text.delfnd, Color.RED, true) {
+        btndel = new Label("\u2718", Text.delfnd, Color.RED) {
             @Override
             public boolean mousedown(Coord c, int button) {
                 delete();
