@@ -104,10 +104,17 @@ public class Text {
 
         // this mapping is not really needed anymore.
         // however it's still here just in case we would want to use custom fonts in the future.
-        cfg.font.put("serif", "Serif");
-        cfg.font.put("sans", "Dialog");
-        cfg.font.put("sansserif", "SansSerif");
-        cfg.font.put("dialog", "Dialog");
+        if (Config.usefont) {
+            cfg.font.put("serif", Config.font);
+            cfg.font.put("sans", Config.font);
+            cfg.font.put("sansserif", Config.font);
+            cfg.font.put("dialog", Config.font);
+        } else {
+            cfg.font.put("serif", "Serif");
+            cfg.font.put("sans", "Dialog");
+            cfg.font.put("sansserif", "SansSerif");
+            cfg.font.put("dialog", "Dialog");
+        }
 
         dfont = sans = new Font(Text.cfg.font.get("sans"), Font.PLAIN, 12);
         serif = new Font(Text.cfg.font.get("serif"), Font.PLAIN, 12);
@@ -412,7 +419,7 @@ public class Text {
         if (cmd == "render") {
             PosixArgs opt = PosixArgs.getopt(args, 1, "aw:f:s:");
             boolean aa = false;
-            String font = "SansSerif";
+            String font = Config.font;
             int width = 100, size = 10;
             for (char c : opt.parsed()) {
                 if (c == 'a') {

@@ -159,6 +159,8 @@ public class Config {
     public static boolean bonsai = Utils.getprefb("bonsai", false);
     public static int fontsizechat = Utils.getprefi("fontsizechat", 14);
     public static boolean fontaa = Utils.getprefb("fontaa", false);
+    public static boolean usefont = Utils.getprefb("usefont", false);
+    public static String font = Utils.getpref("font", "SansSerif");
     public static boolean pf = false;
     public static String playerposfile;
     public static byte[] authck = null;
