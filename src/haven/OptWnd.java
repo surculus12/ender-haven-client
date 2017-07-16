@@ -93,7 +93,7 @@ public class OptWnd extends Window {
 
             public CPanel(GLSettings gcf) {
                 this.cf = gcf;
-                final WidgetVerticalAppender appender = new WidgetVerticalAppender(this);
+                final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(this, new Coord(620, 350)));
                 appender.setVerticalMargin(VERTICAL_MARGIN);
                 appender.setHorizontalMargin(HORIZONTAL_MARGIN);
                 appender.add(new CheckBox("Per-fragment lighting") {
@@ -297,7 +297,7 @@ public class OptWnd extends Window {
                     }
                 });
 
-                add(new Label("Disable animations (req. restart):"), new Coord(440, 0));
+                appender.add(new Label("Disable animations (req. restart):"));
                 CheckListbox disanimlist = new CheckListbox(180, 8) {
                     @Override
                     protected void itemclick(CheckListboxItem itm, int button) {
@@ -307,7 +307,7 @@ public class OptWnd extends Window {
                 };
                 for (CheckListboxItem itm : Config.disableanim.values())
                     disanimlist.items.add(itm);
-                add(disanimlist, new Coord(440, 15));
+                appender.add(disanimlist);
 
                 pack();
             }
@@ -401,7 +401,7 @@ public class OptWnd extends Window {
     }
 
     private void initAudioFirstColumn() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(audio);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(audio, new Coord(620, 350)));
         appender.setVerticalMargin(0);
         appender.add(new Label("Master audio volume"));
         appender.setVerticalMargin(VERTICAL_AUDIO_MARGIN);
@@ -520,7 +520,7 @@ public class OptWnd extends Window {
     }
 
     private void initDisplayFirstColumn() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(display);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(display, new Coord(620, 350)));
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.add(new CheckBox("Display kin names") {
             {
@@ -697,7 +697,7 @@ public class OptWnd extends Window {
     }
 
     private void initGeneral() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(general);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(general, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -836,7 +836,7 @@ public class OptWnd extends Window {
     }
 
     private void initCombat() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(combat);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(combat, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -958,7 +958,7 @@ public class OptWnd extends Window {
     }
 
     private void initControl() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(control);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(control, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -1069,7 +1069,7 @@ public class OptWnd extends Window {
     }
 
     private void initUis() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(uis);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(uis, new Coord(620, 310)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -1237,7 +1237,7 @@ public class OptWnd extends Window {
     }
 
     private void initQuality() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(quality);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(quality, new Coord(620, 350)));
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
         appender.add(new CheckBox("Show item quality") {
@@ -1288,7 +1288,7 @@ public class OptWnd extends Window {
 
 
     private void initFlowermenus() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(flowermenus);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(flowermenus, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -1324,7 +1324,7 @@ public class OptWnd extends Window {
     }
 
     private void initSoundAlarms() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(soundalarms);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(soundalarms, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -1690,6 +1690,11 @@ public class OptWnd extends Window {
         };
     }
 
+    static private Scrollport.Scrollcont withScrollport(Widget widget, Coord sz) {
+        final Scrollport scroll = new Scrollport(sz);
+        widget.add(scroll, new Coord(0, 0));
+        return scroll.cont;
+    }
 
     public OptWnd() {
         this(true);
