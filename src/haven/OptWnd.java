@@ -93,7 +93,7 @@ public class OptWnd extends Window {
 
             public CPanel(GLSettings gcf) {
                 this.cf = gcf;
-                final WidgetVerticalAppender appender = new WidgetVerticalAppender(this);
+                final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(this, new Coord(620, 350)));
                 appender.setVerticalMargin(VERTICAL_MARGIN);
                 appender.setHorizontalMargin(HORIZONTAL_MARGIN);
                 appender.add(new CheckBox("Per-fragment lighting") {
@@ -297,8 +297,8 @@ public class OptWnd extends Window {
                     }
                 });
 
-                add(new Label("Disable animations (req. restart):"), new Coord(440, 0));
-                CheckListbox disanimlist = new CheckListbox(180, 8) {
+                appender.add(new Label("Disable animations (req. restart):"));
+                CheckListbox disanimlist = new CheckListbox(320, Math.min(8, Config.disableanim.values().size()), 18 + Config.fontadd) {
                     @Override
                     protected void itemclick(CheckListboxItem itm, int button) {
                         super.itemclick(itm, button);
@@ -307,7 +307,7 @@ public class OptWnd extends Window {
                 };
                 for (CheckListboxItem itm : Config.disableanim.values())
                     disanimlist.items.add(itm);
-                add(disanimlist, new Coord(440, 15));
+                appender.add(disanimlist);
 
                 pack();
             }
@@ -401,7 +401,7 @@ public class OptWnd extends Window {
     }
 
     private void initAudioFirstColumn() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(audio);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(audio, new Coord(620, 350)));
         appender.setVerticalMargin(0);
         appender.add(new Label("Master audio volume"));
         appender.setVerticalMargin(VERTICAL_AUDIO_MARGIN);
@@ -520,7 +520,7 @@ public class OptWnd extends Window {
     }
 
     private void initDisplayFirstColumn() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(display);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(display, new Coord(620, 350)));
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.add(new CheckBox("Display kin names") {
             {
@@ -697,7 +697,7 @@ public class OptWnd extends Window {
     }
 
     private void initGeneral() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(general);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(general, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -836,7 +836,7 @@ public class OptWnd extends Window {
     }
 
     private void initCombat() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(combat);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(combat, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -958,7 +958,7 @@ public class OptWnd extends Window {
     }
 
     private void initControl() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(control);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(control, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -1069,7 +1069,7 @@ public class OptWnd extends Window {
     }
 
     private void initUis() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(uis);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(uis, new Coord(620, 310)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -1190,10 +1190,33 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Font antialiasing") {
+            {
+                a = Config.fontaa;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("fontaa", val);
+                Config.fontaa = val;
+                a = val;
+            }
+        });
         //appender.addRow(new Label("Interface font size (req. restart):"), makeFontSizeGlobalDropdown());
         //appender.addRow(new Label("Button font size (req. restart):"), makeFontSizeButtonDropdown());
         //appender.addRow(new Label("Window title font size (req. restart):"), makeFontSizeWndCapDropdown());
         appender.addRow(new Label("Chat font size (req. restart):"), makeFontSizeChatDropdown());
+        appender.add(new CheckBox("Use custom font") {
+            {
+                a = Config.usefont;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("usefont", val);
+                Config.usefont = val;
+                a = val;
+            }
+        });
+        appender.addRow(new Label("Custom interface font (req. restart):"), makeFontsDropdown());
 
         appender.addRow(new Label("Tree bounding box color (6-digit HEX):"),
                 new TextEntry(85, Config.treeboxclr) {
@@ -1213,6 +1236,25 @@ public class OptWnd extends Window {
                         return ret;
                     }
                 }
+        );
+
+        final Label fontAdd = new Label("");
+        appender.addRow(
+                new Label("Increase font size by (req. restart):"),
+                new HSlider(160, 0, 3, Config.fontadd) {
+                    public void added() {
+                        updateLabel();
+                    }
+                    public void changed() {
+                        Utils.setprefi("fontadd", val);
+                        Config.fontadd = val;
+                        updateLabel();
+                    }
+                    private void updateLabel() {
+                        fontAdd.settext(String.format("%d", val));
+                    }
+                },
+                fontAdd
         );
 
         Button resetWndBtn = new Button(220, "Reset Windows (req. logout)") {
@@ -1237,7 +1279,7 @@ public class OptWnd extends Window {
     }
 
     private void initQuality() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(quality);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(quality, new Coord(620, 350)));
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
         appender.add(new CheckBox("Show item quality") {
@@ -1286,9 +1328,8 @@ public class OptWnd extends Window {
         quality.pack();
     }
 
-
     private void initFlowermenus() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(flowermenus);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(flowermenus, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -1324,7 +1365,7 @@ public class OptWnd extends Window {
     }
 
     private void initSoundAlarms() {
-        final WidgetVerticalAppender appender = new WidgetVerticalAppender(soundalarms);
+        final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(soundalarms, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
@@ -1594,6 +1635,41 @@ public class OptWnd extends Window {
         };
     }
 
+    @SuppressWarnings("unchecked")
+    private Dropbox<String> makeFontsDropdown() {
+        final List<String> fonts = Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
+        final List<Integer> widths = fonts.stream().map((v) -> Text.render(v).sz().x).collect(Collectors.toList());
+        final int width = widths.stream().reduce(Integer::max).get() + 20;
+        final int height = Text.render(fonts.get(0)).sz().y;
+        return new Dropbox<String>(width, 8, height) {
+            {
+                super.change(Config.font);
+            }
+
+            @Override
+            protected String listitem(int i) {
+                return fonts.get(i);
+            }
+
+            @Override
+            protected int listitems() {
+                return fonts.size();
+            }
+
+            @Override
+            protected void drawitem(GOut g, String item, int i) {
+                g.text(item, Coord.z);
+            }
+
+            @Override
+            public void change(String item) {
+                super.change(item);
+                Config.font = item;
+                Utils.setpref("font", item);
+            }
+        };
+    }
+
     private List<Locale> enumerateLanguages() {
         Set<Locale> languages = new HashSet<>();
         languages.add(new Locale("en"));
@@ -1690,6 +1766,11 @@ public class OptWnd extends Window {
         };
     }
 
+    static private Scrollport.Scrollcont withScrollport(Widget widget, Coord sz) {
+        final Scrollport scroll = new Scrollport(sz);
+        widget.add(scroll, new Coord(0, 0));
+        return scroll.cont;
+    }
 
     public OptWnd() {
         this(true);

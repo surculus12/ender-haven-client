@@ -35,13 +35,14 @@ public class LoginScreen extends Widget {
     IButton btn;
     Button optbtn;
     OptWnd opts;
-    static Text.Foundry textf, textfs;
+    static Text.Foundry textf, textfs, special;
     static Tex bg = Resource.loadtex("gfx/loginscr");
     Text progress = null;
 
     static {
         textf = new Text.Foundry(Text.sans, 16).aa(true);
         textfs = new Text.Foundry(Text.sans, 14).aa(true);
+        special = new Text.Foundry(Text.latin, 14).aa(true);
     }
 
     public LoginScreen() {
@@ -149,7 +150,7 @@ public class LoginScreen extends Widget {
     }
 
     public class LoginList extends Listbox<LoginData> {
-        private final Tex xicon = Text.render("\u2716", Color.RED, textfs).tex();
+        private final Tex xicon = Text.render("\u2716", Color.RED, special).tex();
         private int hover = -1;
         private final static int ITEM_HEIGHT = 20;
         private Coord lastMouseDown = Coord.z;

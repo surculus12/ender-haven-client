@@ -71,18 +71,22 @@ public class Text {
         public int richText;
 
         public FontSettings(int label, int def, int attr, int charWndBox, int tooltipCap, int wndCap, int flowerMenu, int msg, int charName, int btn, int chatName, int richText) {
-            this.label = label;
-            this.def = def;
-            this.attr = attr;
-            this.charWndBox = charWndBox;
-            this.tooltipCap = tooltipCap;
-            this.wndCap = wndCap;
-            this.flowerMenu = flowerMenu;
-            this.msg = msg;
-            this.charName = charName;
-            this.btn = btn;
-            this.chatName = chatName;
-            this.richText = richText;
+            this.label = scale(label);
+            this.def = scale(def);
+            this.attr = scale(attr);
+            this.charWndBox = scale(charWndBox);
+            this.tooltipCap = scale(tooltipCap);
+            this.wndCap = scale(wndCap);
+            this.flowerMenu = scale(flowerMenu);
+            this.msg = scale(msg);
+            this.charName = scale(charName);
+            this.btn = scale(btn);
+            this.chatName = scale(chatName);
+            this.richText = scale(richText);
+        }
+
+        static private int scale(int value) {
+            return value + Config.fontadd;
         }
     }
 
@@ -104,10 +108,17 @@ public class Text {
 
         // this mapping is not really needed anymore.
         // however it's still here just in case we would want to use custom fonts in the future.
-        cfg.font.put("serif", "Serif");
-        cfg.font.put("sans", "Dialog");
-        cfg.font.put("sansserif", "SansSerif");
-        cfg.font.put("dialog", "Dialog");
+        if (Config.usefont) {
+            cfg.font.put("serif", Config.font);
+            cfg.font.put("sans", Config.font);
+            cfg.font.put("sansserif", Config.font);
+            cfg.font.put("dialog", Config.font);
+        } else {
+            cfg.font.put("serif", "Serif");
+            cfg.font.put("sans", "Dialog");
+            cfg.font.put("sansserif", "SansSerif");
+            cfg.font.put("dialog", "Dialog");
+        }
 
         dfont = sans = new Font(Text.cfg.font.get("sans"), Font.PLAIN, 12);
         serif = new Font(Text.cfg.font.get("serif"), Font.PLAIN, 12);
@@ -200,7 +211,7 @@ public class Text {
         private FontMetrics m;
         Font font;
         Color defcol;
-        public boolean aa = false;
+        public boolean aa = Config.fontaa;
         private RichText.Foundry wfnd = null;
 
         public Foundry(Font f, Color defcol) {
@@ -412,7 +423,7 @@ public class Text {
         if (cmd == "render") {
             PosixArgs opt = PosixArgs.getopt(args, 1, "aw:f:s:");
             boolean aa = false;
-            String font = "SansSerif";
+            String font = Config.font;
             int width = 100, size = 10;
             for (char c : opt.parsed()) {
                 if (c == 'a') {
