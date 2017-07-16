@@ -200,7 +200,7 @@ public class Text {
         private FontMetrics m;
         Font font;
         Color defcol;
-        public boolean aa = false;
+        public boolean aa = Config.fontaa;
         private RichText.Foundry wfnd = null;
 
         public Foundry(Font f, Color defcol) {
