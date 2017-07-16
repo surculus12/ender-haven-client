@@ -298,7 +298,7 @@ public class OptWnd extends Window {
                 });
 
                 appender.add(new Label("Disable animations (req. restart):"));
-                CheckListbox disanimlist = new CheckListbox(180, 8) {
+                CheckListbox disanimlist = new CheckListbox(180, Math.min(8, Config.disableanim.values().size())) {
                     @Override
                     protected void itemclick(CheckListboxItem itm, int button) {
                         super.itemclick(itm, button);
