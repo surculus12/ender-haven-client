@@ -1221,7 +1221,7 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Use custom font") {
+        appender.addRow(new CheckBox("Custom interface font (req. restart):") {
             {
                 a = Config.usefont;
             }
@@ -1231,8 +1231,7 @@ public class OptWnd extends Window {
                 Config.usefont = val;
                 a = val;
             }
-        });
-        appender.addRow(new Label("Custom interface font (req. restart):"), makeFontsDropdown());
+        }, makeFontsDropdown());
 
         final Label fontAdd = new Label("");
         appender.addRow(
