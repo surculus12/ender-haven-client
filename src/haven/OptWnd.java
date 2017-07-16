@@ -1190,34 +1190,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Font antialiasing") {
-            {
-                a = Config.fontaa;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("fontaa", val);
-                Config.fontaa = val;
-                a = val;
-            }
-        });
-        //appender.addRow(new Label("Interface font size (req. restart):"), makeFontSizeGlobalDropdown());
-        //appender.addRow(new Label("Button font size (req. restart):"), makeFontSizeButtonDropdown());
-        //appender.addRow(new Label("Window title font size (req. restart):"), makeFontSizeWndCapDropdown());
-        appender.addRow(new Label("Chat font size (req. restart):"), makeFontSizeChatDropdown());
-        appender.add(new CheckBox("Use custom font") {
-            {
-                a = Config.usefont;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("usefont", val);
-                Config.usefont = val;
-                a = val;
-            }
-        });
-        appender.addRow(new Label("Custom interface font (req. restart):"), makeFontsDropdown());
-
         appender.addRow(new Label("Tree bounding box color (6-digit HEX):"),
                 new TextEntry(85, Config.treeboxclr) {
                     @Override
@@ -1237,6 +1209,30 @@ public class OptWnd extends Window {
                     }
                 }
         );
+        appender.addRow(new Label("Chat font size (req. restart):"), makeFontSizeChatDropdown());
+        appender.add(new CheckBox("Font antialiasing") {
+            {
+                a = Config.fontaa;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("fontaa", val);
+                Config.fontaa = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Use custom font") {
+            {
+                a = Config.usefont;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("usefont", val);
+                Config.usefont = val;
+                a = val;
+            }
+        });
+        appender.addRow(new Label("Custom interface font (req. restart):"), makeFontsDropdown());
 
         final Label fontAdd = new Label("");
         appender.addRow(
