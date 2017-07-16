@@ -1634,10 +1634,7 @@ public class OptWnd extends Window {
     @SuppressWarnings("unchecked")
     private Dropbox<String> makeFontsDropdown() {
         final List<String> fonts = Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames());
-        final List<Integer> widths = fonts.stream().map((v) -> Text.render(v).sz().x).collect(Collectors.toList());
-        final int width = widths.stream().reduce(Integer::max).get() + 20;
-        final int height = Text.render(fonts.get(0)).sz().y;
-        return new Dropbox<String>(width, 8, height) {
+        return new Dropbox<String>(8, fonts) {
             {
                 super.change(Config.font);
             }
