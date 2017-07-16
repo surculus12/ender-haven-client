@@ -92,8 +92,7 @@ public class Text {
 
     static {
         // here be localization horrors...
-
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        
         switch (Resource.language) {
             default:
             case "en":
