@@ -161,6 +161,7 @@ public class Config {
     public static boolean fontaa = Utils.getprefb("fontaa", false);
     public static boolean usefont = Utils.getprefb("usefont", false);
     public static String font = Utils.getpref("font", "SansSerif");
+    public static int fontadd = Utils.getprefi("fontadd", 0);
     public static boolean pf = false;
     public static String playerposfile;
     public static byte[] authck = null;

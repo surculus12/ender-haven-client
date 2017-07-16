@@ -298,7 +298,7 @@ public class OptWnd extends Window {
                 });
 
                 appender.add(new Label("Disable animations (req. restart):"));
-                CheckListbox disanimlist = new CheckListbox(180, Math.min(8, Config.disableanim.values().size())) {
+                CheckListbox disanimlist = new CheckListbox(320, Math.min(8, Config.disableanim.values().size()), 18 + Config.fontadd) {
                     @Override
                     protected void itemclick(CheckListboxItem itm, int button) {
                         super.itemclick(itm, button);
@@ -1236,6 +1236,25 @@ public class OptWnd extends Window {
                         return ret;
                     }
                 }
+        );
+
+        final Label fontAdd = new Label("");
+        appender.addRow(
+                new Label("Increase font size by (req. restart):"),
+                new HSlider(160, 0, 3, Config.fontadd) {
+                    public void added() {
+                        updateLabel();
+                    }
+                    public void changed() {
+                        Utils.setprefi("fontadd", val);
+                        Config.fontadd = val;
+                        updateLabel();
+                    }
+                    private void updateLabel() {
+                        fontAdd.settext(String.format("%d", val));
+                    }
+                },
+                fontAdd
         );
 
         Button resetWndBtn = new Button(220, "Reset Windows (req. logout)") {

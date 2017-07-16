@@ -71,18 +71,22 @@ public class Text {
         public int richText;
 
         public FontSettings(int label, int def, int attr, int charWndBox, int tooltipCap, int wndCap, int flowerMenu, int msg, int charName, int btn, int chatName, int richText) {
-            this.label = label;
-            this.def = def;
-            this.attr = attr;
-            this.charWndBox = charWndBox;
-            this.tooltipCap = tooltipCap;
-            this.wndCap = wndCap;
-            this.flowerMenu = flowerMenu;
-            this.msg = msg;
-            this.charName = charName;
-            this.btn = btn;
-            this.chatName = chatName;
-            this.richText = richText;
+            this.label = scale(label);
+            this.def = scale(def);
+            this.attr = scale(attr);
+            this.charWndBox = scale(charWndBox);
+            this.tooltipCap = scale(tooltipCap);
+            this.wndCap = scale(wndCap);
+            this.flowerMenu = scale(flowerMenu);
+            this.msg = scale(msg);
+            this.charName = scale(charName);
+            this.btn = scale(btn);
+            this.chatName = scale(chatName);
+            this.richText = scale(richText);
+        }
+
+        static private int scale(int value) {
+            return value + Config.fontadd;
         }
     }
 
