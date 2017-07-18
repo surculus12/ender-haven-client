@@ -2023,10 +2023,9 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     wdgmsg("itemact", pc, mc.floor(posres), ui.modflags());
                 } else {
                     if (inf.ol == null) {
-                        if (ui.modshift && ui.modmeta) {
+                        lastItemactMeshId = inf.clickid();
+                        if (ui.modshift && ui.modmeta)
                             lastItemactGob = inf.gob;
-                            lastItemactMeshId = inf.clickid();
-                        }
                         wdgmsg("itemact", pc, mc.floor(posres), ui.modflags(), 0, (int) inf.gob.id, inf.gob.rc.floor(posres), 0, lastItemactMeshId);
                     } else {
                         wdgmsg("itemact", pc, mc.floor(posres), ui.modflags(), 1, (int) inf.gob.id, inf.gob.rc.floor(posres), inf.ol.id, inf.clickid());
