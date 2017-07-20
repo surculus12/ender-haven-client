@@ -1,3 +1,15 @@
+Version 1.60.0
+    New:
+        * Option to change interface font.
+		* Dream harvester.
+
+    Fixed:
+        * Unable to hang items on walls at different heights.
+
+    Misc:
+		* Upstream code merge.
+
+
 Version 1.59.2
     Misc:
 		* Reverted to system supplied fonts.
