@@ -1495,7 +1495,7 @@ public class CharWnd extends Window {
         public final Coord crsz = new Coord(70, 88);
         public final Tex credoufr = new TexI(convolvedown(Resource.loadimg("gfx/hud/chr/yrkirframe"), crsz, iconfilter));
         public final Tex credosfr = new TexI(convolvedown(Resource.loadimg("gfx/hud/chr/yrkirsframe"), crsz, iconfilter));
-        public final Text.Foundry prsf = new Text.Foundry(Text.fraktur, 15).aa(true);
+        public final Text.Foundry prsf = Text.std;
         public List<Credo> ncr = Collections.emptyList(), ccr = Collections.emptyList();
         public Credo pcr = null;
         public int pcl, pclt, pcql, pcqlt, pqid;
