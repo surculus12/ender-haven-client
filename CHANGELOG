@@ -1,3 +1,13 @@
+Version 1.61.0
+    Fixed:
+        * Alternative belt window not working with Exquisite Belts.
+
+    Misc:
+		* Added clover and lady's mantles to icons list.
+		* Right-clicking entry in the livestock manager will simulate right-click on the animal.
+		* Upstream code merge.
+
+
 Version 1.60.0
     New:
         * Option to change interface font.
