@@ -7,6 +7,8 @@ import haven.Label;
 import java.awt.*;
 import java.util.Map;
 
+import static haven.OCache.posres;
+
 public class DetailsWdg extends Widget {
     public final static int HEIGHT = 25;
     private final Coord sepStart = new Coord(0, HEIGHT);
@@ -72,6 +74,8 @@ public class DetailsWdg extends Widget {
         if (gob != null) {
             gob.delattr(GobHighlight.class);
             gob.setattr(new GobHighlight(gob));
+            if (button == 3)
+                gameui().map.wdgmsg("click", gob.sc, gob.rc.floor(posres), 3, 0, 0, (int) gob.id, gob.rc.floor(posres), 0, -1);
         }
         return super.mousedown(c, button);
     }
