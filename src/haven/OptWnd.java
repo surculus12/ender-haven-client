@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.prefs.BackingStoreException;
 import java.util.stream.Collectors;
 
 public class OptWnd extends Window {
@@ -1255,8 +1256,14 @@ public class OptWnd extends Window {
         Button resetWndBtn = new Button(220, "Reset Windows (req. logout)") {
             @Override
             public void click() {
-                for (String wndcap : Window.persistentwnds)
-                    Utils.delpref(wndcap + "_c");
+                try {
+                    for (String key : Utils.prefs().keys()) {
+                        if (key.endsWith("_c")) {
+                            Utils.delpref(key);
+                        }
+                    }
+                } catch (BackingStoreException e) {
+                }
                 Utils.delpref("mmapc");
                 Utils.delpref("mmapwndsz");
                 Utils.delpref("mmapsz");
@@ -1264,7 +1271,6 @@ public class OptWnd extends Window {
                 Utils.delpref("chatsz");
                 Utils.delpref("chatvis");
                 Utils.delpref("menu-visible");
-                Utils.delpref("fbelt_c");
                 Utils.delpref("fbelt_vertical");
             }
         };
