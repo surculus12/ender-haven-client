@@ -284,7 +284,8 @@ public class Window extends Widget implements DTarget {
         if (dm != null) {
             dm.remove();
             dm = null;
-            Utils.setprefc(origcap + "_c", this.c);
+            if (!origcap.equals("Options"))
+                Utils.setprefc(origcap + "_c", this.c);
         } else {
             super.mouseup(c, button);
         }
