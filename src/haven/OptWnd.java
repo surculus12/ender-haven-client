@@ -952,6 +952,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Aggro players in proximity to the mouse cursor") {
+            {
+                a = Config.proximityaggro;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("proximityaggro", val);
+                Config.combshowkeys = val;
+                a = val;
+            }
+        });
         appender.addRow(new Label("Combat key bindings:"), combatkeysDropdown());
 
         combat.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
