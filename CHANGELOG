@@ -8,6 +8,7 @@ Version 1.61.1
     Misc:
 		* Save positions of all windows instead of only those in a predefined list.
 		* Add Study to auto-menus list.
+		* Make "light object with a torch" extension to work with torches already carried in hand.
 		* Localization improvements.
 
 
