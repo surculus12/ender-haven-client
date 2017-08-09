@@ -1,3 +1,16 @@
+Version 1.61.1
+    New:
+        * Option for aggroing players in proximity to the mouse cursor.
+
+    Fixed:
+        * Issues with alternative belts window when interacting with wardrobes and other players' equipments.
+
+    Misc:
+		* Save positions of all windows instead of only those in a predefined list.
+		* Add Study to auto-menus list.
+		* Localization improvements.
+
+
 Version 1.61.0
     Fixed:
         * Alternative belt window not working with Exquisite Belts.
