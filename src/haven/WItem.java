@@ -38,6 +38,7 @@ import java.util.*;
 import java.util.function.*;
 
 import static haven.Inventory.sqsz;
+import static haven.Text.num10Fnd;
 
 public class WItem extends Widget implements DTarget {
     public static final Resource missing = Resource.local().loadwait("gfx/invobjs/missing");
@@ -193,7 +194,13 @@ public class WItem extends Widget implements DTarget {
 
     public final AttrCache<Double> itemmeter = new AttrCache<Double>(info -> {
         GItem.MeterInfo minf = ItemInfo.find(GItem.MeterInfo.class, info);
-        return((minf == null)?null:minf.meter());
+        if (minf != null) {
+            double meter = minf.meter();
+            WItem.this.item.metertex = Text.renderstroked(String.format("%d%%", (int)(meter * 100)), Color.WHITE, Color.BLACK, num10Fnd).tex();
+            return meter;
+        }
+        WItem.this.item.metertex = null;
+        return null;
     });
 
     private GSprite lspr = null;
@@ -255,7 +262,7 @@ public class WItem extends Widget implements DTarget {
                     item.updatetimelefttex();
                 if (item.timelefttex != null)
                     g.image(item.timelefttex, Coord.z);
-            } else if (item.meter > 0 && item.metertex != null) {
+            } else if (item.metertex != null) {
                 g.image(item.metertex, Coord.z);
             }
 
