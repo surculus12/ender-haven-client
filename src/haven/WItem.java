@@ -194,12 +194,20 @@ public class WItem extends Widget implements DTarget {
 
     public final AttrCache<Double> itemmeter = new AttrCache<Double>(info -> {
         GItem.MeterInfo minf = ItemInfo.find(GItem.MeterInfo.class, info);
+        GItem itm = WItem.this.item;
         if (minf != null) {
             double meter = minf.meter();
-            WItem.this.item.metertex = Text.renderstroked(String.format("%d%%", (int)(meter * 100)), Color.WHITE, Color.BLACK, num10Fnd).tex();
+            itm.metertex = Text.renderstroked(String.format("%d%%", (int)(meter * 100)), Color.WHITE, Color.BLACK, num10Fnd).tex();
+            if (itm.studytime > 0) {
+                int timeleft = (int) (itm.studytime * (1.0 - meter));
+                int hoursleft = timeleft / 60;
+                int minutesleft = timeleft - hoursleft * 60;
+                itm.timelefttex = Text.renderstroked(String.format("%d:%02d", hoursleft, minutesleft), Color.WHITE, Color.BLACK, num10Fnd).tex();
+            }
             return meter;
         }
-        WItem.this.item.metertex = null;
+        itm.metertex = null;
+        itm.timelefttex = null;
         return null;
     });
 
@@ -257,14 +265,10 @@ public class WItem extends Widget implements DTarget {
                 }
             }
 
-            if (item.studytime > 0 && parent instanceof InventoryStudy) {
-                if (item.timelefttex == null)
-                    item.updatetimelefttex();
-                if (item.timelefttex != null)
-                    g.image(item.timelefttex, Coord.z);
-            } else if (item.metertex != null) {
+            if (item.timelefttex != null && parent instanceof InventoryStudy)
+                g.image(item.timelefttex, Coord.z);
+            else if (item.metertex != null)
                 g.image(item.metertex, Coord.z);
-            }
 
             ItemInfo.Contents cnt = item.getcontents();
             if (cnt != null && cnt.content > 0)
