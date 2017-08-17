@@ -197,17 +197,17 @@ public class WItem extends Widget implements DTarget {
         GItem itm = WItem.this.item;
         if (minf != null) {
             double meter = minf.meter();
-            itm.metertex = Text.renderstroked(String.format("%d%%", (int)(meter * 100)), Color.WHITE, Color.BLACK, num10Fnd).tex();
-            if (itm.studytime > 0) {
+            if (itm.studytime > 0 && parent instanceof InventoryStudy) {
                 int timeleft = (int) (itm.studytime * (1.0 - meter));
                 int hoursleft = timeleft / 60;
                 int minutesleft = timeleft - hoursleft * 60;
-                itm.timelefttex = Text.renderstroked(String.format("%d:%02d", hoursleft, minutesleft), Color.WHITE, Color.BLACK, num10Fnd).tex();
+                itm.metertex = Text.renderstroked(String.format("%d:%02d", hoursleft, minutesleft), Color.WHITE, Color.BLACK, num10Fnd).tex();
+            } else {
+                itm.metertex = Text.renderstroked(String.format("%d%%", (int)(meter * 100)), Color.WHITE, Color.BLACK, num10Fnd).tex();
             }
             return meter;
         }
         itm.metertex = null;
-        itm.timelefttex = null;
         return null;
     });
 
@@ -265,9 +265,7 @@ public class WItem extends Widget implements DTarget {
                 }
             }
 
-            if (item.timelefttex != null && parent instanceof InventoryStudy)
-                g.image(item.timelefttex, Coord.z);
-            else if (item.metertex != null)
+            if (item.metertex != null)
                 g.image(item.metertex, Coord.z);
 
             ItemInfo.Contents cnt = item.getcontents();

@@ -44,7 +44,6 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
     private QBuff quality;
     public Tex metertex;
     public double studytime = 0.0;
-    public Tex timelefttex;
 
     @RName("item")
     public static class $_ implements Factory {
@@ -175,7 +174,6 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
         } else if (name == "meter") {
             meter = (int)((Number)args[0]).doubleValue();
             metertex = Text.renderstroked(String.format("%d%%", meter), Color.WHITE, Color.BLACK, num10Fnd).tex();
-            timelefttex = null;
         }
     }
 
