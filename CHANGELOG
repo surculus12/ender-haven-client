@@ -1,3 +1,13 @@
+Version 1.61.2
+    Fixed:
+        * Item's progress percentage.
+		* Possible crash when transferring multiple items with Alt+Mouse Click.
+
+    Misc:
+		* Updated localization.
+		* Upstream code merge.
+
+
 Version 1.61.1
     New:
         * Option for aggroing players in proximity to the mouse cursor.
