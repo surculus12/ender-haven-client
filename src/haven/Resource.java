@@ -2034,7 +2034,7 @@ public class Resource implements Serializable {
                 if (key.startsWith("\\ "))
                     key = "\\u0020" + key.substring(2);
                 if (key.endsWith("\\ "))
-                    key = "\\u0020" + key.substring(0, key.length() - 2);
+                    key = key.substring(0, key.length() - 2) + "\\u0020";
                 out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("l10n/" + bundle + "_new.properties", true), encoder));
                 out.write(key + " = " + val);
                 out.newLine();
@@ -2061,7 +2061,7 @@ public class Resource implements Serializable {
         if (val.startsWith(" "))
             val = "\\u0020" + val.substring(1);
         if (val.endsWith(" "))
-            val = "\\u0020" + val.substring(0, val.length() - 1);
+            val = val.substring(0, val.length() - 1) + "\\u0020";
 
         while (val.endsWith("\\n"))
             val = val.substring(0, val.length() - 2);
