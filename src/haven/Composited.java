@@ -487,7 +487,36 @@ public class Composited implements Rendered, MapView.Clickable {
         changes(false);
     }
 
-    private static class CompositeClick extends ClickInfo {
+    public Object[] clickargs(ClickInfo inf) {
+        Rendered[] st = inf.array();
+        for (int g = 0; g < st.length; g++) {
+            if (st[g] instanceof Gob) {
+                Gob gob = (Gob) st[g];
+                Object[] ret = {0, (int) gob.id, gob.rc.floor(OCache.posres), 0, 0};
+                int id = 0;
+                for (int i = g - 1; i >= 0; i--) {
+                    if (st[i] instanceof Model) {
+                        Model mod = (Model) st[i];
+                        if (mod.id >= 0)
+                            id = 0x01000000 | ((mod.id & 0xff) << 8);
+                    } else if (st[i] instanceof Equ) {
+                        Equ equ = (Equ) st[i];
+                        if (equ.id >= 0)
+                            id = 0x02000000 | ((equ.id & 0xff) << 16);
+                    } else if (st[i] instanceof FastMesh.ResourceMesh) {
+                        FastMesh.ResourceMesh rm = (FastMesh.ResourceMesh) st[i];
+                        if ((id & 0xff000000) == 0x02000000)
+                            id = (id & 0xffff0000) | (rm.id & 0xffff);
+                    }
+                }
+                ret[4] = id;
+                return (ret);
+            }
+        }
+        return (new Object[0]);
+    }
+
+    /*private static class CompositeClick extends ClickInfo {
         CompositeClick(ClickInfo prev, Integer id) {
             super(prev, id);
         }
@@ -514,6 +543,7 @@ public class Composited implements Rendered, MapView.Clickable {
     public ClickInfo clickinfo(Rendered self, ClickInfo prev) {
         return (new CompositeClick(prev, null));
     }
+    */
 
     public boolean setup(RenderList rl) {
         changes();
