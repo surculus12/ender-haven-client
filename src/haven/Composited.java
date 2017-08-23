@@ -510,6 +510,7 @@ public class Composited implements Rendered, MapView.Clickable {
                     }
                 }
                 ret[4] = id;
+                inf.gob = gob;
                 return (ret);
             }
         }
