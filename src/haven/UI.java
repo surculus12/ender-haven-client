@@ -170,8 +170,8 @@ public class UI {
 
             bind(wdg, id);
 
-            // drop everything except water containers if in area mining mode
-            if (Config.dropore && gui != null && gui.map != null && gui.map.areamine != null && wdg instanceof GItem) {
+            // drop everything except water containers when mining
+            if (Config.dropore && gui != null && gui.map != null && gui.map.areamine && wdg instanceof GItem) {
                 if (gui.maininv == pwdg) {
                     final GItem itm = (GItem) wdg;
                     Defer.later(new Defer.Callable<Void>() {

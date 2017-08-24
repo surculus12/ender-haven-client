@@ -73,7 +73,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     private static final Gob.Overlay rovlbeehive = new Gob.Overlay(new BPRadSprite(151.0F, -10.0F, BPRadSprite.smatBeehive));
     private long lastmmhittest = System.currentTimeMillis();
     private Coord lasthittestc = Coord.z;
-    public AreaMine areamine;
+    public boolean areamine;
     private GobSelectCallback gobselcb;
     private AreaSelectCallback areaselcb;
     private Pathfinder pf;
@@ -1886,43 +1886,21 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     }
 
     public void release(Grabber grab) {
-
         if (this.grab == grab)
             this.grab = null;
     }
 
     public boolean mousedown(Coord c, int button) {
-        parent.setfocus(this);
-
-        if (button != 2) {
-            synchronized (this) {
-                if (areamine != null) {
-                    areamine.terminate();
-                    areamine = null;
-                }
-                Resource curs = ui.root.getcurs(c);
-                if (curs != null && curs.name.equals("gfx/hud/curs/mine")) {
-                    if (ui.modshift && selection == null) {
-                        selection = new Selector(this);
-                    } else if (selection != null) {
-                        selection.destroy();
-                        selection = null;
-                    }
-                } else if (areaselcb != null) {
-                    if (ui.modshift && selection == null) {
-                        selection = new Selector(this);
-                    } else if (selection != null) {
-                        selection.destroy();
-                        selection = null;
-                    }
-                }
-            }
+        if (selection != null && selection.olSecondary != null) {
+            selection.olSecondary.destroy();
+            disol(18);
+            selection.olSecondary = null;
+            areamine = false;
         }
-
+        parent.setfocus(this);
         if (button == 2) {
-            if (((Camera) camera).click(c)) {
+            if (camera.click(c))
                 camdrag = ui.grabmouse(this);
-            }
         } else if (placing != null) {
             if (placing.lastmc != null)
                 wdgmsg("place", placing.rc.floor(posres), (int)Math.round(placing.a * 32768 / Math.PI), button, ui.modflags());
@@ -2156,6 +2134,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     private class Selector implements Grabber {
         Coord sc;
         MCache.Overlay ol;
+        MCache.Overlay olSecondary;
         UI.Grab mgrab;
         int modflags;
         Text tt;
@@ -2209,22 +2188,19 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     Coord ec = mc.div(MCache.tilesz2);
                     xl.mv = false;
                     tt = null;
+                    Resource curs = ui.root.getcurs(c);
+                    if (curs != null && curs.name.equals("gfx/hud/curs/mine")) {
+                        synchronized (glob.map.grids) {
+                            olSecondary = glob.map.new Overlay(ol.getc1(), ol.getc2(), 1 << 18);
+                        }
+                        enol(18);
+                        areamine = true;
+                    }
                     ol.destroy();
                     mgrab.remove();
-                    if (mv != null) {
-                        if (areaselcb != null) {
-                            areaselcb.areaselect(ol.getc1(), ol.getc2());
-                        } else { //  TODO: should reimplement miner to use callbacks
-                            areamine = new AreaMine(ol.getc1(), ol.getc2(), mv);
-                            new Thread(areamine, "Area miner").start();
-                            if (selection != null) {
-                                selection.destroy();
-                                selection = null;
-                            }
-                        }
-                    } else {
-                        wdgmsg("sel", sc, ec, modflags);
-                    }
+                    if (areaselcb != null)
+                        areaselcb.areaselect(ol.getc1(), ol.getc2());
+                    wdgmsg("sel", sc, ec, modflags);
                     sc = null;
                 }
                 return (true);
@@ -2375,8 +2351,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     public void canceltasks() {
         if (pf != null)
             pf.terminate = true;
-        if (areamine != null)
-            areamine.terminate();
         if (steelrefueler != null)
             steelrefueler.terminate();
         if (musselPicker != null)

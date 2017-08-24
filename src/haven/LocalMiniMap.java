@@ -304,13 +304,9 @@ public class LocalMiniMap extends Widget {
                     } else if (gob.type == Gob.Type.WALRUS && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(walrusfx, Config.alarmbearsvol);
-                    } else if (gob.type == Gob.Type.TROLL) {
-                        if (mv.areamine != null)
-                            mv.areamine.terminate();
-                        if (Config.alarmtroll) {
-                            sgobs.add(gob.id);
-                            Audio.play(trollsfx, Config.alarmtrollvol);
-                        }
+                    } else if (gob.type == Gob.Type.TROLL && gob.knocked == Boolean.FALSE && Config.alarmtroll) {
+                        sgobs.add(gob.id);
+                        Audio.play(trollsfx, Config.alarmtrollvol);
                     } else if (gob.type == Gob.Type.MAMMOTH && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(mammothsfx, Config.alarmmammothvol);
