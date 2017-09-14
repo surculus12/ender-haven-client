@@ -59,6 +59,10 @@ public class Charlist extends Widget {
         this.height = height;
         y = 0;
         setcanfocus(true);
+    }
+
+    protected void added() {
+        parent.setfocus(this);
         Button btn = new Button(90, "Log out") {
             @Override
             public void click() {
@@ -68,11 +72,7 @@ public class Charlist extends Widget {
                 }
             }
         };
-        add(btn, 120, 553);
-    }
-
-    protected void added() {
-        parent.setfocus(this);
+        parent.add(btn, 120, 553);
     }
 
     public void scroll(int amount) {
