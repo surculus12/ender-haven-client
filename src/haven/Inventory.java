@@ -40,13 +40,7 @@ public class Inventory extends Widget implements DTarget {
     @RName("inv")
     public static class $_ implements Factory {
         public Widget create(UI ui, Object[] args) {
-            // FIXME
-           // if (parent instanceof CharWnd)
-           //     return new InventoryStudy((Coord) args[0]);
-           // else if (parent instanceof BeltWnd)
-           //     return new InventoryBelt((Coord) args[0]);
-           // else
-                return new Inventory((Coord) args[0]);
+            return new Inventory((Coord) args[0]);
         }
     }
 

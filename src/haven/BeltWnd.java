@@ -114,6 +114,6 @@ public class BeltWnd extends Widget implements DTarget {
     @Override
     public void destroy() {
         super.destroy();
-        gameui().getequipory().beltWndId = -1;
+        ui.beltWndId = -1;
     }
 }

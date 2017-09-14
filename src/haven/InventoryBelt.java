@@ -10,6 +10,13 @@ public class InventoryBelt extends Widget implements DTarget {
     public Coord isz;
     Map<GItem, WItem> wmap = new HashMap<GItem, WItem>();
 
+    @RName("inv-belt")
+    public static class $_ implements Factory {
+        public Widget create(UI ui, Object[] args) {
+            return new InventoryBelt((Coord) args[0]);
+        }
+    }
+
     public void draw(GOut g) {
         Coord c = new Coord();
         for (; c.x < isz.x * isz.y * sqsz.x; c.x += sqsz.x)

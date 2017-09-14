@@ -7,6 +7,13 @@ public class InventoryStudy extends Inventory {
     private Tex[] histtex = null;
     private static final Color histclr = new Color(238, 238, 238, 160);
 
+    @RName("inv-study")
+    public static class $_ implements Factory {
+        public Widget create(UI ui, Object[] args) {
+            return new InventoryStudy((Coord) args[0]);
+        }
+    }
+
     public InventoryStudy(Coord sz) {
         super(sz);
     }

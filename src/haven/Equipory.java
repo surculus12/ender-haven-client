@@ -39,7 +39,6 @@ public class Equipory extends Widget implements DTarget {
     private static final int acx = 34 + bg.sz().x / 2;
     private static final Text.Foundry acf = new Text.Foundry(Text.sans, Text.cfg.def).aa(true);
     private Tex armorclass = null;
-    public int beltWndId = -1;
     public static final Coord ecoords[] = {
             new Coord(0, 0),
             new Coord(rx, 0),
@@ -122,7 +121,7 @@ public class Equipory extends Widget implements DTarget {
 
     @Override
     public void tick(double dt) {
-        if (Config.quickbelt && beltWndId == -1 && ((Window) parent).origcap.equals("Equipment")) {
+        if (Config.quickbelt && ui.beltWndId == -1 && ((Window) parent).origcap.equals("Equipment")) {
             for (WItem itm[] : wmap.values()) {
                 try {
                     if (itm.length > 0 && itm[0].item.res.get().name.endsWith("belt"))

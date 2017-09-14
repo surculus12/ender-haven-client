@@ -49,6 +49,7 @@ public class UI {
     public Console cons = new WidgetConsole();
     private Collection<AfterDraw> afterdraws = new LinkedList<AfterDraw>();
     public final ActAudio audio = new ActAudio();
+    public int beltWndId = -1;
 
     {
         lastevent = lasttick = System.currentTimeMillis();
@@ -146,17 +147,27 @@ public class UI {
 
     public void newwidget(int id, String type, int parent, Object[] pargs, Object... cargs) throws InterruptedException {
         if (Config.quickbelt && type.equals("wnd") && cargs[1].equals("Belt")) {
+            // use custom belt window
             type = "wnd-belt";
+            beltWndId = id;
             pargs[1] = Utils.getprefc("Belt_c", new Coord(550, HavenPanel.h - 160));
+        } else if (type.equals("inv") && pargs[0].toString().equals("study")) {
+            // use custom study inventory
+            type = "inv-study";
         }
 
         Widget.Factory f = Widget.gettype2(type);
 
         synchronized (this) {
+            Widget pwdg = widgets.get(parent);
+
+            // use custom belt window inventory
+            if (pwdg instanceof BeltWnd)
+                f = Widget.gettype2("inv-belt");
+
             Widget wdg = f.create(this, cargs);
             wdg.attach(this);
             if (parent != 65535) {
-                Widget pwdg = widgets.get(parent);
                 if (pwdg == null)
                     throw (new UIException("Null parent widget " + parent + " for " + id, type, cargs));
 
@@ -167,10 +178,6 @@ public class UI {
                     processWindowCreation(id, gui, (Window) wdg);
                 else if (pwdg instanceof Window)
                     processWindowContent(parent, gui, (Window) pwdg, wdg);
-
-                if (type.equals("wnd-belt")) {
-                    gui.getequipory().beltWndId = id;
-                }
 
                 bind(wdg, id);
 
