@@ -32,7 +32,7 @@ import java.io.*;
 import java.lang.ref.*;
 
 public class Session {
-    public static final int PVER = 11;
+    public static final int PVER = 12;
 
     public static final int MSG_SESS = 0;
     public static final int MSG_REL = 1;
@@ -289,15 +289,8 @@ public class Session {
                         throw (new MessageException("Got invalid fragment type: " + head, msg));
                     }
                 }
-            } else if(msg.type == RMessage.RMSG_NEWWDG) {
-                synchronized (uimsgs) {
-                    uimsgs.add(msg);
-                }
-            } else if (msg.type == RMessage.RMSG_WDGMSG) {
-                synchronized (uimsgs) {
-                    uimsgs.add(msg);
-                }
-            } else if (msg.type == RMessage.RMSG_DSTWDG) {
+            } else if((msg.type == RMessage.RMSG_NEWWDG) || (msg.type == RMessage.RMSG_WDGMSG) ||
+                    (msg.type == RMessage.RMSG_DSTWDG) || (msg.type == RMessage.RMSG_ADDWDG)) {
                 synchronized (uimsgs) {
                     uimsgs.add(msg);
                 }

@@ -55,14 +55,14 @@ public class Widget {
 
     @RName("cnt")
     public static class $Cont implements Factory {
-        public Widget create(Widget parent, Object[] args) {
+        public Widget create(UI ui, Object[] args) {
             return (new Widget((Coord) args[0]));
         }
     }
 
     @RName("ccnt")
     public static class $CCont implements Factory {
-        public Widget create(Widget parent, Object[] args) {
+        public Widget create(UI ui, Object[] args) {
             Widget ret = new Widget((Coord) args[0]) {
                 public void presize() {
                     c = parent.sz.div(2).sub(sz.div(2));
@@ -78,8 +78,8 @@ public class Widget {
 
     @RName("fcnt")
     public static class $FCont implements Factory {
-        public Widget create(Widget parent, Object[] args) {
-            Widget ret = new Widget(parent.sz) {
+        public Widget create(UI ui, Object[] args) {
+            Widget ret = new Widget(Coord.z) {
                 Collection<Widget> fill = new ArrayList<Widget>();
 
                 public void presize() {
@@ -131,7 +131,7 @@ public class Widget {
     }
     @RName("acnt")
     public static class $ACont implements Factory {
-	public Widget create(Widget parent, final Object[] args) {
+	public Widget create(UI ui, final Object[] args) {
 	    final String expr = (String)args[0];
 	    return(new AlignPanel() {
 		    protected Coord getc() {
@@ -143,7 +143,7 @@ public class Widget {
 
     @Resource.PublishedCode(name = "wdg", instancer = FactMaker.class)
     public interface Factory {
-        public Widget create(Widget parent, Object[] par);
+        public Widget create(UI ui, Object[] par);
     }
 
     public static class FactMaker implements Resource.PublishedCode.Instancer {
@@ -151,30 +151,13 @@ public class Widget {
             if (Factory.class.isAssignableFrom(cl))
                 return (cl.asSubclass(Factory.class).newInstance());
             try {
-                final Method mkm = cl.getDeclaredMethod("mkwidget", Widget.class, Object[].class);
-                int mod = mkm.getModifiers();
-                if (Widget.class.isAssignableFrom(mkm.getReturnType()) && ((mod & Modifier.STATIC) != 0) && ((mod & Modifier.PUBLIC) != 0)) {
-                    return (new Factory() {
-                        public Widget create(Widget parent, Object[] args) {
-                            try {
-                                return ((Widget) mkm.invoke(null, parent, args));
-                            } catch (Exception e) {
-                                if (e instanceof RuntimeException) throw ((RuntimeException) e);
-                                throw (new RuntimeException(e));
-                            }
-                        }
-                    });
-                }
-            } catch (NoSuchMethodException e) {
-            }
-            try {
                 final Method mkm = cl.getDeclaredMethod("mkwidget", UI.class, Object[].class);
                 int mod = mkm.getModifiers();
                 if (Widget.class.isAssignableFrom(mkm.getReturnType()) && ((mod & Modifier.STATIC) != 0) && ((mod & Modifier.PUBLIC) != 0)) {
                     return (new Factory() {
-                        public Widget create(Widget parent, Object[] args) {
+                        public Widget create(UI ui, Object[] args) {
                             try {
-                                return ((Widget) mkm.invoke(null, parent.ui, args));
+                                return ((Widget) mkm.invoke(null, ui, args));
                             } catch (Exception e) {
                                 if (e instanceof RuntimeException) throw ((RuntimeException) e);
                                 throw (new RuntimeException(e));
@@ -267,13 +250,11 @@ public class Widget {
     }
 
     private <T extends Widget> T add0(T child) {
-        if ((child.ui == null) && (this.ui != null))
-            ((Widget) child).attach(this.ui);
         child.parent = this;
         child.link();
+        if (this.ui != null)
+            ((Widget) child).attach(this.ui);
         child.added();
-        if (attached)
-            child.attached();
         if (((Widget) child).canfocus && child.visible)
             newfocusable(child);
         return (child);
@@ -417,12 +398,6 @@ public class Widget {
         }
     }
 
-    public Widget makechild(Factory type, Object[] pargs, Object[] cargs) {
-        Widget child = type.create(this, cargs);
-        addchild(child, pargs);
-        return (child);
-    }
-
     public void link() {
         if (parent.lchild != null)
             parent.lchild.next = this;
@@ -461,7 +436,7 @@ public class Widget {
     public Coord parentpos(Widget in) {
         if (in == this)
             return (new Coord(0, 0));
-        return (parent.xlate(parent.parentpos(in).add(c), true));
+        return (xlate(parent.parentpos(in).add(c), true));
     }
 
     public Coord rootpos() {

@@ -8,7 +8,7 @@ public class BeltWnd extends Widget implements DTarget {
 
     @RName("wnd-belt")
     public static class $_ implements Factory {
-        public Widget create(Widget parent, Object[] args) {
+        public Widget create(UI ui, Object[] args) {
             Coord sz = (Coord) args[0];
             String cap = (args.length > 1) ? (String) args[1] : null;
             return new BeltWnd(sz, cap);

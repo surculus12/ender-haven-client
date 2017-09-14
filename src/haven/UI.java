@@ -151,43 +151,60 @@ public class UI {
         }
 
         Widget.Factory f = Widget.gettype2(type);
+
         synchronized (this) {
-            Widget pwdg = widgets.get(parent);
-            if (pwdg == null)
-                throw (new UIException("Null parent widget " + parent + " for " + id, type, cargs));
+            Widget wdg = f.create(this, cargs);
+            wdg.attach(this);
+            if (parent != 65535) {
+                Widget pwdg = widgets.get(parent);
+                if (pwdg == null)
+                    throw (new UIException("Null parent widget " + parent + " for " + id, type, cargs));
 
-            Widget wdg = pwdg.makechild(f, pargs, cargs);
+                pwdg.addchild(wdg, pargs);
 
-            GameUI gui = wdg.gameui();
-            if (wdg instanceof Window)
-                processWindowCreation(id, gui, (Window)wdg);
-            else if (pwdg instanceof Window)
-                processWindowContent(parent, gui, (Window)pwdg, wdg);
+                GameUI gui = wdg.gameui();
+                if (wdg instanceof Window)
+                    processWindowCreation(id, gui, (Window) wdg);
+                else if (pwdg instanceof Window)
+                    processWindowContent(parent, gui, (Window) pwdg, wdg);
 
-            if (type.equals("wnd-belt")) {
-                gui.getequipory().beltWndId = id;
-            }
+                if (type.equals("wnd-belt")) {
+                    gui.getequipory().beltWndId = id;
+                }
 
-            bind(wdg, id);
+                bind(wdg, id);
 
-            // drop everything except water containers when mining
-            if (Config.dropore && gui != null && gui.map != null && gui.map.areamine && wdg instanceof GItem) {
-                if (gui.maininv == pwdg) {
-                    final GItem itm = (GItem) wdg;
-                    Defer.later(new Defer.Callable<Void>() {
-                        public Void call() {
-                            try {
-                                String name = itm.resource().name;
-                                if (!name.endsWith("waterflask") && !name.endsWith("waterskin") && !name.endsWith("pebble-gold"))
-                                    itm.wdgmsg("drop", Coord.z);
-                            } catch (Loading e) {
-                                Defer.later(this);
+                // drop everything except water containers when mining
+                if (Config.dropore && gui != null && gui.map != null && gui.map.areamine && wdg instanceof GItem) {
+                    if (gui.maininv == pwdg) {
+                        final GItem itm = (GItem) wdg;
+                        Defer.later(new Defer.Callable<Void>() {
+                            public Void call() {
+                                try {
+                                    String name = itm.resource().name;
+                                    if (!name.endsWith("waterflask") && !name.endsWith("waterskin") && !name.endsWith("pebble-gold"))
+                                        itm.wdgmsg("drop", Coord.z);
+                                } catch (Loading e) {
+                                    Defer.later(this);
+                                }
+                                return null;
                             }
-                            return null;
-                        }
-                    });
+                        });
+                    }
                 }
             }
+        }
+    }
+
+    public void addwidget(int id, int parent, Object[] pargs) {
+        synchronized(this) {
+            Widget wdg = widgets.get(id);
+            if(wdg == null)
+                throw(new UIException("Null child widget " + id + " added to " + parent, null, pargs));
+            Widget pwdg = widgets.get(parent);
+            if(pwdg == null)
+                throw(new UIException("Null parent widget " + parent + " for " + id, null, pargs));
+            pwdg.addchild(wdg, pargs);
         }
     }
 

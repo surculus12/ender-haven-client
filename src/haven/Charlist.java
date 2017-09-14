@@ -49,12 +49,12 @@ public class Charlist extends Widget {
 
     @RName("charlist")
     public static class $_ implements Factory {
-        public Widget create(Widget parent, Object[] args) {
-            return (new Charlist(parent, (Integer) args[0]));
+        public Widget create(UI ui, Object[] args) {
+            return (new Charlist((Integer) args[0]));
         }
     }
 
-    public Charlist(Widget parent, int height) {
+    public Charlist(int height) {
         super(new Coord(bg.sz().x, 40 + (bg.sz().y * height) + (margin * (height - 1))));
         this.height = height;
         y = 0;
@@ -68,7 +68,7 @@ public class Charlist extends Widget {
                 }
             }
         };
-        parent.add(btn, 120, 553);
+        add(btn, 120, 553);
     }
 
     protected void added() {
