@@ -1,14 +1,4 @@
-import haven.Button;
-import haven.Coord;
-import haven.DTarget;
-import haven.GOut;
-import haven.Indir;
-import haven.Inventory;
-import haven.Label;
-import haven.Loading;
-import haven.Resource;
-import haven.Tex;
-import haven.Widget;
+import haven.*;
 
 public class Grainslot extends Widget implements DTarget {
     public final Label lbl;
@@ -23,7 +13,7 @@ public class Grainslot extends Widget implements DTarget {
         this.lbl = this.adda(new Label(""), 40, this.sz.y / 2, 0.0D, 0.5D);
     }
 
-    public static Widget mkwidget(Widget var0, Object... var1) {
+    public static Widget mkwidget(UI ui, Object... var1) {
         return new Grainslot();
     }
 

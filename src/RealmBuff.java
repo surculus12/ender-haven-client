@@ -1,15 +1,4 @@
-import haven.Buff;
-import haven.Coord;
-import haven.Glob;
-import haven.Indir;
-import haven.ItemInfo;
-import haven.Loading;
-import haven.Resource;
-import haven.RichText;
-import haven.Tex;
-import haven.TexI;
-import haven.Text;
-import haven.Widget;
+import haven.*;
 import haven.ItemInfo.ResOwner;
 import haven.Resource.Pagina;
 
@@ -28,8 +17,8 @@ public class RealmBuff extends Buff implements ResOwner {
         this.res = var1;
     }
 
-    public static Widget mkwidget(Widget var0, Object... var1) {
-        Indir<Resource> var2 = var0.ui.sess.getres(((Integer) var1[0]).intValue());
+    public static Widget mkwidget(UI ui, Object... var1) {
+        Indir<Resource> var2 = ui.sess.getres(((Integer) var1[0]).intValue());
         return new RealmBuff(var2);
     }
 

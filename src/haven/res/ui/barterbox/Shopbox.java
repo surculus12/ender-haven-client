@@ -49,7 +49,7 @@ public class Shopbox extends Widget implements SpriteOwner, Owner {
     private Tex pricetip = null;
     private Random rnd = null;
 
-    public static Widget mkwidget(Widget var0, Object... var1) {
+    public static Widget mkwidget(UI ui, Object... var1) {
         boolean var2 = ((Integer) var1[0]).intValue() != 0;
         return new Shopbox(var2);
     }
