@@ -377,13 +377,15 @@ public class Config {
                 "gfx/invobjs/leech",
                 "gfx/invobjs/gauze",
                 "gfx/invobjs/hartshornsalve",
-                "gfx/invobjs/camomilecompress"
+                "gfx/invobjs/camomilecompress",
+                "gfx/invobjs/opium"
         });
         put("paginae/wound/bruise", new String[]{
                 "gfx/invobjs/leech"
         });
         put("paginae/wound/concussion", new String[]{
-                "gfx/invobjs/coldcompress"
+                "gfx/invobjs/coldcompress",
+                "gfx/invobjs/opium"
         });
         put("paginae/wound/cruelincision", new String[]{
                 "gfx/invobjs/gauze",
@@ -403,7 +405,8 @@ public class Config {
                 "gfx/invobjs/herbs/yarrow"
         });
         put("paginae/wound/punchsore", new String[]{
-                "gfx/invobjs/mudointment"
+                "gfx/invobjs/mudointment",
+                "gfx/invobjs/opium"
         });
         put("paginae/wound/scrapesncuts", new String[]{
                 "gfx/invobjs/herbs/yarrow",
@@ -423,7 +426,8 @@ public class Config {
                 "gfx/invobjs/mudointment"
         });
         put("paginae/wound/wretchedgore", new String[]{
-                "gfx/invobjs/stitchpatch"
+                "gfx/invobjs/stitchpatch",
+                "gfx/invobjs/opium"
         });
         put("paginae/wound/blackeye", new String[]{
                 "gfx/invobjs/hartshornsalve",
@@ -438,7 +442,8 @@ public class Config {
         });
         put("paginae/wound/infectedsore", new String[]{
                 "gfx/invobjs/camomilecompress",
-                "gfx/invobjs/soapbar"
+                "gfx/invobjs/soapbar",
+                "gfx/invobjs/opium"
         });
     }};
 
