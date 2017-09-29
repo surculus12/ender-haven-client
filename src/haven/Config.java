@@ -346,7 +346,8 @@ public class Config {
 
     public final static Set<String> foragables = new HashSet<String>(Arrays.asList(
             "gfx/terobjs/herbs/flotsam", "gfx/terobjs/herbs/chimingbluebell", "gfx/terobjs/herbs/edelweiss",
-            "gfx/terobjs/herbs/bloatedbolete", "gfx/terobjs/herbs/glimmermoss", "gfx/terobjs/herbs/camomile"));
+            "gfx/terobjs/herbs/bloatedbolete", "gfx/terobjs/herbs/glimmermoss", "gfx/terobjs/herbs/camomile",
+            "gfx/terobjs/herbs/clay-cave"));
 
     public final static Set<String> locres = new HashSet<String>(Arrays.asList(
             "gfx/terobjs/saltbasin",
