@@ -55,7 +55,7 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
 
     private final Collection<ResAttr.Cell<?>> rdata = new LinkedList<ResAttr.Cell<?>>();
     private final Collection<ResAttr.Load> lrdata = new LinkedList<ResAttr.Load>();
-    private int cropstgmaxval = 0;
+    public int cropstgmaxval = 0;
     private Overlay gobpath = null;
     private Overlay bowvector = null;
     private static final Material.Colors dframeEmpty = new Material.Colors(new Color(87, 204, 73, 255));
