@@ -75,7 +75,6 @@ public class UI {
                 Config.zkey = args[1].toString().equals("z") ? KeyEvent.VK_Y : KeyEvent.VK_Z;
                 Utils.setprefi("zkey", Config.zkey);
             });
-            setcmd("charter", (cons1, args) -> CharterList.addCharter(args[1]));
         }
 
         private void findcmds(Map<String, Command> map, Widget wdg) {
