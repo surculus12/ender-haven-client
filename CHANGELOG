@@ -1,3 +1,18 @@
+Version 1.63.0
+    New:
+		* Extension to fill cheese trays with curd from inventory.
+        * Extension to harvest/remove plants from nearest trellis.
+
+    Fixed:
+        * Finished curios alarm not working.
+
+    Misc:
+		* Added opium to relevant wound descriptions.
+		* Cave clay added to aww yeah alarm.
+		* Lore events are now sorted by last seen time instead of alphabetically.
+		* Updated Korean and Russian localizations.
+
+
 Version 1.62.0
     Misc:
         * Added grasshopper and irrlight to icons list.
