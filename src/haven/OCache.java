@@ -297,7 +297,7 @@ public class OCache implements Iterable<Gob> {
     public void speak(Gob gob, Message msg) {
         float zo = msg.int16() / 100.0f;
         String text = msg.string();
-        if(gob != null)
+        if (gob != null && !text.startsWith(ChatUI.CMD_PREFIX_HLIGHT))
             speak(gob, zo, text);
     }
 
