@@ -1928,12 +1928,14 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
 
                 delay(new Hittest(c) {
                     protected void hit(Coord pc, Coord2d mc, ClickInfo inf) {
-                        MapView.gobclickargs(inf);
-                        if (inf.gob != null) {
-                            Resource res = inf.gob.getres();
-                            if (res != null) {
-                                tooltip = res.name;
-                                return;
+                        if (inf != null) {
+                            MapView.gobclickargs(inf);
+                            if (inf.gob != null) {
+                                Resource res = inf.gob.getres();
+                                if (res != null) {
+                                    tooltip = res.name;
+                                    return;
+                                }
                             }
                         }
                         tooltip = null;
