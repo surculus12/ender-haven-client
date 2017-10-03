@@ -327,6 +327,8 @@ public class GOut {
     }
 
     public void poly(Coord... c) {
+        if (TexGL.disableall)
+            return;
         st.set(cur2d);
         apply();
         gl.glBegin(GL2.GL_POLYGON);
@@ -352,6 +354,8 @@ public class GOut {
     }
 
     public void polyline(float w, Coord... c) {
+        if (TexGL.disableall)
+            return;
         st.set(cur2d);
         apply();
         gl.glLineWidth(w);
@@ -363,6 +367,8 @@ public class GOut {
     }
 
     public void frect(Coord ul, Coord sz) {
+        if (TexGL.disableall)
+            return;
         ul = tx.add(ul);
         Coord br = ul.add(sz);
         if (ul.x < this.ul.x) ul.x = this.ul.x;
@@ -467,6 +473,8 @@ public class GOut {
     }
 
     public void fcircle(int x, int y, double rad, final int points) {
+        if (TexGL.disableall)
+            return;
         st.set(cur2d);
         apply();
 

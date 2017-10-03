@@ -1011,6 +1011,9 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             Thread t = new Thread(new PickForageable(this), "PickForageable");
             t.start();
             return true;
+        } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_U) {
+            TexGL.disableall = !TexGL.disableall;
+            return true;
         }
         return (super.globtype(key, ev));
     }

@@ -174,6 +174,8 @@ public class Avaview extends PView {
     }
 
     public void draw(GOut g) {
+        if (TexGL.disableall)
+            return;
         try {
             updcomp();
             super.draw(g);
