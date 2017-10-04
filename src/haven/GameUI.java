@@ -905,9 +905,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         if (key == ':') {
             entercmd();
             return (true);
-        } else if (ev.isShiftDown() && ev.getKeyCode() == KeyEvent.VK_DELETE) {
-            toggleui();
-            return (true);
         } else if (key == 3) {
             if (chat.visible && !chat.hasfocus) {
                 setfocus(chat);
@@ -1020,21 +1017,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 
     public boolean mousedown(Coord c, int button) {
         return (super.mousedown(c, button));
-    }
-
-    private boolean uishowing = true;
-
-    // TODO: toggle chat, betls, and minimap visibility as well
-    public void toggleui() {
-        Hidepanel[] panels = {brpanel, ulpanel, umpanel, urpanel, menupanel};
-        uishowing = !uishowing;
-        if (uishowing) {
-            for (Hidepanel p : panels)
-                p.mshow(true);
-        } else {
-            for (Hidepanel p : panels)
-                p.mshow(false);
-        }
     }
 
     public void resize(Coord sz) {
