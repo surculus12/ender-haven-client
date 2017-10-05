@@ -2,16 +2,14 @@ import haven.*;
 import haven.GItem.NumberInfo;
 import haven.GItem.GildingInfo;
 import haven.ItemInfo.Tip;
-import haven.Text.Foundry;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class ISlots extends Tip implements NumberInfo, GildingInfo {
+public class ISlotsOld extends Tip implements NumberInfo, GildingInfo {
     public static final Text ch = Text.render(Resource.getLocString(Resource.BUNDLE_LABEL, "Gilding:"));
     public final Collection<SItem> s = new ArrayList<SItem>();
     public final int left;
@@ -20,7 +18,7 @@ public class ISlots extends Tip implements NumberInfo, GildingInfo {
     public final Resource[] attrs;
     public static final String chc = "192,192,255";
 
-    public ISlots(Owner var1, int var2, double var3, double var5, Resource[] var7) {
+    public ISlotsOld(Owner var1, int var2, double var3, double var5, Resource[] var7) {
         super(var1);
         this.left = var2;
         this.pmin = var3;
@@ -88,11 +86,11 @@ public class ISlots extends Tip implements NumberInfo, GildingInfo {
     }
 
     public static class SItem implements ResOwner {
-        private final ISlots islots;
+        private final ISlotsOld islots;
         public final Resource res;
         public final List<ItemInfo> info;
 
-        public SItem(ISlots var1, Resource var2, Object[] var3) {
+        public SItem(ISlotsOld var1, Resource var2, Object[] var3) {
             this.islots = var1;
             this.res = var2;
             this.info = ItemInfo.buildinfo(this, var3);
