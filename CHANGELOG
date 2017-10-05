@@ -1,3 +1,8 @@
+Version 1.64.2
+    New:
+        * Options for selecting which items to auto-drop when mining.
+
+
 Version 1.64.1
     Fixed:
         * Gilding slots.
