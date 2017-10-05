@@ -1,3 +1,8 @@
+Version 1.64.1
+    Fixed:
+        * Gilding slots.
+
+
 Version 1.64.0
     New:
         * Ctrl+U for hiding the UI.
@@ -8,7 +13,7 @@ Version 1.64.0
     Misc:
         * Added hornblende to boulders list.
         * Made opium dragon pickable with the Q key.
-		* Temporary fix for Oct 5 patch.
+        * Temporary fix for Oct 5 patch.
 
 
 Version 1.63.0
