@@ -26,8 +26,6 @@
 
 package haven;
 
-import haven.livestock.LivestockManager;
-
 import java.util.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -179,25 +177,6 @@ public class UI {
                     processWindowContent(parent, gui, (Window) pwdg, wdg);
 
                 bind(wdg, id);
-
-                // drop everything except water containers when mining
-                if (Config.dropore && gui != null && gui.map != null && gui.map.areamine && wdg instanceof GItem) {
-                    if (gui.maininv == pwdg) {
-                        final GItem itm = (GItem) wdg;
-                        Defer.later(new Defer.Callable<Void>() {
-                            public Void call() {
-                                try {
-                                    String name = itm.resource().name;
-                                    if (!name.endsWith("waterflask") && !name.endsWith("waterskin") && !name.endsWith("pebble-gold"))
-                                        itm.wdgmsg("drop", Coord.z);
-                                } catch (Loading e) {
-                                    Defer.later(this);
-                                }
-                                return null;
-                            }
-                        });
-                    }
-                }
             }
         }
     }

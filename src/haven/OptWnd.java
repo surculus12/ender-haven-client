@@ -821,14 +821,47 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Auto-miner: drop mined ore") {
+        appender.add(new CheckBox("Drop mined stones") {
             {
-                a = Config.dropore;
+                a = Config.dropMinedStones;
             }
 
             public void set(boolean val) {
-                Utils.setprefb("dropore", val);
-                Config.dropore = val;
+                Utils.setprefb("dropMinedStones", val);
+                Config.dropMinedStones = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Drop mined ore") {
+            {
+                a = Config.dropMinedOre;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("dropMinedOre", val);
+                Config.dropMinedOre = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Drop mined silver/gold ore") {
+            {
+                a = Config.dropMinedOrePrecious;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("dropMinedOrePrecious", val);
+                Config.dropMinedOrePrecious = val;
+                a = val;
+            }
+        });
+        appender.add(new CheckBox("Drop mined cat gold, petrified seashells, strange crystals") {
+            {
+                a = Config.dropMinedCurios;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("dropMinedCurios", val);
+                Config.dropMinedCurios = val;
                 a = val;
             }
         });

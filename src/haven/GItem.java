@@ -212,4 +212,28 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
         }
         return null;
     }
+
+    @Override
+    protected void added() {
+        Resource curs = ui.root.getcurs(Coord.z);
+        if (curs != null && curs.name.equals("gfx/hud/curs/mine")) {
+            final GItem self = this;
+            Defer.later(new Defer.Callable<Void>() {
+                public Void call() {
+                    try {
+                        String name = self.resource().basename();
+                        if (Config.dropMinedStones && Config.mineablesStone.contains(name) ||
+                                Config.dropMinedOre && Config.mineablesOre.contains(name) ||
+                                Config.dropMinedOrePrecious && Config.mineablesOrePrecious.contains(name) ||
+                                Config.dropMinedCurios && Config.mineablesCurios.contains(name))
+                            self.wdgmsg("drop", Coord.z);
+                    } catch (Loading e) {
+                        Defer.later(this);
+                    }
+                    return null;
+                }
+            });
+        }
+
+    }
 }

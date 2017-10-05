@@ -130,7 +130,10 @@ public class Config {
     public static boolean nodropping_all = Utils.getprefb("nodropping_all", false);
     public static boolean fbelt = Utils.getprefb("fbelt", false);
     public static boolean histbelt = Utils.getprefb("histbelt", false);
-    public static boolean dropore = Utils.getprefb("dropore", true);
+    public static boolean dropMinedStones = Utils.getprefb("dropMinedStones", true);
+    public static boolean dropMinedOre = Utils.getprefb("dropMinedOre", true);
+    public static boolean dropMinedOrePrecious = Utils.getprefb("dropMinedOrePrecious", true);
+    public static boolean dropMinedCurios = Utils.getprefb("dropMinedCurios", true);
     public static boolean showdframestatus = Utils.getprefb("showdframestatus", true);
     public static boolean enableorthofullzoom = Utils.getprefb("enableorthofullzoom", false);
     public static boolean partycircles =  Utils.getprefb("partycircles", false);
@@ -363,6 +366,49 @@ public class Config {
             "gfx/terobjs/claypit",
             "gfx/terobjs/caveorgan",
             "gfx/terobjs/crystalpatch"));
+
+    public final static Set<String> mineablesStone = new HashSet<String>(Arrays.asList(
+            "gneiss",
+            "basalt",
+            "cinnabar",
+            "dolomite",
+            "feldspar",
+            "flint",
+            "granite",
+            "hornblende",
+            "limestone",
+            "marble",
+            "porphyry",
+            "quartz",
+            "sandstone",
+            "schist",
+            "blackcoal"
+    ));
+
+    public final static Set<String> mineablesOre = new HashSet<String>(Arrays.asList(
+            "cassiterite",
+            "chalcopyrite",
+            "malachite",
+            "ilmenite",
+            "limonite",
+            "hematite",
+            "magnetite"
+    ));
+
+    public final static Set<String> mineablesOrePrecious = new HashSet<String>(Arrays.asList(
+            "galena",
+            "argentite",
+            "hornsilver",
+            "petzite",
+            "sylvanite",
+            "nagyagite"
+    ));
+
+    public final static Set<String> mineablesCurios = new HashSet<String>(Arrays.asList(
+            "catgold",
+            "petrifiedshell",
+            "strangecrystal"
+    ));
 
     public final static HashMap<String, CheckListboxItem> disableanim = new HashMap<String, CheckListboxItem>(4) {{
         put("gfx/terobjs/beehive", new CheckListboxItem("Beehives"));

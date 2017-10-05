@@ -73,7 +73,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     private static final Gob.Overlay rovlbeehive = new Gob.Overlay(new BPRadSprite(151.0F, -10.0F, BPRadSprite.smatBeehive));
     private long lastmmhittest = System.currentTimeMillis();
     private Coord lasthittestc = Coord.z;
-    public boolean areamine;
     private GobSelectCallback gobselcb;
     private AreaSelectCallback areaselcb;
     private Pathfinder pf;
@@ -84,7 +83,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
     public static final Set<Long> markedGobs = new HashSet<>();
     public static final Material.Colors markedFx = new Material.Colors(new Color(21, 127, 208, 255));
     public Object[] lastItemactClickArgs;
-    private int lastItemactMeshId;
 
     public interface Delayed {
         public void run(GOut g);
@@ -1895,7 +1893,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
             selection.olSecondary.destroy();
             disol(18);
             selection.olSecondary = null;
-            areamine = false;
         }
         parent.setfocus(this);
         if (button == 2) {
@@ -2196,7 +2193,6 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                             olSecondary = glob.map.new Overlay(ol.getc1(), ol.getc2(), 1 << 18);
                         }
                         enol(18);
-                        areamine = true;
                     }
                     ol.destroy();
                     mgrab.remove();
