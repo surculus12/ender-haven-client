@@ -29,6 +29,7 @@ package haven;
 import haven.factories.*;
 import haven.res.ui.tt.ArmorFactory;
 import haven.res.ui.tt.WearFactory;
+import haven.res.ui.tt.defn.DefName;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -358,20 +359,25 @@ public abstract class ItemInfo {
         for (Object o : rawinfo) {
             if (o instanceof Object[]) {
                 Object[] a = (Object[]) o;
-                Resource ttres;
+                Resource ttres= null;
+                InfoFactory f = null;
                 if (a[0] instanceof Integer) {
                     ttres = owner.glob().sess.getres((Integer) a[0]).get();
                 } else if (a[0] instanceof Resource) {
                     ttres = (Resource) a[0];
                 } else if (a[0] instanceof Indir) {
                     ttres = (Resource) ((Indir) a[0]).get();
+                } else if (a[0] instanceof InfoFactory) {
+                    f = (InfoFactory) a[0];
                 } else {
                     throw (new ClassCastException("Unexpected info specification " + a[0].getClass()));
                 }
 
-                InfoFactory f = customFactories.get(ttres.name);
-                if (f == null)
-                    f = ttres.getcode(InfoFactory.class, true);
+                if (f == null) {
+                    f = customFactories.get(ttres.name);
+                    if (f == null)
+                        f = ttres.getcode(InfoFactory.class, true);
+                }
 
                 ItemInfo inf = f.build(owner, a);
                 if (inf != null)

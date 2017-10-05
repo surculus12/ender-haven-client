@@ -3,11 +3,28 @@ import haven.GItem.NumberInfo;
 import haven.GItem.GildingInfo;
 import haven.ItemInfo.Tip;
 
+import haven.CharWnd;
+import haven.Coord;
+import haven.GSprite;
+import haven.ItemInfo;
+import haven.PUtils;
+import haven.ResData;
+import haven.Resource;
+import haven.Text;
+import haven.Utils;
+
+import haven.Resource.Image;
+import haven.res.gfx.invobjs.gems.gemstone.Gemstone;
+import haven.res.lib.tspec.Spec;
+import haven.res.ui.tt.defn.DefName;
+
 import java.awt.image.BufferedImage;
+import java.util.List;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+
 
 public class ISlots extends Tip implements NumberInfo, GildingInfo {
     public static final Text ch = Text.render(Resource.getLocString(Resource.BUNDLE_LABEL, "Gilding:"));
@@ -17,6 +34,7 @@ public class ISlots extends Tip implements NumberInfo, GildingInfo {
     public final double pmax;
     public final Resource[] attrs;
     public static final String chc = "192,192,255";
+    public static final Object[] defn = new Object[]{new DefName()};
 
     public ISlots(Owner var1, int var2, double var3, double var5, Resource[] var7) {
         super(var1);
@@ -88,13 +106,24 @@ public class ISlots extends Tip implements NumberInfo, GildingInfo {
     public static class SItem implements ResOwner {
         private final ISlots islots;
         public final Resource res;
+        public final GSprite spr;
         public final List<ItemInfo> info;
+        public final String name;
 
-        public SItem(ISlots var1, Resource var2, Object[] var3) {
+        public SItem(ISlots var1, ResData var2, Object[] var3) {
             this.islots = var1;
-            this.res = var2;
-            this.info = ItemInfo.buildinfo(this, var3);
+            this.res = var2.res.get();
+            Spec var4 = new Spec(var2, var1.owner.glob(), Utils.extend(new Object[]{ISlots.defn}, var3));
+            this.spr = var4.spr();
+            this.name = var4.name();
+            Spec var5 = new Spec(var2, var1.owner.glob(), var3);
+            this.info = var5.info();
         }
+
+        private BufferedImage img() {
+            return this.spr instanceof Gemstone ? ((Gemstone) this.spr).img : this.res.layer(Resource.imgc).img;
+        }
+
 
         public Glob glob() {
             return this.islots.owner.glob();
@@ -109,8 +138,8 @@ public class ISlots extends Tip implements NumberInfo, GildingInfo {
         }
 
         public void layout(Layout var1) {
-            BufferedImage var2 = PUtils.convolvedown(this.res.layer(Resource.imgc).img, new Coord(16, 16), CharWnd.iconfilter);
-            BufferedImage var3 = Text.render(this.res.layer(Resource.tooltip).t).img;
+            BufferedImage var2 = PUtils.convolvedown(this.img(), new Coord(16, 16), CharWnd.iconfilter);
+            BufferedImage var3 = Text.render(this.name).img;
             BufferedImage var4 = ItemInfo.longtip(this.info);
             byte var5 = 10;
             int var6 = var1.cmp.sz.y;
