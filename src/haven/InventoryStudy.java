@@ -101,8 +101,10 @@ public class InventoryStudy extends Inventory {
                     int i = y * 4 + x;
                     try {
                         Resource res = itm.item.getres();
-                        Tex tex = res.layer(Resource.imgc).tex();
-                        Coord dim = tex.dim;
+                        Resource.Image layer = res.layer(Resource.imgc);
+                        if (layer == null)
+                            continue;
+                        Coord dim = layer.tex().dim;
 
                         int clearx = dim.x > 32 ? dim.x / 32: 1;
                         int cleary = dim.y > 32 ? dim.y / 32: 1;
