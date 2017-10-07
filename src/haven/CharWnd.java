@@ -83,6 +83,7 @@ public class CharWnd extends Window {
         public static class Event extends Resource.Layer {
             public final Color col;
             public final String nm;
+            public final String orignm;
             public final int sort;
 
             public Event(Resource res, Message buf) {
@@ -90,7 +91,8 @@ public class CharWnd extends Window {
                 int ver = buf.uint8();
                 if (ver == 1) {
                     col = new Color(buf.uint8(), buf.uint8(), buf.uint8(), buf.uint8());
-                    nm = Resource.getLocString(Resource.BUNDLE_TOOLTIP, res, buf.string());
+                    orignm = buf.string();
+                    nm = Resource.getLocString(Resource.BUNDLE_TOOLTIP, res, orignm);
                     sort = buf.int16();
                 } else {
                     throw (new Resource.LoadException("unknown foodev version: " + ver, res));
@@ -180,7 +182,7 @@ public class CharWnd extends Window {
                     Collections.sort(etr, dcmp);
                     GameUI gui = getparent(GameUI.class);
                     if (gui != null)
-                        gui.msg("You gained " + Loading.waitfor(trev).layer(Event.class).nm, Color.WHITE);
+                        gui.msg("You gained " + Loading.waitfor(trev).layer(Event.class).orignm, Color.WHITE);
                     trol = new TexI(mktrol(etr, trev));
                     trtm = System.currentTimeMillis();
                     trev = null;
