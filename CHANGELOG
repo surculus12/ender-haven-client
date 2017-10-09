@@ -1,3 +1,8 @@
+Version 1.64.4
+    Fixed:
+        * Temporary workaround for gemstone display signs.
+
+
 Version 1.64.3
     Fixed:
         * Crash on studying gems when study history is turned on.

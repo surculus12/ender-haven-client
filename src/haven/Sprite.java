@@ -121,11 +121,18 @@ public abstract class Sprite implements Rendered {
         return (ret);
     }
 
+    private static final Resource iconsign = Resource.remote().loadwait("gfx/terobjs/iconsign");
+
     public static Sprite create(Owner owner, Resource res, Message sdt) {
         {
             Factory f = res.getcode(Factory.class, false);
             if (f != null)
-                return (f.create(owner, res, sdt));
+                try {
+                    return (f.create(owner, res, sdt));
+                } catch (Exception e) {
+                    // FIXME: temporary fix for gem iconsigns
+                    return Sprite.create(null, iconsign, Message.nil);
+                }
         }
         for (Factory f : factories) {
             Sprite ret = f.create(owner, res, sdt);
