@@ -90,4 +90,15 @@ public class InventoryBelt extends Widget implements DTarget {
         if(!msg.endsWith("-identical"))
             super.wdgmsg(sender, msg, args);
     }
+
+    public WItem getItemPartial(String name) {
+        for (Widget wdg = child; wdg != null; wdg = wdg.next) {
+            if (wdg instanceof WItem) {
+                String wdgname = ((WItem)wdg).item.getname();
+                if (wdgname.contains(name))
+                    return (WItem) wdg;
+            }
+        }
+        return null;
+    }
 }
