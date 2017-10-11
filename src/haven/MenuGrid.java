@@ -528,7 +528,6 @@ public class MenuGrid extends Widget {
 
             if (reset)
                 this.cur = null;
-            curoff = 0;
         }
         updlayout();
     }
