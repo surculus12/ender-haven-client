@@ -37,10 +37,15 @@ public class Gemstone extends GSprite implements DynName {
     public Gemstone(Owner var1, Resource var2, Message var3) {
         super(var1);
         Glob var4 = var1.glob();
-        Resource var5 = (Resource)var4.sess.getres(var3.uint16()).get();
-        Resource var6 = (Resource)var4.sess.getres(var3.uint16()).get();
-        this.tex = new TexI(this.img = construct(var5, var6));
-        this.name = ((Tooltip)var5.layer(Resource.tooltip)).t + " " + ((Tooltip)var6.layer(Resource.tooltip)).t;
+        if (!var3.eom()) {
+            Resource var5 = (Resource)var4.sess.getres(var3.uint16()).get();
+            Resource var6 = (Resource)var4.sess.getres(var3.uint16()).get();
+            this.tex = new TexI(this.img = construct(var5, var6));
+            this.name = ((Tooltip)var5.layer(Resource.tooltip)).t + " " + ((Tooltip)var6.layer(Resource.tooltip)).t;
+        } else {
+            this.tex = new TexI(this.img = TexI.mkbuf(new Coord(32, 32)));
+            this.name = "Broken gem";
+        }
     }
 
     public static BufferedImage convert(BufferedImage var0) {
