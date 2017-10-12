@@ -1,3 +1,16 @@
+Version 1.65.0
+    New:
+        * Extension for filling smelters with 8 an 9 coal.
+        * Extension for equipping sword, battleaxe, or axe from the inventory or a belt.
+        * Extension for dismounting nearest rider.
+
+    Fixed:
+        * Crash on broken gemstone display signs from previous server update.
+
+    Misc:
+        * Don't navigate backward when selecting action in menu grid.
+
+
 Version 1.64.4
     Fixed:
         * Temporary workaround for gemstone display signs.
