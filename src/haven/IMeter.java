@@ -93,7 +93,7 @@ public class IMeter extends Widget {
             if (ponyalarm) {
                 try {
                     Resource res = bg.get();
-                    if (res != null && res.name.equals("gfx/hud/meter/mount")) {
+                    if (res != null && res.name.equals("gfx/hud/meter/häst")) {
                         if (meters.get(0).a <= 10) {
                             Audio.play(ponysfx, 1.0);
                             ponyalarm = false;
