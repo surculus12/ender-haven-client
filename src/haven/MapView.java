@@ -2188,7 +2188,7 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
                     xl.mv = false;
                     tt = null;
                     Resource curs = ui.root.getcurs(c);
-                    if (curs != null && curs.name.equals("gfx/hud/curs/mine")) {
+                    if (button == 1 && curs != null && curs.name.equals("gfx/hud/curs/mine")) {
                         synchronized (glob.map.grids) {
                             olSecondary = glob.map.new Overlay(ol.getc1(), ol.getc2(), 1 << 18);
                         }
