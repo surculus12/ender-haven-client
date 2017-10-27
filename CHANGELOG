@@ -1,3 +1,11 @@
+Version 1.65.1
+    Fixed:
+        * Pony power sound alert.
+        * Issue with scroller in the menu search window.
+        * Mining area selector remaining indefinitely under certain conditions.
+        * Trellis harvester not working when crop stages are not enabled.
+
+
 Version 1.65.0
     New:
         * Extension for filling smelters with 8 an 9 coal.
