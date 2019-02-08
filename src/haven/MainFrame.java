@@ -373,6 +373,7 @@ public class MainFrame extends java.awt.Frame implements Runnable, Console.Direc
     }
 
     private static void main2(String[] args) {
+        Config.init();
 	Config.cmdline(args);
 	try {
 	    javabughack();

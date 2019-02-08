@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Class-Path: jnlp.jar jogl.jar jglob.jar hafen-res.jar gluegen-rt.jar g
+ son-2.3.1.jar builtin-res.jar rxjava-1.1.5.jar rxjava-1.1.5-javadoc.j
+ ar hafen.jar 
+Main-Class: mapper.Main
+

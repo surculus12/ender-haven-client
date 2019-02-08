@@ -77,6 +77,12 @@ public class HashDirCache implements ResCache {
 	this.idhash = namehash(0, id.toString());
     }
 
+    public HashDirCache(URI id, File base) {
+	this.base = base;
+	this.id = id;
+	this.idhash = namehash(0, id.toString());
+    }
+    
     private static URI mkurn(String id) {
 	try {
 	    return(new URI("urn:haven-cache:" + id));

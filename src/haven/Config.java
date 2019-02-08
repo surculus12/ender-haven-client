@@ -58,10 +58,10 @@ public class Config {
     public static final String confid = "";
     
     public static String version;
-    public static final boolean isUpdate;
+    public static boolean isUpdate;
     public static boolean center_tile = false;
 
-    static {
+    static void init() {
 	String p;
 	if((p = getprop("haven.authck", null)) != null)
 	    authck = Utils.hex2byte(p);

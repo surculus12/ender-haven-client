@@ -932,6 +932,10 @@ public class MapFile {
 		    cur.loaded = grid;
 	    }
 	}
+	
+	public Set<Coord> getGridCoords(){
+	    return map.keySet();
+	}
     }
 
     public final BackCache<Long, Segment> segments = new BackCache<>(5, id -> {
