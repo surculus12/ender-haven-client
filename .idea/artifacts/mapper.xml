@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact name="mapper">
+    <output-path>$PROJECT_DIR$/out/artifacts/mapper</output-path>
+    <root id="root">
+      <element id="artifact" artifact-name="release" />
+      <element id="archive" name="mapper.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/mapper/MANIFESTS/debug/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="mapper" />
+        <element id="module-output" name="hafen" />
+        <element id="directory" name="haven">
+          <element id="file-copy" path="$PROJECT_DIR$/etc/ressrv.crt" />
+        </element>
+      </element>
+      <element id="library" level="project" name="lib" />
+    </root>
+  </artifact>
+</component>
