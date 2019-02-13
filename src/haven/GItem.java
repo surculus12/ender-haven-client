@@ -261,7 +261,9 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
 
     private void dropItMaybe() {
         Resource curs = ui.root.getcurs(Coord.z);
-        if (curs != null && curs.name.equals("gfx/hud/curs/mine")) {
+        if (Config.dropEverything) {
+            this.wdgmsg("drop", Coord.z);
+        } else if (curs != null && curs.name.equals("gfx/hud/curs/mine")) {
             String name = this.resource().basename();
             if (Config.dropMinedStones && Config.mineablesStone.contains(name) ||
                     Config.dropMinedOre && Config.mineablesOre.contains(name) ||
