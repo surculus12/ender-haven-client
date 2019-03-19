@@ -1,3 +1,10 @@
+Version 1.70.0
+    Misc:
+        * Updated stones list.
+        * Updated wound treatments.
+        * Upstream code merge.
+
+
 Version 1.69.4
     Fixed:
         * Fix resource tooltip not disappearing after turning the resource viewer off.
