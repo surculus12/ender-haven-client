@@ -130,6 +130,8 @@ public class Config {
     public static boolean dropMinedOre = Utils.getprefb("dropMinedOre", true);
     public static boolean dropMinedOrePrecious = Utils.getprefb("dropMinedOrePrecious", true);
     public static boolean dropMinedCurios = Utils.getprefb("dropMinedCurios", true);
+    public static boolean dropEverything = false; //for safety.  //Utils.getprefb("dropEverything", true);
+    public static boolean dropSoil = Utils.getprefb("dropSoil", true);
     public static boolean showdframestatus = Utils.getprefb("showdframestatus", true);
     public static boolean enableorthofullzoom = Utils.getprefb("enableorthofullzoom", false);
     public static boolean partycircles =  Utils.getprefb("partycircles", false);
