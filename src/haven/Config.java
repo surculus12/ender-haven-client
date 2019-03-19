@@ -171,7 +171,7 @@ public class Config {
     public final static String chatfile = "chatlog.txt";
     public static PrintWriter chatlog = null;
 
-    public final static HashMap<String, CheckListboxItem> boulders = new HashMap<String, CheckListboxItem>(19) {{
+    public final static HashMap<String, CheckListboxItem> boulders = new HashMap<String, CheckListboxItem>(27) {{
         put("basalt", new CheckListboxItem("Basalt"));
         put("schist", new CheckListboxItem("Schist"));
         put("dolomite", new CheckListboxItem("Dolomite"));
@@ -191,6 +191,14 @@ public class Config {
         put("zincspar", new CheckListboxItem("Zincspar"));
         put("apatite", new CheckListboxItem("Apatite"));
         put("fluorospar", new CheckListboxItem("Fluorospar"));
+        put("gabbro", new CheckListboxItem("Gabbro"));
+        put("corund", new CheckListboxItem("Corund"));
+        put("kyanite", new CheckListboxItem("Kyanite"));
+        put("mica", new CheckListboxItem("Mica"));
+        put("microlite", new CheckListboxItem("Microlite"));
+        put("orthoclase", new CheckListboxItem("Orthoclase"));
+        put("soapstone", new CheckListboxItem("Soapstone"));
+        put("sodalite", new CheckListboxItem("Sodalite"));
     }};
 
     public final static HashMap<String, CheckListboxItem> bushes = new HashMap<String, CheckListboxItem>(23) {{
@@ -415,8 +423,17 @@ public class Config {
             "blackcoal",
             "zincspar",
             "apatite",
-            "fluorospar"
+            "fluorospar",
+            "gabbro",
+            "corund",
+            "kyanite",
+            "mica",
+            "microlite",
+            "orthoclase",
+            "soapstone",
+            "sodalite"
     ));
+
 
     public final static Set<String> mineablesOre = new HashSet<String>(Arrays.asList(
             "cassiterite",
