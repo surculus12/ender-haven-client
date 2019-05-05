@@ -1,3 +1,8 @@
+Version 1.70.1
+    Misc:
+        * Updated stones list.
+        * Upstream code merge.
+
 Version 1.70.0
     New:
         * Minimap zoom and icon tooltips (by Ropston).
