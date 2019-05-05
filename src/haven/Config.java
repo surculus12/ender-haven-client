@@ -433,7 +433,9 @@ public class Config {
             "microlite",
             "orthoclase",
             "soapstone",
-            "sodalite"
+            "sodalite",
+            "olivine",
+            "alabaster"
     ));
 
 
