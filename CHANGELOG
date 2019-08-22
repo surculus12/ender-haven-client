@@ -1,3 +1,7 @@
+Version 1.72.2
+    Fixed:
+        * Crash related to trees (Miniature trees option is temporary gone as the result).
+
 Version 1.72.1
     Misc:
         * Upstream code merge.
