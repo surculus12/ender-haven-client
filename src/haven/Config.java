@@ -155,7 +155,6 @@ public class Config {
     public static boolean disableelev =  Utils.getprefb("disableelev", false);
     public static String treeboxclr =  Utils.getpref("treeboxclr", "D7FF00");
     public static boolean highlightpots = Utils.getprefb("highlightpots", false);
-    public static boolean bonsai = Utils.getprefb("bonsai", false);
     public static int fontsizechat = Utils.getprefi("fontsizechat", 14);
     public static boolean fontaa = Utils.getprefb("fontaa", false);
     public static boolean usefont = Utils.getprefb("usefont", false);
