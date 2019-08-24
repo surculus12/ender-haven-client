@@ -1,3 +1,9 @@
+Version 1.72.3
+    Fixed:
+        * Restored miniature trees option.
+        * (probably) Tree growth stages.
+        * Random disconnects (thanks to FuriousFox)
+
 Version 1.72.2
     Fixed:
         * Crash related to trees (Miniature trees option is temporary gone as the result).
