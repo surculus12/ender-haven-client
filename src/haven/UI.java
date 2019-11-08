@@ -47,6 +47,7 @@ public class UI {
     public Widget mouseon;
     public Console cons = new WidgetConsole();
     private Collection<AfterDraw> afterdraws = new LinkedList<AfterDraw>();
+    private final Context uictx;
     public final ActAudio audio = new ActAudio();
     public int beltWndId = -1;
 
@@ -60,6 +61,10 @@ public class UI {
 
     public interface Runner {
         public Session run(UI ui) throws InterruptedException;
+    }
+
+    public interface Context {
+        void setmousepos(Coord c);
     }
 
     public interface AfterDraw {
@@ -106,7 +111,8 @@ public class UI {
         }
     }
 
-    public UI(Coord sz, Session sess) {
+    public UI(Context uictx, Coord sz, Session sess) {
+        this.uictx = uictx;
         root = new RootWidget(this, sz);
         widgets.put(0, root);
         rwidgets.put(root, 0);
@@ -218,12 +224,8 @@ public class UI {
         } else if (wdg instanceof ISBox && cap.equals("Stockpile")) {
             TextEntry entry = new TextEntry(40, "") {
                 @Override
-                public boolean keydown(KeyEvent e) {
-                    return !(e.getKeyCode() >= KeyEvent.VK_F1 && e.getKeyCode() <= KeyEvent.VK_F12);
-                }
-
-                @Override
-                public boolean type(char c, KeyEvent ev) {
+                public boolean keydown(KeyEvent ev) {
+                    int c = ev.getKeyChar();
                     if (c >= KeyEvent.VK_0 && c <= KeyEvent.VK_9 && buf.line.length() < 2 || c == '\b') {
                         return buf.key(ev);
                     } else if (c == '\n') {
@@ -235,7 +237,7 @@ public class UI {
                         } catch (NumberFormatException e) {
                         }
                     }
-                    return false;
+                    return !(c >= KeyEvent.VK_F1 && c <= KeyEvent.VK_F12);
                 }
             };
             Button btn = new Button(65, "Take") {
@@ -374,16 +376,6 @@ public class UI {
         return (g.toArray(new Grab[0]));
     }
 
-    public void type(KeyEvent ev) {
-        setmods(ev);
-        for (Grab g : c(keygrab)) {
-            if (g.wdg.type(ev.getKeyChar(), ev))
-                return;
-        }
-        if (!root.type(ev.getKeyChar(), ev))
-            root.globtype(ev.getKeyChar(), ev);
-    }
-
     public void keydown(KeyEvent ev) {
         setmods(ev);
         keycode = ev.getKeyCode();
@@ -391,8 +383,12 @@ public class UI {
             if (g.wdg.keydown(ev))
                 return;
         }
-        if (!root.keydown(ev))
-            root.globtype((char) 0, ev);
+        if(!root.keydown(ev)) {
+            char key = ev.getKeyChar();
+            if(key == ev.CHAR_UNDEFINED)
+                key = 0;
+            root.globtype(key, ev);
+        }
     }
 
     public void keyup(KeyEvent ev) {
@@ -450,6 +446,10 @@ public class UI {
         root.mousemove(c);
     }
 
+    public void setmousepos(Coord c) {
+        uictx.setmousepos(c);
+    }
+
     public void mousewheel(MouseEvent ev, Coord c, int amount) {
         setmods(ev);
         lcc = mc = c;
@@ -458,6 +458,15 @@ public class UI {
                 return;
         }
         root.mousewheel(c, amount);
+    }
+
+    public Resource getcurs(Coord c) {
+        for(Grab g : mousegrab) {
+            Resource ret = g.wdg.getcurs(wdgxlate(c, g.wdg));
+            if(ret != null)
+                return(ret);
+        }
+        return(root.getcurs(c));
     }
 
     public static int modflags(InputEvent ev) {

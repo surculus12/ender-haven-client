@@ -141,16 +141,6 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             chat.show();
         }
         beltwdg.raise();
-        ulpanel = add(new Hidepanel("gui-ul", null, new Coord(-1, -1)));
-        umpanel = add(new Hidepanel("gui-um", null, new Coord(0, -1)) {
-            @Override
-            public Coord base() {
-                if (base != null)
-                    return base.get();
-                return new Coord(parent.sz.x / 2 - this.sz.x / 2, 0);
-            }
-        });
-        urpanel = add(new Hidepanel("gui-ur", null, new Coord(1, -1)));
         brpanel = add(new Hidepanel("gui-br", null, new Coord(1, 1)) {
             public void move(double a) {
                 super.move(a);
@@ -162,6 +152,17 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                 return (new Coord(GameUI.this.sz.x, Math.min(brpanel.c.y - 79, GameUI.this.sz.y - menupanel.sz.y)));
             }
         }, new Coord(1, 0)));
+
+        ulpanel = add(new Hidepanel("gui-ul", null, new Coord(-1, -1)));
+        umpanel = add(new Hidepanel("gui-um", null, new Coord(0, -1)) {
+            @Override
+            public Coord base() {
+                if (base != null)
+                    return base.get();
+                return new Coord(parent.sz.x / 2 - this.sz.x / 2, 0);
+            }
+        });
+        urpanel = add(new Hidepanel("gui-ur", null, new Coord(1, -1)));
 
         brpanel.add(new Img(Resource.loadtex("gfx/hud/brframe")), 0, 0);
         menupanel.add(new MainMenu(), 0, 0);
@@ -896,12 +897,13 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     }
 
     public static class MenuButton extends IButton {
-        private final int gkey;
+        private final KeyBinding gkey;
+        private final String tt;
 
-        MenuButton(String base, int gkey, String tooltip) {
+        MenuButton(String base, KeyBinding gkey, String tooltip) {
             super("gfx/hud/" + base, "", "-d", "-h");
-            this.gkey = (char) gkey;
-            this.tooltip = RichText.render(tooltip, 0);
+            this.gkey = gkey;
+            this.tt = tooltip;
         }
 
         public void click() {
@@ -916,20 +918,41 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             if (key == 9 && ev.isControlDown())
                 return true;
 
-            if (key == gkey) {
+            if (gkey.key().match(ev)) {
                 click();
                 return (true);
             }
             return (super.globtype(key, ev));
         }
+
+        private RichText rtt = null;
+        public Object tooltip(Coord c, Widget prev) {
+            if(!checkhit(c))
+                return(null);
+            if((prev != this) || (rtt == null)) {
+                String tt = this.tt;
+                if(gkey.key() != KeyMatch.nil)
+                    tt += String.format(" ($col[255,255,0]{%s})", RichText.Parser.quote(gkey.key().name()));
+                if((rtt == null) || !rtt.text.equals(tt))
+                    rtt = RichText.render(tt, 0);
+            }
+            return(rtt.tex());
+        }
     }
+
+    public static final KeyBinding kb_inv = KeyBinding.get("inv", KeyMatch.forcode(KeyEvent.VK_TAB, 0));
+    public static final KeyBinding kb_equ = KeyBinding.get("equ", KeyMatch.forchar('E', KeyMatch.C));
+    public static final KeyBinding kb_chr = KeyBinding.get("chr", KeyMatch.forchar('T', KeyMatch.C));
+    public static final KeyBinding kb_bud = KeyBinding.get("bud", KeyMatch.forchar('B', KeyMatch.C));
+    public static final KeyBinding kb_opt = KeyBinding.get("opt", KeyMatch.forchar('O', KeyMatch.C));
+    public static final KeyBinding kb_dwn = KeyBinding.get("dwn", KeyMatch.forchar('S', KeyMatch.S));
 
     private static final Tex menubg = Resource.loadtex("gfx/hud/rbtn-bg");
 
     public class MainMenu extends Widget {
         public MainMenu() {
             super(menubg.sz());
-            add(new MenuButton("rbtn-inv", 9, Resource.getLocString(Resource.BUNDLE_LABEL, "Inventory ($col[255,255,0]{Tab})")) {
+            add(new MenuButton("rbtn-inv", kb_inv, Resource.getLocString(Resource.BUNDLE_LABEL, "Inventory")) {
                 public void click() {
                     if ((invwnd != null) && invwnd.show(!invwnd.visible)) {
                         invwnd.raise();
@@ -937,7 +960,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                     }
                 }
             }, 0, 0);
-            add(new MenuButton("rbtn-equ", 5, Resource.getLocString(Resource.BUNDLE_LABEL, "Equipment ($col[255,255,0]{Ctrl+E})")) {
+            add(new MenuButton("rbtn-equ", kb_equ, Resource.getLocString(Resource.BUNDLE_LABEL, "Equipment")) {
                 public void click() {
                     if ((equwnd != null) && equwnd.show(!equwnd.visible)) {
                         equwnd.raise();
@@ -945,7 +968,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                     }
                 }
             }, 0, 0);
-            add(new MenuButton("rbtn-chr", 20, Resource.getLocString(Resource.BUNDLE_LABEL, "Character Sheet ($col[255,255,0]{Ctrl+T})")) {
+            add(new MenuButton("rbtn-chr", kb_chr, Resource.getLocString(Resource.BUNDLE_LABEL, "Character Sheet")) {
                 public void click() {
                     if ((chrwdg != null) && chrwdg.show(!chrwdg.visible)) {
                         chrwdg.raise();
@@ -953,7 +976,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                     }
                 }
             }, 0, 0);
-            add(new MenuButton("rbtn-bud", 2, Resource.getLocString(Resource.BUNDLE_LABEL, "Kith & Kin ($col[255,255,0]{Ctrl+B})")) {
+            add(new MenuButton("rbtn-bud", kb_bud, Resource.getLocString(Resource.BUNDLE_LABEL, "Kith & Kin")) {
                 public void click() {
                     if (zerg.show(!zerg.visible)) {
                         zerg.raise();
@@ -962,7 +985,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                     }
                 }
             }, 0, 0);
-            add(new MenuButton("rbtn-opt", 15, Resource.getLocString(Resource.BUNDLE_LABEL, "Options ($col[255,255,0]{Ctrl+O})")) {
+            add(new MenuButton("rbtn-opt", kb_opt, Resource.getLocString(Resource.BUNDLE_LABEL, "Options")) {
                 public void click() {
                     if (opts.show(!opts.visible)) {
                         opts.raise();
@@ -971,7 +994,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
                     }
                 }
             }, 0, 0);
-            add(new MenuButton("rbtn-dwn", 83, Resource.getLocString(Resource.BUNDLE_LABEL, "Menu Search ($col[255,255,0]{Shift+S})")) {
+            add(new MenuButton("rbtn-dwn", kb_dwn, Resource.getLocString(Resource.BUNDLE_LABEL, "Menu Search")) {
                 public void click() {
                     if (menuSearch.show(!menuSearch.visible)) {
                         menuSearch.raise();
@@ -988,14 +1011,17 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }
     }
 
+    public static final KeyBinding kb_shoot = KeyBinding.get("screenshot", KeyMatch.forchar('S', KeyMatch.M));
+    public static final KeyBinding kb_chat = KeyBinding.get("chat-toggle", KeyMatch.forchar('C', KeyMatch.C));
+
     public boolean globtype(char key, KeyEvent ev) {
         if (key == ':') {
             entercmd();
             return (true);
-        } else if((Config.screenurl != null) && (Character.toUpperCase(key) == 'S') && ((ev.getModifiersEx() & (KeyEvent.META_DOWN_MASK | KeyEvent.ALT_DOWN_MASK)) != 0)) {
+        } else if((Config.screenurl != null) && kb_shoot.key().match(ev)) {
             Screenshooter.take(this, Config.screenurl);
             return(true);
-        } else if (key == 3) {
+        } else if (kb_chat.key().match(ev)) {
             if (chat.visible && !chat.hasfocus) {
                 setfocus(chat);
             } else {
@@ -1337,9 +1363,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }
 
         public boolean globtype(char key, KeyEvent ev) {
-            if(key != 0)
-                return(false);
-            int c = ev.getKeyCode();
+            int c = ev.getKeyChar();
             if((c < KeyEvent.VK_0) || (c > KeyEvent.VK_9))
                 return (false);
 

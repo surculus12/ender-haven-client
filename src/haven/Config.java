@@ -141,7 +141,6 @@ public class Config {
     public static boolean showarchvector =  Utils.getprefb("showarchvector", false);
     public static boolean disabledrinkhotkey =  Utils.getprefb("disabledrinkhotkey", false);
     public static boolean autologout =  Utils.getprefb("autologout", false);
-    public static int combatkeys =  Utils.getprefi("combatkeys", 0);
     public static boolean logcombatactions =  Utils.getprefb("logcombatactions", false);
     public static boolean autopickmussels =  Utils.getprefb("autopickmussels", false);
     public static boolean confirmmagic =  Utils.getprefb("confirmmagic", true);

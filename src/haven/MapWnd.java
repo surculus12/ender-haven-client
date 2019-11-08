@@ -527,14 +527,4 @@ public class MapWnd extends Window {
         else
             super.wdgmsg(sender, msg, args);
     }
-
-    @Override
-    public boolean type(char key, KeyEvent ev) {
-        if (key == 27) {
-            if (cbtn.visible)
-                show(false);
-            return true;
-        }
-        return super.type(key, ev);
-    }
 }

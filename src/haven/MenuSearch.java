@@ -12,10 +12,11 @@ public class MenuSearch extends GameUI.Hidewnd {
 
         search = new TextEntry(210, "") {
             @Override
-            public boolean type(char c, KeyEvent ev) {
+            public boolean keydown(KeyEvent ev) {
+                int key = ev.getKeyCode();
                 if (!parent.visible)
                     return false;
-                if (c == '\n' && list.acts.size() > 0) {
+                if (key == '\n' && list.acts.size() > 0) {
                     list.change(list.acts.get(0));
                     return true;
                 }
