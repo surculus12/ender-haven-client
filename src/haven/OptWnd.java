@@ -1599,35 +1599,27 @@ public class OptWnd extends Window {
             "$col[255,255,0]{Backspace}: Revert to default\n" +
             "$col[255,255,0]{Delete}: Disable keybinding", 0);
 
+    private final static int KB_NAME_W = 170;
+
     private void initKeyBind() {
         final WidgetVerticalAppender appender = new WidgetVerticalAppender(withScrollport(keybind, new Coord(620, 350)));
 
         appender.setVerticalMargin(VERTICAL_MARGIN);
         appender.setHorizontalMargin(HORIZONTAL_MARGIN);
 
-        appender.setVerticalMargin(0);
-        appender.add(new Label("Inventory"));
-        appender.add(new SetButton(175, GameUI.kb_inv));
-        appender.add(new Label("Equipment"));
-        appender.add(new SetButton(175, GameUI.kb_equ));
-        appender.add(new Label("Character sheet"));
-        appender.add(new SetButton(175, GameUI.kb_chr));
-        appender.add(new Label("Kith & Kin"));
-        appender.add(new SetButton(175, GameUI.kb_bud));
-        appender.add(new Label("Options"));
-        appender.add(new SetButton(175, GameUI.kb_opt));
-        appender.add(new Label("Toggle chat"));
-        appender.add(new SetButton(175, GameUI.kb_chat));
-        appender.add(new Label("Quick chat"));
-        appender.add(new SetButton(175, ChatUI.kb_quick));
-        appender.add(new Label("Take screenshot"));
-        appender.add(new SetButton(175, GameUI.kb_shoot));
-        appender.add(new Label("Combat actions"));
-        for(int i = 0; i < Fightsess.kb_acts.length; i++) {
-            appender.add(new SetButton(175, Fightsess.kb_acts[i]));
+        appender.addRow(KB_NAME_W, new Label("Inventory"), new SetButton(175, GameUI.kb_inv));
+        appender.addRow(KB_NAME_W, new Label("Equipment"), new SetButton(175, GameUI.kb_equ));
+        appender.addRow(KB_NAME_W, new Label("Character sheet"), new SetButton(175, GameUI.kb_chr));
+        appender.addRow(KB_NAME_W, new Label("Kith & Kin"), new SetButton(175, GameUI.kb_bud));
+        appender.addRow(KB_NAME_W, new Label("Options"), new SetButton(175, GameUI.kb_opt));
+        appender.addRow(KB_NAME_W, new Label("Toggle chat"), new SetButton(175, GameUI.kb_chat));
+        appender.addRow(KB_NAME_W, new Label("Quick chat"), new SetButton(175, ChatUI.kb_quick));
+        appender.addRow(KB_NAME_W, new Label("Take screenshot"), new SetButton(175, GameUI.kb_shoot));
+        appender.addRow(KB_NAME_W, new Label("Combat actions"), new SetButton(175, Fightsess.kb_acts[0]));
+        for(int i = 1; i < Fightsess.kb_acts.length; i++) {
+            appender.addRow(KB_NAME_W, new Label(""), new SetButton(175, Fightsess.kb_acts[i]));
         }
-        appender.add(new Label("Bind other elements..."));
-        appender.add(new PointBind(200));
+        appender.addRow(KB_NAME_W, new Label("Bind other elements..."), new PointBind(200));
 
         keybind.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         keybind.pack();
