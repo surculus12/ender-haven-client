@@ -696,13 +696,14 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             add(questpanel);
         } else if (place == "misc") {
             Coord c;
-            if(args[1] instanceof Coord) {
-                c = (Coord)args[1];
-            } else if(args[1] instanceof Coord2d) {
-                c = ((Coord2d)args[1]).mul(new Coord2d(this.sz.sub(child.sz))).round();
+            int a = 1;
+            if(args[a] instanceof Coord) {
+                c = (Coord)args[a++];
+            } else if(args[a] instanceof Coord2d) {
+                c = ((Coord2d)args[a++]).mul(new Coord2d(this.sz.sub(child.sz))).round();
                 c = optplacement(child, c);
-            } else if(args[1] instanceof String) {
-                c = relpos((String)args[1], child, (args.length > 2) ? ((Object[])args[2]) : new Object[] {}, 0);
+            } else if(args[a] instanceof String) {
+                c = relpos((String)args[a++], child, (args.length > a) ? ((Object[])args[a++]) : new Object[] {}, 0);
             } else {
                 throw(new UI.UIException("Illegal gameui child", place, args));
             }
@@ -1391,7 +1392,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }
 
         public boolean globtype(char key, KeyEvent ev) {
-            int c = ev.getKeyChar();
+            int c = ev.getKeyCode();
             if((c < KeyEvent.VK_0) || (c > KeyEvent.VK_9))
                 return (false);
 
