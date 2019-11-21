@@ -94,28 +94,28 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 	.add(Glob.class, slot -> slot.wdg().ui.sess.glob)
 	.add(Session.class, slot -> slot.wdg().ui.sess);
     public class BeltSlot implements GSprite.Owner {
-	public final int idx;
-	public final Indir<Resource> res;
-	public final Message sdt;
+        public final int idx;
+        public final Indir<Resource> res;
+        public final Message sdt;
 
-	public BeltSlot(int idx, Indir<Resource> res, Message sdt) {
-	    this.idx = idx;
-	    this.res = res;
-	    this.sdt = sdt;
-	}
+        public BeltSlot(int idx, Indir<Resource> res, Message sdt) {
+            this.idx = idx;
+            this.res = res;
+            this.sdt = sdt;
+        }
 
-	private GSprite spr = null;
-	public GSprite spr() {
-	    GSprite ret = this.spr;
-	    if(ret == null)
-		ret = this.spr = GSprite.create(this, res.get(), Message.nil);
-	    return(ret);
-	}
+        private GSprite spr = null;
+        public GSprite spr() {
+            GSprite ret = this.spr;
+            if(ret == null)
+            ret = this.spr = GSprite.create(this, res.get(), Message.nil);
+            return(ret);
+        }
 
-	public Resource getres() {return(res.get());}
-	public Random mkrandoom() {return(new Random(System.identityHashCode(this)));}
-	public <T> T context(Class<T> cl) {return(beltctxr.context(cl, this));}
-	private GameUI wdg() {return(GameUI.this);}
+        public Resource getres() {return(res.get());}
+        public Random mkrandoom() {return(new Random(System.identityHashCode(this)));}
+        public <T> T context(Class<T> cl) {return(beltctxr.context(cl, this));}
+        private GameUI wdg() {return(GameUI.this);}
     }
 
     public abstract class Belt extends Widget {
@@ -244,8 +244,8 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }
 
         fbelt = new FBelt(chrid, Utils.getprefb("fbelt_vertical", true));
-        fbelt.loadLocal();
         add(fbelt, Utils.getprefc("fbelt_c", new Coord(20, 200)));
+        fbelt.loadLocal();
         if (!Config.fbelt)
             fbelt.hide();
 

@@ -30,12 +30,11 @@ public class FBelt extends Widget implements DTarget, DropTarget {
         if (chrid != "") {
             String[] resnames = Utils.getprefsa("fbelt_" + chrid, null);
             if (resnames != null) {
-                GameUI gui = this.gameui();
                 for (int i = 0; i < 12; i++) {
                     String resname = resnames[i];
                     if (!resname.equals("null")) {
                         try {
-                            belt[i] = gui.new BeltSlot(i, Resource.local().load(resnames[i]), Message.nil);
+                            belt[i] = ((GameUI)parent).new BeltSlot(i, Resource.local().load(resname), Message.nil);
                         } catch (Exception e) {   // possibly a resource from another client
                         }
                     }
