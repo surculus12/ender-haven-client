@@ -428,6 +428,7 @@ public class Fightsess extends Widget {
             KeyBinding.get("fgt/8", KeyMatch.forcode(KeyEvent.VK_4, KeyMatch.S)),
             KeyBinding.get("fgt/9", KeyMatch.forcode(KeyEvent.VK_5, KeyMatch.S)),
     };
+    public static final KeyBinding kb_switch = KeyBinding.get("switch_opp", KeyMatch.forcode(KeyEvent.VK_TAB, KeyMatch.C));
 
     /* XXX: This is a bit ugly, but release message do need to be
      * properly sequenced with use messages in some way. */
@@ -449,7 +450,7 @@ public class Fightsess extends Widget {
     private int held = -1;
 
     public boolean globtype(char key, KeyEvent ev) {
-        if (ev.getKeyCode() == KeyEvent.VK_TAB && ev.isControlDown()) {
+        if (kb_switch.key().match(ev)) {
             Fightview.Relation cur = fv.current;
             if (cur != null) {
                 fv.lsrel.remove(cur);

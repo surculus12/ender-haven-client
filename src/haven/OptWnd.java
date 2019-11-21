@@ -1615,10 +1615,12 @@ public class OptWnd extends Window {
         appender.addRow(KB_NAME_W, new Label("Toggle chat"), new SetButton(175, GameUI.kb_chat));
         appender.addRow(KB_NAME_W, new Label("Quick chat"), new SetButton(175, ChatUI.kb_quick));
         appender.addRow(KB_NAME_W, new Label("Take screenshot"), new SetButton(175, GameUI.kb_shoot));
-        appender.addRow(KB_NAME_W, new Label("Combat actions"), new SetButton(175, Fightsess.kb_acts[0]));
+        appender.addRow(KB_NAME_W, new Label("Combat action 1"), new SetButton(175, Fightsess.kb_acts[0]));
         for(int i = 1; i < Fightsess.kb_acts.length; i++) {
-            appender.addRow(KB_NAME_W, new Label(""), new SetButton(175, Fightsess.kb_acts[i]));
+            appender.addRow(KB_NAME_W, new Label("Combat action " + (i + 1)), new SetButton(175, Fightsess.kb_acts[i]));
         }
+        appender.addRow(KB_NAME_W, new Label("Switch combat opponent"), new SetButton(175, Fightsess.kb_switch));
+
         appender.addRow(KB_NAME_W, new Label("Bind other elements..."), new PointBind(200));
 
         keybind.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
