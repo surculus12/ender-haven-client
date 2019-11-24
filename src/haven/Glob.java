@@ -174,14 +174,39 @@ public class Glob {
     private static final long dewyladysmantletimemax = 7 * 60 * 60 + 15 * 60;
 
     private void servertimecalc() {
+        if (ast == null)
+            return;
+
         long secs = (long)globtime();
         long day = secs / secinday;
         long secintoday = secs % secinday;
         long hours = secintoday / 3600;
         long mins = (secintoday % 3600) / 60;
-        servertime = String.format(Resource.getLocString(Resource.BUNDLE_LABEL, "Day %d, %02d:%02d"), day, hours, mins);
+        int nextseason = (int)Math.ceil((1 - ast.sp) * (ast.is == 1 ? 30 : 10));
+
+        String fmt;
+        switch (ast.is) {
+            case 0:
+                fmt = nextseason == 1 ? "Day %d, %02d:%02d. Spring (%d RL day left)." : "Day %d, %02d:%02d. Spring (%d RL days left).";
+                break;
+            case 1:
+                fmt = nextseason == 1 ? "Day %d, %02d:%02d. Summer (%d RL day left)." : "Day %d, %02d:%02d. Summer (%d RL days left).";
+                break;
+            case 2:
+                fmt = nextseason == 1 ? "Day %d, %02d:%02d. Autumn (%d RL day left)." : "Day %d, %02d:%02d. Autumn (%d RL days left).";
+                break;
+            case 3:
+                fmt = nextseason == 1 ? "Day %d, %02d:%02d. Winter (%d RL day left)." : "Day %d, %02d:%02d. Winter (%d RL days left).";
+                break;
+            default:
+                fmt = "Unknown Season";
+        }
+
+        servertime = String.format(Resource.getLocString(Resource.BUNDLE_LABEL, fmt), day, hours, mins, nextseason);
+
         if (secintoday >= dewyladysmantletimemin && secintoday <= dewyladysmantletimemax)
             servertime += Resource.getLocString(Resource.BUNDLE_LABEL, " (Dewy Lady's Mantle)");
+
         servertimetex = Text.render(servertime).tex();
     }
 
