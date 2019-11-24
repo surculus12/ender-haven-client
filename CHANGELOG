@@ -1,3 +1,11 @@
+Version 1.74.0
+    New:
+        * Display season details in the date widget.
+
+    Misc:
+        * Make drink hotkey rebindable. Option to disable tilde/back-tick key has been removed as the result.
+        * Upstream code merge.
+
 Version 1.73.1
     Fixed:
         * Shift key modifier.
