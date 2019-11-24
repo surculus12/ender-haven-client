@@ -1046,6 +1046,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
 
     public static final KeyBinding kb_shoot = KeyBinding.get("screenshot", KeyMatch.forchar('S', KeyMatch.M));
     public static final KeyBinding kb_chat = KeyBinding.get("chat-toggle", KeyMatch.forchar('C', KeyMatch.C));
+    public static final KeyBinding kb_drink = KeyBinding.get("drink", KeyMatch.forchar('`', 0));
 
     public boolean globtype(char key, KeyEvent ev) {
         if (key == ':') {
@@ -1146,7 +1147,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             Config.showfarmrad = !Config.showfarmrad;
             Utils.setprefb("showfarmrad", Config.showfarmrad);
             return true;
-        } else if (!Config.disabledrinkhotkey && (ev.getKeyCode() == KeyEvent.VK_BACK_QUOTE || (Config.iswindows && Utils.getScancode(ev) == 41))) {
+        } else if (kb_drink.key().match(ev)) {
             maininv.drink(100);
             return true;
         } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_A) {

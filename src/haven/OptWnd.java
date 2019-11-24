@@ -1092,17 +1092,6 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
-        appender.add(new CheckBox("Disable hotkey (tilde/back-quote key) for drinking") {
-            {
-                a = Config.disabledrinkhotkey;
-            }
-
-            public void set(boolean val) {
-                Utils.setprefb("disabledrinkhotkey", val);
-                Config.disabledrinkhotkey = val;
-                a = val;
-            }
-        });
 
         control.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         control.pack();
@@ -1620,6 +1609,7 @@ public class OptWnd extends Window {
             appender.addRow(KB_NAME_W, new Label("Combat action " + (i + 1)), new SetButton(175, Fightsess.kb_acts[i]));
         }
         appender.addRow(KB_NAME_W, new Label("Switch combat opponent"), new SetButton(175, Fightsess.kb_switch));
+        appender.addRow(KB_NAME_W, new Label("Drink hotkey"), new SetButton(175, GameUI.kb_drink));
 
         appender.addRow(KB_NAME_W, new Label("Bind other elements..."), new PointBind(200));
 
