@@ -1045,6 +1045,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
     }
 
     public static final KeyBinding kb_shoot = KeyBinding.get("screenshot", KeyMatch.forchar('S', KeyMatch.M));
+    public static final KeyBinding kb_shoot_save = KeyBinding.get("screenshot-save", KeyMatch.forchar('S', KeyMatch.C));
     public static final KeyBinding kb_chat = KeyBinding.get("chat-toggle", KeyMatch.forchar('C', KeyMatch.C));
     public static final KeyBinding kb_drink = KeyBinding.get("drink", KeyMatch.forchar('`', 0));
 
@@ -1096,7 +1097,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             quickslots.drop(QuickSlotsWdg.rc, Coord.z);
             quickslots.simulateclick(QuickSlotsWdg.rc);
             return true;
-        } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_S) {
+        } else if (kb_shoot_save.key().match(ev)) {
             HavenPanel.needtotakescreenshot = true;
             return true;
         } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_H) {
