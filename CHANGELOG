@@ -1,3 +1,7 @@
+Version 1.75.1
+    Fixed:
+        * Crash related to symbel items.
+
 Version 1.75.0
     Fixed:
         * Crash! Boom! Bang!
