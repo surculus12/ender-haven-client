@@ -26,6 +26,8 @@
 
 package haven;
 
+import integrations.map.Navigation;
+
 import java.util.*;
 
 public class Charlist extends Widget {
@@ -136,8 +138,10 @@ public class Charlist extends Widget {
         if (sender instanceof Button) {
             synchronized (chars) {
                 for (Char c : chars) {
-                    if (sender == c.plb)
+                    if (sender == c.plb) {
                         wdgmsg("play", c.name);
+                        Navigation.setCharacterName(c.name);
+                    }
                 }
             }
         } else if (sender instanceof Avaview) {

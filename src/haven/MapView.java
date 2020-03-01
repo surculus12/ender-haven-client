@@ -31,6 +31,7 @@ import haven.automation.*;
 import haven.pathfinder.PFListener;
 import haven.pathfinder.Pathfinder;
 import haven.resutil.BPRadSprite;
+import integrations.map.Navigation;
 
 import javax.media.opengl.GL;
 import java.awt.*;
@@ -512,6 +513,9 @@ public class MapView extends PView implements DTarget, Console.Directory, PFList
         this.glob = glob;
         this.cc = cc;
         this.plgob = plgob;
+        try {
+            Navigation.setCharacterId(plgob, glob.oc.getgob(plgob).rc);
+        } catch (Exception ex) {}
         this.gobs = new Gobs();
         this.gridol = new TileOutline(glob.map);
         this.partyHighlight = new PartyHighlight(glob.party, plgob);
