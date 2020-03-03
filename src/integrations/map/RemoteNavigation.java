@@ -24,9 +24,8 @@ import java.util.stream.Collectors;
  * @author APXEOLOG (Artyom Melnikov), at 31.01.2019
  */
 public class RemoteNavigation {
-    private static final String MAP_ENDPOINT = "http://example.com";
-    private static final String INDEX_FILE_URL = MAP_ENDPOINT + "/grids/mapdata_index";
-    private static final String API_ENDPOINT = MAP_ENDPOINT + "/api";
+    private static final String INDEX_FILE_URL = Config.mapperUrl + "/grids/mapdata_index";
+    private static final String API_ENDPOINT = Config.mapperUrl + "/api";
 
     private final File localMapdataIndexFile = new File(System.getProperty("user.dir"), "mapdata_index_local");
 
@@ -169,7 +168,7 @@ public class RemoteNavigation {
     public void openBrowserMap(Coord gridCoord) {
         try {
             WebBrowser.self.show(new URL(
-                    String.format(MAP_ENDPOINT + "/#/grid/%d/%d/6", gridCoord.x, gridCoord.y)));
+                    String.format(Config.mapperUrl + "/#/grid/%d/%d/6", gridCoord.x, gridCoord.y)));
         } catch (Exception ex) {}
     }
 

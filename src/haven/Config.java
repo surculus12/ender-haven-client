@@ -53,6 +53,8 @@ public class Config {
     public static URL screenurl = geturl("http://game.havenandhearth.com/mt/ss");
     public static boolean enableNavigationTracking = Utils.getprefb("enableNavigationTracking", true);
     public static boolean sendCustomMarkers = Utils.getprefb("sendCustomMarkers", false);
+    public static String mapperUrl = Utils.getpref("mapperUrl", "http://example.com");
+    public static boolean mapperHashName = Utils.getprefb("mapperHashName", true);
     public static boolean hideflocomplete = Utils.getprefb("hideflocomplete", false);
     public static boolean hideflovisual = Utils.getprefb("hideflovisual", false);
     public static boolean daylight = Utils.getprefb("daylight", false);
