@@ -27,6 +27,7 @@
 package haven;
 
 import haven.res.ui.tt.q.qbuff.QBuff;
+import integrations.food.FoodService;
 
 import java.awt.Color;
 import java.util.*;
@@ -188,8 +189,10 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
     }
 
     public List<ItemInfo> info() {
-        if (info == null)
+        if (info == null) {
             info = ItemInfo.buildinfo(this, rawinfo);
+            FoodService.checkFood(info, getres().name);
+        }
         return (info);
     }
 
