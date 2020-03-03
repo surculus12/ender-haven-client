@@ -191,7 +191,10 @@ public class GItem extends AWidget implements ItemInfo.SpriteOwner, GSprite.Owne
     public List<ItemInfo> info() {
         if (info == null) {
             info = ItemInfo.buildinfo(this, rawinfo);
-            FoodService.checkFood(info, getres().name);
+            try {
+                // getres() can throw Loading, ignore it
+                FoodService.checkFood(info, getres().name);
+            } catch (Exception ex) { }
         }
         return (info);
     }
