@@ -30,6 +30,7 @@ import haven.automation.ErrorSysMsgCallback;
 import haven.automation.PickForageable;
 import haven.livestock.LivestockManager;
 import haven.resutil.FoodInfo;
+import integrations.map.RemoteNavigation;
 
 import java.awt.*;
 import java.util.*;
@@ -580,6 +581,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             mmap = minimapWnd.mmap;
             if(ResCache.global != null) {
                 MapFile file = MapFile.load(ResCache.global, mapfilename());
+                RemoteNavigation.getInstance().uploadMarkerData(file);
                 mmap.save(file);
                 mapfile = new MapWnd(mmap.save, map, new Coord(700, 500), "Map");
                 mapfile.hide();

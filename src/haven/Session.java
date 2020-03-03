@@ -26,6 +26,8 @@
 
 package haven;
 
+import integrations.map.Navigation;
+
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -611,6 +613,7 @@ public class Session implements Resource.Resolver {
         sworker.start();
         ticker = new Ticker();
         ticker.start();
+        Navigation.reset();
     }
 
     private void sendack(int seq) {

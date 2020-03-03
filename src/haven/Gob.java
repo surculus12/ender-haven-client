@@ -27,6 +27,7 @@
 package haven;
 
 import haven.resutil.BPRadSprite;
+import integrations.map.Navigation;
 
 import java.awt.*;
 import java.util.*;
@@ -280,6 +281,9 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
         if (m != null)
             m.move(c);
         this.rc = c;
+        if (isplayer()) {
+            Navigation.setPlayerCoordinates(c);
+        }
         this.a = a;
     }
 
