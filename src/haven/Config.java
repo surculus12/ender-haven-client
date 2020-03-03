@@ -51,7 +51,7 @@ public class Config {
     public static int mainport = 1870;
     public static int authport = 1871;
     public static URL screenurl = geturl("http://game.havenandhearth.com/mt/ss");
-    public static boolean enableNavigationTracking = Utils.getprefb("enableNavigationTracking", true);
+    public static boolean enableNavigationTracking = Utils.getprefb("enableNavigationTracking", false);
     public static boolean sendCustomMarkers = Utils.getprefb("sendCustomMarkers", false);
     public static String mapperUrl = Utils.getpref("mapperUrl", "http://example.com");
     public static boolean mapperHashName = Utils.getprefb("mapperHashName", true);
