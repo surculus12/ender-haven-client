@@ -1,6 +1,7 @@
 package integrations.food;
 
 import haven.ItemInfo;
+import haven.Resource;
 import haven.res.ui.tt.q.qbuff.QBuff;
 import haven.resutil.FoodInfo;
 import org.json.JSONArray;
@@ -31,6 +32,9 @@ public class FoodService {
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
     static {
+        if (!Resource.language.equals("en")) {
+            System.out.println("FoodUtil ERROR: Only English language is allowed to send food data");
+        }
         scheduler.execute(FoodService::loadCachedFoodData);
         scheduler.scheduleAtFixedRate(FoodService::sendItems, 10L, 10, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(FoodService::requestFoodDataCache, 0L, 30, TimeUnit.MINUTES);
@@ -89,6 +93,10 @@ public class FoodService {
      * Check item info and determine if it is food and we need to send it
      */
     public static void checkFood(List<ItemInfo> infoList, String resName) {
+        if (!Resource.language.equals("en")) {
+            // Do not process localized items
+            return;
+        }
         try {
             FoodInfo foodInfo = ItemInfo.find(FoodInfo.class, infoList);
             if (foodInfo != null) {
@@ -99,7 +107,7 @@ public class FoodService {
                 ParsedFoodInfo parsedFoodInfo = new ParsedFoodInfo();
                 parsedFoodInfo.resourceName = resName;
                 parsedFoodInfo.energy = (int)(Math.round(foodInfo.end * 100));
-                parsedFoodInfo.hunger = round2Dig(Math.round(foodInfo.glut * 100));
+                parsedFoodInfo.hunger = round2Dig(foodInfo.glut * 100);
 
                 for (int i = 0; i < foodInfo.evs.length; i++) {
                     parsedFoodInfo.feps.add(new FoodFEP(foodInfo.evs[i].ev.orignm, round2Dig(foodInfo.evs[i].a / multiplier)));
