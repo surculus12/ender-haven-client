@@ -1584,7 +1584,7 @@ public class OptWnd extends Window {
 
         appender.add(new Label("Online Auto-Mapper Service:", sectionfndr));
 
-        appender.addRow(new Label("Mapping server URL:"),
+        appender.addRow(new Label("Mapping server URL (req. restart):"),
                 new TextEntry(240, Config.mapperUrl) {
                     @Override
                     public boolean keydown(KeyEvent ev) {
