@@ -39,7 +39,7 @@
     <copy todir="build/classes/haven" file="etc/res-preload" />
     <copy todir="build/classes/haven" file="etc/res-bgload" />
     <copy todir="build/classes/haven" file="etc/icon.png" />
-    <copy todir="build" file="etc/grid_ids.txt" />
+    <!--copy todir="build" file="etc/grid_ids.txt" /-->
   </target>
 
   <target name="lib-classes" depends="build-env" unless="unpacked-lib">
