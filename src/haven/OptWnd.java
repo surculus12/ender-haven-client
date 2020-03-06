@@ -875,6 +875,17 @@ public class OptWnd extends Window {
                 a = val;
             }
         });
+        appender.add(new CheckBox("Send food details to the food service (https://food.havenandhearth.link)") {
+            {
+                a = Config.foodService;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("foodService", val);
+                Config.foodService = val;
+                a = val;
+            }
+        });
         general.add(new PButton(200, "Back", 27, main), new Coord(210, 360));
         general.pack();
     }
