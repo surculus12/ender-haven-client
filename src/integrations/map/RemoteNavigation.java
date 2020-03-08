@@ -376,7 +376,7 @@ public class RemoteNavigation {
                         HttpURLConnection connection =
                                 (HttpURLConnection) new URL(API_ENDPOINT + "/v2/updateCharacter").openConnection();
                         connection.setRequestMethod("POST");
-                        connection.setRequestProperty("Content-Type", "application/json");
+                        connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
                         connection.setDoOutput(true);
                         try (DataOutputStream out = new DataOutputStream(connection.getOutputStream())) {
                             out.writeBytes(new JSONObject(dataToSend).toString());
@@ -473,7 +473,7 @@ public class RemoteNavigation {
                         HttpURLConnection connection = (HttpURLConnection)
                                 new URL(API_ENDPOINT + "/v1/uploadMarkers").openConnection();
                         connection.setRequestMethod("POST");
-                        connection.setRequestProperty("Content-Type", "application/json");
+                        connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
                         connection.setDoOutput(true);
                         try (OutputStream outputStream = connection.getOutputStream()) {
                             Collection collection = loadedMarkers.stream()
