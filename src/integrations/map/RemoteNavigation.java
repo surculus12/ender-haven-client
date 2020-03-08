@@ -379,7 +379,8 @@ public class RemoteNavigation {
                         connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
                         connection.setDoOutput(true);
                         try (DataOutputStream out = new DataOutputStream(connection.getOutputStream())) {
-                            out.writeBytes(new JSONObject(dataToSend).toString());
+                            String json = new JSONObject(dataToSend).toString();
+                            out.write(json.getBytes(StandardCharsets.UTF_8));
                         }
                         connection.getResponseCode();
                     } catch (Exception ex) { }
