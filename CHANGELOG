@@ -1,7 +1,7 @@
 Version 1.77.1
     Fixed:
         * Server date widget size.
-        * Map service issues.
+        * Map service issues (thanks to kris_hole)
 
     Misc:
         * Update boulders, trees, and bushes lists.
