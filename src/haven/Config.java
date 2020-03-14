@@ -450,9 +450,14 @@ public class Config {
             "soapstone",
             "sodalite",
             "olivine",
-            "alabaster"
+            "alabaster",
+            "breccia",
+            "diabase",
+            "arkose",
+            "diorite",
+            "kyanite",
+            "slate"
     ));
-
 
     public final static Set<String> mineablesOre = new HashSet<String>(Arrays.asList(
             "cassiterite",
