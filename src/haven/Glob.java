@@ -27,6 +27,7 @@
 package haven;
 
 import java.awt.*;
+import java.lang.ref.WeakReference;
 import java.util.*;
 
 public class Glob {
@@ -54,6 +55,12 @@ public class Glob {
     public String servertime;
     public Tex servertimetex;
 
+    private static WeakReference<Glob> reference = new WeakReference<>(null);
+
+    public static Glob getByReference() {
+        return reference.get();
+    }
+
     static {
         timersThread = new haven.timers.TimersThread();
         timersThread.start();
@@ -63,6 +70,7 @@ public class Glob {
         this.sess = sess;
         map = new MCache(sess);
         party = new Party(this);
+        reference = new WeakReference<>(this);
     }
 
     @Resource.PublishedCode(name = "wtr")

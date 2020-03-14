@@ -1,3 +1,38 @@
+Version 1.77.2
+    Misc:
+        * Update boulders and stones list.
+        * Make drink hotkey work with belts (only when 'alternative equipment belt window' is toggled on).
+        * Add Cave Fern to icons list.
+        * Update en l10n.
+        * Upstream code merge.
+
+Version 1.77.1
+    Fixed:
+        * Server date widget size.
+        * Map service issues (thanks to kris_hole)
+
+    Misc:
+        * Update boulders, trees, and bushes lists.
+
+Version 1.77.0
+    New:
+        * Added support for food service (http://www.havenandhearth.com/forum/viewtopic.php?f=49&t=67285). See General Settings.
+
+    Misc:
+        * Update Russian l18n (by NikitaIlinsky).
+        * Minor fixes & cleanups.
+
+Version 1.76.0
+    New:
+        * Added support for custom mapping service (see http://www.havenandhearth.com/forum/viewtopic.php?f=49&t=67266)
+
+Version 1.75.2
+    Fixed:
+        * Stage indicator for fallow plants.
+
+    Misc:
+        * Upstream code merge.
+
 Version 1.75.1
     Fixed:
         * Crash related to symbel items.

@@ -91,6 +91,26 @@ public class InventoryBelt extends Widget implements DTarget {
             super.wdgmsg(sender, msg, args);
     }
 
+    /* Following getItem* methods do partial matching of the name *on purpose*.
+       Because when localization is turned on, original English name will be in the brackets
+       next to the translation
+    */
+    public List<WItem> getItemsPartial(String... names) {
+        List<WItem> items = new ArrayList<WItem>();
+        for (Widget wdg = child; wdg != null; wdg = wdg.next) {
+            if (wdg instanceof WItem) {
+                String wdgname = ((WItem)wdg).item.getname();
+                for (String name : names) {
+                    if (wdgname.contains(name)) {
+                        items.add((WItem) wdg);
+                        break;
+                    }
+                }
+            }
+        }
+        return items;
+    }
+
     public WItem getItemPartial(String name) {
         for (Widget wdg = child; wdg != null; wdg = wdg.next) {
             if (wdg instanceof WItem) {
@@ -100,5 +120,24 @@ public class InventoryBelt extends Widget implements DTarget {
             }
         }
         return null;
+    }
+
+    public boolean drink(int threshold) {
+        IMeter.Meter stam = gameui().getmeter("stam", 0);
+        if (stam == null || stam.a > threshold)
+            return false;
+
+        List<WItem> containers = getItemsPartial("Waterskin", "Waterflask", "Kuksa");
+        for (WItem wi : containers) {
+            ItemInfo.Contents cont = wi.item.getcontents();
+            if (cont != null) {
+                FlowerMenu.setNextSelection("Drink");
+                ui.lcc = wi.rootpos();
+                wi.item.wdgmsg("iact", wi.c, 0);
+                return true;
+            }
+        }
+
+        return false;
     }
 }

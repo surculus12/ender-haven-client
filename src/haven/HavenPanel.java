@@ -27,6 +27,7 @@
 package haven;
 
 import com.jogamp.opengl.util.awt.Screenshot;
+import integrations.map.RemoteNavigation;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.Color;
@@ -89,6 +90,7 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory,
             setContextCreationFlags(getContextCreationFlags() | GLContext.CTX_OPTION_DEBUG);
         setSize(this.w = w, this.h = h);
         newui(null);
+        RemoteNavigation.getInstance();
         initgl();
         if (Toolkit.getDefaultToolkit().getMaximumCursorColors() >= 256 || Config.hwcursor)
             cursmode = "awt";
@@ -409,7 +411,10 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory,
             g.image(tt, pos);
         }
         ui.lasttip = tooltip;
-        Resource curs = ui.getcurs(mousepos);
+        Resource curs;
+        synchronized(ui) {
+            curs = ui.getcurs(mousepos);
+        }
         if (cursmode == "awt") {
             if (curs != lastcursor) {
                 try {

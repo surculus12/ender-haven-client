@@ -30,6 +30,7 @@ import haven.automation.ErrorSysMsgCallback;
 import haven.automation.PickForageable;
 import haven.livestock.LivestockManager;
 import haven.resutil.FoodInfo;
+import integrations.map.RemoteNavigation;
 
 import java.awt.*;
 import java.util.*;
@@ -201,16 +202,16 @@ public class GameUI extends ConsoleHost implements Console.Directory {
         }, new Coord(10, 10));
         buffs = ulpanel.add(new Bufflist(), new Coord(95, 65));
         umpanel.add(new Cal(), new Coord(0, 10));
-        add(new Widget(new Coord(300, 40)) {
+        add(new Widget(new Coord(360, 40)) {
             @Override
             public void draw(GOut g) {
                 if (Config.showservertime) {
                     Tex time = ui.sess.glob.servertimetex;
                     if (time != null)
-                        g.image(time, new Coord(300 / 2 - time.sz().x / 2, 0));
+                        g.image(time, new Coord(360 / 2 - time.sz().x / 2, 0));
                 }
             }
-        }, new Coord(HavenPanel.w / 2 - 300 / 2, umpanel.sz.y));
+        }, new Coord(HavenPanel.w / 2 - 360 / 2, umpanel.sz.y));
         syslog = chat.add(new ChatUI.Log(Resource.getLocString(Resource.BUNDLE_LABEL, "System")));
         opts = add(new OptWnd());
         opts.hide();
@@ -580,6 +581,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             mmap = minimapWnd.mmap;
             if(ResCache.global != null) {
                 MapFile file = MapFile.load(ResCache.global, mapfilename());
+                RemoteNavigation.getInstance().uploadMarkerData(file);
                 mmap.save(file);
                 mapfile = new MapWnd(mmap.save, map, new Coord(700, 500), "Map");
                 mapfile.hide();
@@ -1149,7 +1151,14 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             Utils.setprefb("showfarmrad", Config.showfarmrad);
             return true;
         } else if (kb_drink.key().match(ev)) {
-            maininv.drink(100);
+            if (!maininv.drink(100)) {
+                for (Widget w = lchild; w != null; w = w.prev) {
+                    if (w instanceof BeltWnd && w.child instanceof InventoryBelt) {
+                        ((InventoryBelt)w.child).drink(100);
+                        break;
+                    }
+                }
+            }
             return true;
         } else if (ev.isControlDown() && ev.getKeyCode() == KeyEvent.VK_A) {
             if (mapfile != null && mapfile.show(!mapfile.visible)) {
