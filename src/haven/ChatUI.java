@@ -161,8 +161,7 @@ public class ChatUI extends Widget {
             private final Text t;
 
             public SimpleMessage(String text, Color col, int w) {
-                if (Config.chattimestamp)
-                    text = timestamp(text);
+                text = timestamp(text);
                 if (col == null)
                     this.t = fnd.render(RichText.Parser.quote(text), w);
                 else
@@ -712,7 +711,7 @@ public class ChatUI extends Widget {
                 String nm = (b == null) ? "???" : (b.name);
                 if ((r == null) || !nm.equals(cn)) {
                     String tf = String.format("%s: %s", nm, text);
-                    r = fnd.render(RichText.Parser.quote(Config.chattimestamp ? timestamp(tf) : tf), w, TextAttribute.FOREGROUND, col);
+                    r = fnd.render(RichText.Parser.quote(timestamp(tf)), w, TextAttribute.FOREGROUND, col);
                     cn = nm;
                 }
                 return (r);
@@ -1367,9 +1366,7 @@ public class ChatUI extends Widget {
 
     private static void save(String chatName, String text, String name) {
         if (Config.chatsave)
-            save(chatName, Config.chattimestamp ?
-                            text.substring(0, 7) + " " + name + ":" + text.substring(7) :
-                            name + ": " + text);
+            save(chatName, text.substring(0, 7) + " " + name + ":" + text.substring(7));
     }
 
     private synchronized static void save(String chatName, String text) {
@@ -1381,7 +1378,7 @@ public class ChatUI extends Widget {
                     Config.chatlog = new PrintWriter(osw, true);
                 }
                 String date = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss] ").format(new Date());
-                Config.chatlog.println("[" + chatName + "]" + date + (Config.chattimestamp ? text.substring(8) : text));
+                Config.chatlog.println("[" + chatName + "]" + date + text.substring(8));
             } catch (IOException e) {
                 e.printStackTrace();
             }
