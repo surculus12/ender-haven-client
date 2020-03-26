@@ -30,6 +30,8 @@ import integrations.map.Navigation;
 
 import java.util.*;
 
+import integrations.mapv4.MappingClient;
+
 public class Charlist extends Widget {
     public static final Tex bg = Resource.loadtex("gfx/hud/avakort");
     public static final int margin = 6;
@@ -141,6 +143,7 @@ public class Charlist extends Widget {
                     if (sender == c.plb) {
                         wdgmsg("play", c.name);
                         Navigation.setCharacterName(c.name);
+                        MappingClient.getInstance().SetPlayerName(c.name);
                     }
                 }
             }

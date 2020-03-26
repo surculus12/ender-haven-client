@@ -27,6 +27,8 @@
 package haven;
 
 import haven.error.ErrorHandler;
+import integrations.mapv4.MappingClient;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -55,6 +57,7 @@ public class Config {
     public static boolean sendCustomMarkers = Utils.getprefb("sendCustomMarkers", false);
     public static String mapperUrl = Utils.getpref("mapperUrl", "http://example.com");
     public static boolean mapperHashName = Utils.getprefb("mapperHashName", true);
+    public static boolean vendanMapv4 = Utils.getprefb("vendan-mapv4", false);
     public static boolean hideflocomplete = Utils.getprefb("hideflocomplete", false);
     public static boolean hideflovisual = Utils.getprefb("hideflovisual", false);
     public static boolean daylight = Utils.getprefb("daylight", false);
@@ -650,7 +653,10 @@ public class Config {
                 }
             }
         }
-
+        MappingClient.getInstance().SetEndpoint(Utils.getpref("vendan-mapv4-endpoint", ""));
+        MappingClient.getInstance().EnableGridUploads(Config.vendanMapv4);
+        MappingClient.getInstance().EnableTracking(Config.vendanMapv4);
+        
         loadLogins();
     }
 

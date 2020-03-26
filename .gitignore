@@ -9,3 +9,5 @@ amber-*.zip
 /l10n/*_new.properties
 /bin
 /.settings
+.devcontainer/
+workspace.code-workspace
