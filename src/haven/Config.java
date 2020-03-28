@@ -27,6 +27,8 @@
 package haven;
 
 import haven.error.ErrorHandler;
+import integrations.mapv4.MappingClient;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -55,6 +57,8 @@ public class Config {
     public static boolean sendCustomMarkers = Utils.getprefb("sendCustomMarkers", false);
     public static String mapperUrl = Utils.getpref("mapperUrl", "http://example.com");
     public static boolean mapperHashName = Utils.getprefb("mapperHashName", true);
+    public static boolean vendanMapv4 = Utils.getprefb("vendan-mapv4", false);
+    public static boolean vendanGreenMarkers = Utils.getprefb("vendan-mapv4-green-markers", false);
     public static boolean hideflocomplete = Utils.getprefb("hideflocomplete", false);
     public static boolean hideflovisual = Utils.getprefb("hideflovisual", false);
     public static boolean daylight = Utils.getprefb("daylight", false);
@@ -299,7 +303,7 @@ public class Config {
         put("strawberrytree", new CheckListboxItem("Wood Strawberry"));
     }};
 
-    public final static HashMap<String, CheckListboxItem> icons = new HashMap<String, CheckListboxItem>(51) {{
+    public final static HashMap<String, CheckListboxItem> icons = new HashMap<String, CheckListboxItem>(52) {{
         put("dandelion", new CheckListboxItem("Dandelion"));
         put("chantrelle", new CheckListboxItem("Chantrelle"));
         put("blueberry", new CheckListboxItem("Blueberry"));
@@ -350,8 +354,9 @@ public class Config {
         put("mistletoe", new CheckListboxItem("Mistletoe"));
         put("waterstrider", new CheckListboxItem("Waterstrider"));
         put("firefly", new CheckListboxItem("Firefly"));
-        put("duskfern", new CheckListboxItem("Cave Fern"));
+        put("duskfern", new CheckListboxItem("Dusk Fern"));
         put("sandflea", new CheckListboxItem("Sand Flea"));
+        put("jellyfish", new CheckListboxItem("Jelly Fish"));
     }};
 
     public final static HashMap<String, CheckListboxItem> flowermenus = new HashMap<String, CheckListboxItem>(19) {{
@@ -650,7 +655,10 @@ public class Config {
                 }
             }
         }
-
+        MappingClient.getInstance().SetEndpoint(Utils.getpref("vendan-mapv4-endpoint", ""));
+        MappingClient.getInstance().EnableGridUploads(Config.vendanMapv4);
+        MappingClient.getInstance().EnableTracking(Config.vendanMapv4);
+        
         loadLogins();
     }
 
