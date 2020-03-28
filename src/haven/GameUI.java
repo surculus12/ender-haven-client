@@ -26,11 +26,13 @@
 
 package haven;
 
+import haven.MapFile.PMarker;
 import haven.automation.ErrorSysMsgCallback;
 import haven.automation.PickForageable;
 import haven.livestock.LivestockManager;
 import haven.resutil.FoodInfo;
 import integrations.map.RemoteNavigation;
+import integrations.mapv4.MappingClient;
 
 import java.awt.*;
 import java.util.*;
@@ -582,6 +584,14 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             if(ResCache.global != null) {
                 MapFile file = MapFile.load(ResCache.global, mapfilename());
                 RemoteNavigation.getInstance().uploadMarkerData(file);
+                if(Config.vendanMapv4) {
+                    MappingClient.getInstance().ProcessMap(file, (m) -> {
+                        if(m instanceof PMarker && Config.vendanGreenMarkers) {
+                            return ((PMarker)m).color.equals(Color.GREEN);
+                        }
+                        return true;
+                    });
+                }
                 mmap.save(file);
                 mapfile = new MapWnd(mmap.save, map, new Coord(700, 500), "Map");
                 mapfile.hide();
