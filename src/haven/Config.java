@@ -58,6 +58,7 @@ public class Config {
     public static String mapperUrl = Utils.getpref("mapperUrl", "http://example.com");
     public static boolean mapperHashName = Utils.getprefb("mapperHashName", true);
     public static boolean vendanMapv4 = Utils.getprefb("vendan-mapv4", false);
+    public static boolean vendanGreenMarkers = Utils.getprefb("vendan-mapv4-green-markers", false);
     public static boolean hideflocomplete = Utils.getprefb("hideflocomplete", false);
     public static boolean hideflovisual = Utils.getprefb("hideflovisual", false);
     public static boolean daylight = Utils.getprefb("daylight", false);

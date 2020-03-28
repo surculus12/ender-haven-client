@@ -532,12 +532,18 @@ public class MappingClient {
                         throw new Loading();
                     }
                     try {
+                        JSONObject extraData = new JSONObject();
                         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                         ImageIO.write(image, "png", outputStream);
                         ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
                         MultipartUtility multipart = new MultipartUtility(endpoint + "/gridUpload", "utf-8");
                         multipart.addFormField("id", this.gridID);
                         multipart.addFilePart("file", inputStream, "minimap.png");
+
+                        extraData.put("season", glob.ast.is);
+
+                        multipart.addFormField("extraData", extraData.toString());
+                        
                         MultipartUtility.Response response = multipart.finish();
                         if (response.statusCode != 200) {
                             System.out.println("Upload Error: Code" + response.statusCode + " - " + response.response);

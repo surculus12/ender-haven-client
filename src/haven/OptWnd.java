@@ -1658,6 +1658,18 @@ public class OptWnd extends Window {
                 MappingClient.getInstance().EnableTracking(Config.vendanMapv4);
 				a = val;
 			}
+        });
+        
+        appender.add(new CheckBox("Upload custom GREEN markers to map") {
+			{
+				a = Config.vendanGreenMarkers;
+			}
+
+			public void set(boolean val) {
+				Utils.setprefb("vendan-mapv4-green-markers", val);
+                Config.vendanGreenMarkers = val;
+				a = val;
+			}
 		});
 
         appender.add(new Label(""));
