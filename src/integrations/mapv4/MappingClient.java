@@ -226,13 +226,24 @@ public class MappingClient {
         @Override
         public void run() {
             if (mapfile.lock.readLock().tryLock()) {
-                List<MarkerData> markers = mapfile.markers.stream().filter(uploadCheck).map(m -> {
-                    Coord mgc = new Coord(Math.floorDiv(m.tc.x, 100), Math.floorDiv(m.tc.y, 100));
-                    Indir<MapFile.Grid> indirGrid = mapfile.segments.get(m.seg).grid(mgc);
-                    return new MarkerData(m, indirGrid);
-                }).collect(Collectors.toList());
+                List<MarkerData> markers;
+                try {
+                    markers = mapfile.markers.stream().filter(uploadCheck).map(m -> {
+                        Coord mgc = new Coord(Math.floorDiv(m.tc.x, 100), Math.floorDiv(m.tc.y, 100));
+                        long gridid = mapfile.segments.get(m.seg).map.get(mgc);
+                        return new MarkerData(m, gridid);
+                    }).collect(Collectors.toList());
+                } catch(Exception ex) {
+                    if(retries-- > 0) {
+                        System.out.println("rescheduling upload");
+                        scheduler.schedule(this, 5, TimeUnit.SECONDS);
+                    }
+                    return;
+                } finally {
+                    mapfile.lock.readLock().unlock();
+                }
                 System.out.println("collected " + markers.size() + " markers");
-                mapfile.lock.readLock().unlock();
+                
                 scheduler.execute(new ProcessMapper(mapfile, markers));
             } else {
                 if(retries-- > 0) {
@@ -245,11 +256,11 @@ public class MappingClient {
 
     private class MarkerData {
         Marker m;
-        Indir<MapFile.Grid> indirGrid;
+        long gridID;
 
-        MarkerData(Marker m, Indir<MapFile.Grid> indirGrid) {
+        MarkerData(Marker m, long gridID) {
             this.m = m;
-            this.indirGrid = indirGrid;
+            this.gridID = gridID;
         }
     }
 
@@ -272,7 +283,7 @@ public class MappingClient {
                     MarkerData md = iterator.next();
                     try {
                         Coord mgc = new Coord(Math.floorDiv(md.m.tc.x, 100), Math.floorDiv(md.m.tc.y, 100));
-                        long gridId = md.indirGrid.get().id;
+                        long gridId = md.gridID;
                         JSONObject o = new JSONObject();
                         o.put("name", md.m.nm);
                         o.put("gridID", String.valueOf(gridId));
