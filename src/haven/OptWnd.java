@@ -981,7 +981,7 @@ public class OptWnd extends Window {
 
             public void set(boolean val) {
                 Utils.setprefb("proximityaggro", val);
-                Config.combshowkeys = val;
+                Config.proximityaggro = val;
                 a = val;
             }
         });
