@@ -583,7 +583,7 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             mmap = minimapWnd.mmap;
             if(ResCache.global != null) {
                 MapFile file = MapFile.load(ResCache.global, mapfilename());
-                if(Config.mapperUrl!="") 
+                if(Config.mapperEnabled && Config.mapperUrl!="") 
                     RemoteNavigation.getInstance().uploadMarkerData(file);
                 if(Config.vendanMapv4) {
                     MappingClient.getInstance().ProcessMap(file, (m) -> {

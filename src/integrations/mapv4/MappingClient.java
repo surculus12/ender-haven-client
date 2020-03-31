@@ -1,6 +1,7 @@
 package integrations.mapv4;
 
 import haven.*;
+import haven.Gob.Type;
 import haven.MCache.LoadingMap;
 import haven.MapFile.Grid;
 import haven.MapFile.Marker;
@@ -70,7 +71,7 @@ public class MappingClient {
     private PositionUpdates pu = new PositionUpdates();
 
     private MappingClient() {
-        scheduler.scheduleAtFixedRate(pu, 2L, 2L, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(pu, 5L, 5L, TimeUnit.SECONDS);
     }
 
     private String endpoint;
@@ -108,17 +109,7 @@ public class MappingClient {
         }
     }
 
-    /***
-     * Track a gob at a location.  Typically called in Gob.move
-     * @param id
-     * @param coordinates
-     */
-    public void Track(long id, Coord2d coordinates) {
-        try {
-            MCache.Grid g = Glob.getByReference().map.getgrid(toGC(coordinates));
-            pu.Track(id, coordinates, g.id);
-        } catch(Exception ex) {}
-    }
+    public volatile MapRef lastMapRef;
 
     private Coord lastGC = null;
     /***
@@ -127,6 +118,7 @@ public class MappingClient {
      */
     public void EnterGrid(Coord gc) {
         lastGC = gc;
+        GetMapRef(true);
         scheduler.execute(new GenerateGridUpdateTask(gc));
     }
 
@@ -146,16 +138,17 @@ public class MappingClient {
      * Gets a MapRef (mapid, coordinate pair) for the players current location
      * @return Current grid MapRef
      */
-    public MapRef GetMapRef() {
+    public MapRef GetMapRef(boolean remote) {
         try {
             Gob player = Glob.getByReference().oc.getgob(MapView.plgob);
             Coord gc = toGC(player.rc);
             synchronized(cache) {
                 long id = Glob.getByReference().map.getgrid(gc).id;
                 MapRef mapRef = cache.get(id);
-                if(mapRef == null) {
+                if(mapRef == null && remote) {
                     scheduler.execute(new Locate(id));
                 }
+                lastMapRef = mapRef;
                 return mapRef;
             }
         } catch (Exception e) {}
@@ -169,7 +162,7 @@ public class MappingClient {
     public void OpenMap(MapRef mapRef) {
         try {
             WebBrowser.self.show(new URL(
-                    String.format(Config.mapperUrl + "/#/grid/%d/%d/%d/6", mapRef.mapID, mapRef.gc.x, mapRef.gc.y)));
+                    String.format(endpoint + "/#/grid/%d/%d/%d/6", mapRef.mapID, mapRef.gc.x, mapRef.gc.y)));
         } catch (Exception ex) {}
     }
 
@@ -210,7 +203,6 @@ public class MappingClient {
      */
     public void ProcessMap(MapFile mapfile, Predicate<Marker> uploadCheck) {
         scheduler.schedule(new ExtractMapper(mapfile, uploadCheck), 5, TimeUnit.SECONDS);
-        
     }
 
     private class ExtractMapper implements Runnable {
@@ -345,71 +337,54 @@ public class MappingClient {
     }
 
     private class PositionUpdates implements Runnable {
-        private class Tracking {
-            public String name;
-            public String type;
-            public long gridId;
-            public Coord2d coords;
-
-            public JSONObject getJSON() {
-                JSONObject j = new JSONObject();
-                j.put("name", name);
-                j.put("type", type);
-                j.put("gridID", String.valueOf(gridId));
-                JSONObject c = new JSONObject();
-                c.put("x", (int)(coords.x/11));
-                c.put("y", (int)(coords.y/11));
-                j.put("coords", c);
-                return j;
-            }
-        }
-
-        private Map<Long, Tracking> tracking = new ConcurrentHashMap<Long, Tracking>();
-
         private PositionUpdates() {
         }
     
-        private void Track(long id, Coord2d coordinates, long gridId) {
-            Tracking t = tracking.get(id);
-            if(t == null){
-                t = new Tracking();
-                tracking.put(id, t);
-                if(id == MapView.plgob) {
-                    t.name = playerName;
-                    t.type = "player";
-                } else {
-                    Glob g = Glob.getByReference();
-                    Gob gob = g.oc.getgob(id);
-                    t.name = "???";
-                    t.type = "white";
-                    if(gob != null) {
-                        KinInfo ki = gob.getattr(KinInfo.class);
-                        if(ki != null) {
-                            t.name = ki.name;
-                            t.type = Integer.toHexString(BuddyWnd.gc[ki.group].getRGB());
-                        }
-                    }
-                }
-            }
-            t.gridId = gridId;
-            t.coords = gridOffset(coordinates);
-        }
-
         @Override
         public void run() {
             if (trackingEnabled) {
-                Glob g = Glob.getByReference();
-                Iterator<Map.Entry<Long, Tracking>> i = tracking.entrySet().iterator();
                 JSONObject upload = new JSONObject();
-                while (i.hasNext()) {
-                    Map.Entry<Long, Tracking> e = i.next();
-                    if(g.oc.getgob(e.getKey()) == null){
-                        i.remove();
-                    } else {
-                        upload.put(String.valueOf(e.getKey()), e.getValue().getJSON());
+                try {
+                    Glob g = Glob.getByReference();
+                    if(g == null){
+                        return;
                     }
+                    for(Gob gob : g.oc) {
+                        try {
+                            if(gob.type == Type.PLAYER){
+                                JSONObject j = new JSONObject();
+                                if(gob.isplayer()){
+                                    j.put("name", playerName);
+                                    j.put("type", "player");
+                                } else {
+                                    KinInfo ki = gob.getattr(KinInfo.class);
+                                    if(ki == null) {
+                                        j.put("name", "???");
+                                        j.put("type", "unknown");
+                                    }else{
+                                        j.put("name", ki.name);
+                                        j.put("type", Integer.toHexString(BuddyWnd.gc[ki.group].getRGB()));
+                                    }
+                                }
+                                MCache.Grid grid = Glob.getByReference().map.getgrid(toGC(gob.rc));
+                                j.put("gridID", String.valueOf(grid.id));
+                                JSONObject c = new JSONObject();
+                                Coord2d goc = gridOffset(gob.rc);
+                                c.put("x", (int)(goc.x/11));
+                                c.put("y", (int)(goc.y/11));
+                                j.put("coords", c);
+                                upload.put(String.valueOf(gob.id), j);
+                            }
+                        }
+                        catch(Exception ex) {
+                            System.out.println(ex);
+                        }
+                    }
+                }catch(Exception ex) {
+                    System.out.println(ex);
+                    return;
                 }
-
+                
                 try {
                     final HttpURLConnection connection =
                             (HttpURLConnection) new URL(endpoint + "/positionUpdate").openConnection();
@@ -421,7 +396,9 @@ public class MappingClient {
                         out.write(json.getBytes(StandardCharsets.UTF_8));
                     }
                     connection.getResponseCode();
-                } catch (final Exception ex) { }
+                } catch (final Exception ex) {
+                    System.out.println(ex);
+                }
             }
         }
     }
@@ -509,12 +486,18 @@ public class MappingClient {
                         }
                         buffer.flush();
                         JSONObject jo = new JSONObject(buffer.toString(StandardCharsets.UTF_8.name()));
-                        JSONArray reqs = jo.getJSONArray("gridRequests");
                         synchronized(cache) {
-                            cache.put(Long.valueOf(gridUpdate.grids[1][1]), new MapRef(jo.getLong("map"), new Coord(jo.getJSONObject("coords").getInt("x"), jo.getJSONObject("coords").getInt("y"))));
+                            try {
+                                MapRef mr = new MapRef(jo.getLong("map"), new Coord(jo.getJSONObject("coords").getInt("x"), jo.getJSONObject("coords").getInt("y")));
+                                lastMapRef = mr;
+                                cache.put(Long.valueOf(gridUpdate.grids[1][1]), mr);
+                            } catch (Exception ex) {}
                         }
-                        for(int i = 0; i < reqs.length(); i++){
-                            gridsUploader.execute(new GridUploadTask(reqs.getString(i), gridUpdate.gridRefs.get(reqs.getString(i))));
+                        JSONArray reqs = jo.optJSONArray("gridRequests");
+                        if(reqs != null) {
+                            for(int i = 0; i < reqs.length(); i++){
+                                gridsUploader.execute(new GridUploadTask(reqs.getString(i), gridUpdate.gridRefs.get(reqs.getString(i))));
+                            }
                         }
                     }
                     
@@ -526,6 +509,7 @@ public class MappingClient {
     private class GridUploadTask implements Runnable {
         private final String gridID;
         private final WeakReference<MCache.Grid> grid;
+        private int retries = 5;
         
         GridUploadTask(String gridID, WeakReference<MCache.Grid> grid) {
             this.gridID = gridID;
@@ -567,7 +551,9 @@ public class MappingClient {
                 }
             } catch (Loading ex) {
                 // Retry on Loading
-                gridsUploader.submit(this);
+                if(retries-- > 0) {
+                    gridsUploader.submit(this);
+                }
             }
 
         }

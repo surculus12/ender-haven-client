@@ -430,7 +430,7 @@ public class MCache {
                 }
             }
             invalidate();
-            RemoteNavigation.getInstance().receiveGrid(this);
+            if(Config.mapperEnabled) RemoteNavigation.getInstance().receiveGrid(this);
             seq++;
         }
     }
