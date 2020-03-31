@@ -1596,6 +1596,17 @@ public class OptWnd extends Window {
                     }
                 }
         );
+        appender.add(new CheckBox("Enable mapping service") {
+            {
+                a = Config.mapperEnabled;
+            }
+
+            public void set(boolean val) {
+                Utils.setprefb("mapperEnabled", val);
+                Config.mapperEnabled = val;
+                a = val;
+            }
+        });
         appender.add(new CheckBox("Hide character name") {
             {
                 a = Config.mapperHashName;

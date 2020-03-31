@@ -138,7 +138,7 @@ public class MinimapWnd extends Widget {
                     tooltip = Text.render("Unable to determine your current location.");
                 }
                 if (Config.vendanMapv4) {
-                    MapRef mr = MappingClient.getInstance().GetMapRef();
+                    MapRef mr = MappingClient.getInstance().lastMapRef;
                     if(mr != null) {
                         tooltip = Text.render("Coordinates: " + mr);
                     }
@@ -149,7 +149,7 @@ public class MinimapWnd extends Widget {
             @Override
             public void click() {
                 if (Config.vendanMapv4) {
-                    MapRef mr = MappingClient.getInstance().GetMapRef();
+                    MapRef mr = MappingClient.getInstance().GetMapRef(true);
                     if(mr != null) {
                         MappingClient.getInstance().OpenMap(mr);
                         return;
@@ -183,7 +183,7 @@ public class MinimapWnd extends Widget {
                     redraw = true;
                 }
                 if (Config.vendanMapv4) {
-                    MapRef mr = MappingClient.getInstance().GetMapRef();
+                    MapRef mr = MappingClient.getInstance().lastMapRef;
                     if (state != 2 && mr != null) {
                         state = 2;
                         redraw = true;

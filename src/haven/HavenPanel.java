@@ -28,6 +28,7 @@ package haven;
 
 import com.jogamp.opengl.util.awt.Screenshot;
 import integrations.map.RemoteNavigation;
+import integrations.mapv4.MappingClient;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.Color;
@@ -91,6 +92,7 @@ public class HavenPanel extends GLCanvas implements Runnable, Console.Directory,
         setSize(this.w = w, this.h = h);
         newui(null);
         RemoteNavigation.getInstance();
+        MappingClient.getInstance();
         initgl();
         if (Toolkit.getDefaultToolkit().getMaximumCursorColors() >= 256 || Config.hwcursor)
             cursmode = "awt";

@@ -283,11 +283,8 @@ public class Gob implements Sprite.Owner, Skeleton.ModOwner, Rendered {
             m.move(c);
         this.rc = c;
         if (isplayer()) {
-            Navigation.setPlayerCoordinates(c);
-            MappingClient.getInstance().CheckGridCoord(c);
-        }
-        if(this.type == Type.PLAYER) {
-            MappingClient.getInstance().Track(id, c);
+            if(Config.mapperEnabled) Navigation.setPlayerCoordinates(c);
+            if(Config.vendanMapv4) MappingClient.getInstance().CheckGridCoord(c);
         }
         this.a = a;
     }
