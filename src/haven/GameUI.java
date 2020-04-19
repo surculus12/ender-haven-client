@@ -583,11 +583,15 @@ public class GameUI extends ConsoleHost implements Console.Directory {
             mmap = minimapWnd.mmap;
             if(ResCache.global != null) {
                 MapFile file = MapFile.load(ResCache.global, mapfilename());
-                RemoteNavigation.getInstance().uploadMarkerData(file);
+                if(Config.mapperEnabled && Config.mapperUrl!="") 
+                    RemoteNavigation.getInstance().uploadMarkerData(file);
                 if(Config.vendanMapv4) {
                     MappingClient.getInstance().ProcessMap(file, (m) -> {
-                        if(m instanceof PMarker && Config.vendanGreenMarkers) {
-                            return ((PMarker)m).color.equals(Color.GREEN);
+                        if(m instanceof PMarker) {
+                            if (Config.vendanGreenMarkers) {
+                                return ((PMarker)m).color.equals(Color.GREEN);
+                            }
+                            return false;
                         }
                         return true;
                     });

@@ -1,3 +1,13 @@
+Version 1.78.2
+    Fixed:
+        * Discovered tiles being overwritten by winter tiles.
+        * Marker upload issues (by andyleap).
+
+Version 1.78.1
+    Fixed:
+        * Number of issues in mapping service (by andyleap).
+        * Proximity aggro setting (by puruscor).
+
 Version 1.78.0
     New:
         * Support for v4 of github.com/andyleap/hnh-map (by andyleap).
