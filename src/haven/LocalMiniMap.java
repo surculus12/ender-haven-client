@@ -245,22 +245,22 @@ public class LocalMiniMap extends Widget {
                         Audio.play(swagsfx, Config.alarmlocresvol);
                     } else if (gob.type == Gob.Type.BEAR && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        Audio.play(bearsfx, 0.7);
+                        Audio.play(bearsfx, 0.6);
                     } else if (gob.type == Gob.Type.LYNX && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        Audio.play(lynxfx, 0.8);
+                        Audio.play(lynxfx, 0.7);
                     } else if (gob.type == Gob.Type.WALRUS && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        Audio.play(walrusfx, 0.7);
+                        Audio.play(walrusfx, 0.6);
                     } else if (gob.type == Gob.Type.SEAL && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        Audio.play(sealsfx, 0.8);
+                        Audio.play(sealsfx, 0.6);
                     } else if (gob.type == Gob.Type.TROLL && gob.knocked == Boolean.FALSE && Config.alarmtroll) {
                         sgobs.add(gob.id);
                         Audio.play(trollsfx, Config.alarmtrollvol);
                     } else if (gob.type == Gob.Type.MAMMOTH && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        Audio.play(mammothsfx, 0.7);
+                        Audio.play(mammothsfx, 0.6);
                     } else if (gob.type == Gob.Type.EAGLE && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
                         Audio.play(eaglesfx);
@@ -269,7 +269,7 @@ public class LocalMiniMap extends Widget {
                         Audio.play(doomedsfx, Config.alarmbramvol);
                     } else if (gob.type == Gob.Type.WOLF && gob.knocked == Boolean.FALSE) {
                         sgobs.add(gob.id);
-                        Audio.play(wolfsfx, 0.7);
+                        Audio.play(wolfsfx, 0.6);
                     }
                 } catch (Loading l) {
                 }
