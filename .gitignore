@@ -11,3 +11,5 @@ amber-*.zip
 /.settings
 .devcontainer/
 workspace.code-workspace
+food_data.json
+mapdata_index_global
