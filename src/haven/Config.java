@@ -169,6 +169,7 @@ public class Config {
     public static String font = Utils.getpref("font", "SansSerif");
     public static int fontadd = Utils.getprefi("fontadd", 0);
     public static boolean proximityaggro = Utils.getprefb("proximityaggro", false);
+    public static boolean minimapsmooth = Utils.getprefb("minimapsmooth", false);
     public static boolean foodService = Utils.getprefb("foodService", false);
     public static boolean pf = false;
     public static String playerposfile;

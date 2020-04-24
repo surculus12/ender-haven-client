@@ -129,21 +129,23 @@ public class LocalMiniMap extends Widget {
         Coord c = new Coord();
         for (c.y = 0; c.y < sz.y; c.y++) {
             for (c.x = 0; c.x < sz.x; c.x++) {
-                int t = m.gettile(ul.add(c));
+                int t = Config.minimapsmooth ? m.gettilenosnow(ul.add(c)) : m.gettile(ul.add(c));
                 BufferedImage tex = tileimg(t, texes);
                 int rgb = 0;
                 if (tex != null)
                     rgb = tex.getRGB(Utils.floormod(c.x + ul.x, tex.getWidth()),
                             Utils.floormod(c.y + ul.y, tex.getHeight()));
                 buf.setRGB(c.x, c.y, rgb);
-
-                try {
-                    if ((m.gettile(ul.add(c).add(-1, 0)) > t) ||
-                            (m.gettile(ul.add(c).add(1, 0)) > t) ||
-                            (m.gettile(ul.add(c).add(0, -1)) > t) ||
-                            (m.gettile(ul.add(c).add(0, 1)) > t))
-                        buf.setRGB(c.x, c.y, Color.BLACK.getRGB());
-                } catch (Exception e) {
+                if (!Config.minimapsmooth) {
+                    try {
+                        if ((m.gettile(ul.add(c).add(-1, 0)) > t) ||
+                                (m.gettile(ul.add(c).add(1, 0)) > t) ||
+                                (m.gettile(ul.add(c).add(0, -1)) > t) ||
+                                (m.gettile(ul.add(c).add(0, 1)) > t)) {
+                            buf.setRGB(c.x, c.y, Color.BLACK.getRGB());
+                        }
+                    } catch (Exception e) {
+                    }
                 }
             }
         }
