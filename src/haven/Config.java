@@ -362,6 +362,7 @@ public class Config {
         put("precioussnowflake", new CheckListboxItem("Precious Snowflake"));
         put("coltsfoot", new CheckListboxItem("Coltsfoot"));
         put("frogspawn", new CheckListboxItem("Frogspawn"));
+        put("lampstalk", new CheckListboxItem("Lamp Stalk"));
     }};
 
     public final static HashMap<String, CheckListboxItem> flowermenus = new HashMap<String, CheckListboxItem>(19) {{
