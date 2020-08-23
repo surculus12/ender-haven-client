@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 
 <project name="hafen" default="deftgt">
+  <property name="name" value="hafen_uiscale"/>
+  <property name="version" value=""/>
+
   <target name="build-env">
     <mkdir dir="build" />
     <mkdir dir="build/classes" />
@@ -106,5 +109,13 @@
         <sysproperty key="haven.defserv" value="sh.seatribe.se" />
         <sysproperty key="haven.resdir" value="/home/fredrik/src/hafen/res" />
       </java>
+  </target>
+
+  <target name="dist" depends="clean, jars">
+    <zip destfile="${basedir}/${name}-${version}.zip" update="false" zip64Mode="always">
+      <fileset dir="build" includes="*.jar" excludes="*natives*.jar"/>
+      <fileset dir="lib/jogl-natives" includes="*.jar"/>
+      <fileset dir="etc" includes="run.bat,run.sh,run.command"/>
+    </zip>
   </target>
 </project>
