@@ -252,7 +252,7 @@ public class Resource implements Serializable {
         {
             ssl = new SslHelper();
             try {
-                ssl.trust(ssl.loadX509(Resource.class.getResourceAsStream("ressrv.crt")));
+                ssl.trust(Resource.class.getResourceAsStream("ressrv.crt"));
             } catch (java.security.cert.CertificateException e) {
                 throw (new Error("Invalid built-in certificate", e));
             } catch (IOException e) {
@@ -830,13 +830,7 @@ public class Resource implements Serializable {
         for (Class<?> cl : dolda.jglob.Loader.get(LayerName.class).classes()) {
             String nm = cl.getAnnotation(LayerName.class).value();
             if (LayerFactory.class.isAssignableFrom(cl)) {
-                try {
-                    addltype(nm, cl.asSubclass(LayerFactory.class).newInstance());
-                } catch (InstantiationException e) {
-                    throw (new Error(e));
-                } catch (IllegalAccessException e) {
-                    throw (new Error(e));
-                }
+                addltype(nm, Utils.construct(cl.asSubclass(LayerFactory.class)));
             } else if (Layer.class.isAssignableFrom(cl)) {
                 addltype(nm, cl.asSubclass(Layer.class));
             } else {
@@ -857,8 +851,7 @@ public class Resource implements Serializable {
         public final boolean nooff;
         public final int id;
         private int gay = -1;
-        public Coord sz;
-        public Coord o;
+        public Coord sz, o, tsz;
 
         public Image(Message buf) {
             z = buf.int16();
@@ -868,6 +861,20 @@ public class Resource implements Serializable {
             nooff = (fl & 2) != 0;
             id = buf.int16();
             o = cdec(buf);
+            if ((fl & 4) != 0) {
+                while (true) {
+                    String key = buf.string();
+                    if (key.equals(""))
+                        break;
+                    int len = buf.uint8();
+                    if ((len & 0x80) != 0)
+                        len = buf.int32();
+                    Message val = new MessageBuf(buf.bytes(len));
+                    if (key.equals("tsz")) {
+                        tsz = val.coord();
+                    }
+                }
+            }
             try {
                 img = ImageIO.read(new MessageInputStream(buf));
             } catch (IOException e) {
@@ -876,6 +883,8 @@ public class Resource implements Serializable {
             if (img == null)
                 throw (new LoadException("Invalid image data in " + name, Resource.this));
             sz = Utils.imgsz(img);
+            if (tsz == null)
+                tsz = sz;
         }
 
         public synchronized Tex tex() {
@@ -1031,7 +1040,7 @@ public class Resource implements Serializable {
         Class<? extends Instancer> instancer() default Instancer.class;
 
         public interface Instancer {
-            public Object make(Class<?> cl) throws InstantiationException, IllegalAccessException;
+            public Object make(Class<?> cl);
         }
     }
 
@@ -1105,6 +1114,17 @@ public class Resource implements Serializable {
         }
     }
 
+    public static class ResourceClassNotFoundException extends ClassNotFoundException {
+        public final String clname;
+        public final Resource res;
+
+        public ResourceClassNotFoundException(String clname, Resource res) {
+            super(String.format("Could not find class %s in resource %s", clname, res));
+            this.clname = clname;
+            this.res = res;
+        }
+    }
+
     @LayerName("codeentry")
     public class CodeEntry extends Layer {
         private String clnm;
@@ -1163,7 +1183,7 @@ public class Resource implements Serializable {
                                     public Class<?> findClass(String name) throws ClassNotFoundException {
                                         Code c = clmap.get(name);
                                         if (c == null)
-                                            throw (new ClassNotFoundException("Could not find class " + name + " in resource (" + Resource.this + ")"));
+                                            throw (new ResourceClassNotFoundException(name, Resource.this));
                                         return (defineClass(name, c.data, 0, c.data.length));
                                     }
                                 };
@@ -1235,16 +1255,10 @@ public class Resource implements Serializable {
                 } else {
                     T inst;
                     Object rinst = AccessController.doPrivileged((PrivilegedAction<Object>) () -> {
-                        try {
-                            if (entry.instancer() != PublishedCode.Instancer.class)
-                                return (entry.instancer().newInstance().make(acl));
-                            else
-                                return (acl.newInstance());
-                        } catch (IllegalAccessException e) {
-                            throw (new RuntimeException(e));
-                        } catch (InstantiationException e) {
-                            throw (new RuntimeException(e));
-                        }
+                        if (entry.instancer() != PublishedCode.Instancer.class)
+                            return (Utils.construct(entry.instancer()).make(acl));
+                        else
+                            return (Utils.construct(acl));
                     });
                     try {
                         inst = cl.cast(rinst);

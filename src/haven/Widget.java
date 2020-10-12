@@ -152,9 +152,9 @@ public class Widget {
     }
 
     public static class FactMaker implements Resource.PublishedCode.Instancer {
-        public Factory make(Class<?> cl) throws InstantiationException, IllegalAccessException {
+        public Factory make(Class<?> cl) {
             if (Factory.class.isAssignableFrom(cl))
-                return (cl.asSubclass(Factory.class).newInstance());
+                return (Utils.construct(cl.asSubclass(Factory.class)));
             try {
                 final Method mkm = cl.getDeclaredMethod("mkwidget", UI.class, Object[].class);
                 int mod = mkm.getModifiers();
@@ -410,6 +410,8 @@ public class Widget {
                     } else {
                         throw (new RuntimeException("Invalid division operands: " + a + " - " + b));
                     }
+                } else if (op == 'S') {
+                    /* Noop for now. */
                 } else if (Character.isWhitespace(op)) {
                 } else {
                     throw (new RuntimeException("Unknown position operation: " + op));
@@ -838,7 +840,7 @@ public class Widget {
                     if (key == '\t') {
                         Widget f = focused;
                         while (true) {
-                            if ((ev.getModifiers() & InputEvent.SHIFT_MASK) == 0) {
+                            if ((ev.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == 0) {
                                 Widget n = f.rnext();
                                 f = ((n == null) || !n.hasparent(this)) ? child : n;
                             } else {

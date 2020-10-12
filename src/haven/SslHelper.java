@@ -26,6 +26,7 @@
 
 package haven;
 
+import java.util.*;
 import java.io.*;
 import java.net.*;
 import java.security.*;
@@ -109,6 +110,16 @@ public class SslHelper {
     public static Certificate loadX509(InputStream in) throws IOException, CertificateException {
         CertificateFactory fac = CertificateFactory.getInstance("X.509");
         return (fac.generateCertificate(in));
+    }
+
+    public static Collection<? extends Certificate> loadX509s(InputStream in) throws IOException, CertificateException {
+        CertificateFactory fac = CertificateFactory.getInstance("X.509");
+        return (fac.generateCertificates(in));
+    }
+
+    public void trust(InputStream in) throws IOException, CertificateException {
+        for (Certificate cert : loadX509s(in))
+            trust(cert);
     }
 
     public synchronized void loadCredsPkcs12(InputStream in, char[] pw) throws IOException, CertificateException {
