@@ -95,7 +95,7 @@ public class Resource implements Serializable {
         }
 
         public String toString() {
-            return(String.format("#<res-name %s v%d>", name, ver));
+            return (String.format("#<res-name %s v%d>", name, ver));
         }
     }
 
@@ -121,7 +121,7 @@ public class Resource implements Serializable {
     }
 
     public static interface Resolver {
-	    public Indir<Resource> getres(int id);
+        public Indir<Resource> getres(int id);
 
         public class ResourceMap implements Resource.Resolver {
             public final Resource.Resolver bk;
@@ -141,30 +141,30 @@ public class Resource implements Serializable {
             }
 
             public static Map<Integer, Integer> decode(Message sdt) {
-                if(sdt.eom())
-                    return(Collections.emptyMap());
+                if (sdt.eom())
+                    return (Collections.emptyMap());
                 int n = sdt.uint8();
                 Map<Integer, Integer> ret = new HashMap<>();
-                for(int i = 0; i < n; i++)
+                for (int i = 0; i < n; i++)
                     ret.put(sdt.uint16(), sdt.uint16());
-                return(ret);
+                return (ret);
             }
 
             public static Map<Integer, Integer> decode(Object[] args) {
-                if(args.length == 0)
-                    return(Collections.emptyMap());
+                if (args.length == 0)
+                    return (Collections.emptyMap());
                 Map<Integer, Integer> ret = new HashMap<>();
-                for(int a = 0; a < args.length; a += 2)
-                    ret.put((Integer)args[a], (Integer)args[a + 1]);
-                return(ret);
+                for (int a = 0; a < args.length; a += 2)
+                    ret.put((Integer) args[a], (Integer) args[a + 1]);
+                return (ret);
             }
 
             public Indir<Resource> getres(int id) {
-                return(bk.getres(map.get(id)));
+                return (bk.getres(map.get(id)));
             }
 
             public String toString() {
-                return(map.toString());
+                return (map.toString());
             }
         }
     }
@@ -282,8 +282,8 @@ public class Resource implements Serializable {
         }
 
         private URL encodeurl(URL raw) throws IOException {
-        /* This is "kinda" ugly. It is, actually, how the Java
-         * documentation recommend that it be done, though... */
+            /* This is "kinda" ugly. It is, actually, how the Java
+             * documentation recommend that it be done, though... */
             try {
                 return (new URL(new URI(raw.getProtocol(), raw.getHost(), raw.getPath(), raw.getRef()).toASCIIString()));
             } catch (URISyntaxException e) {
@@ -301,9 +301,9 @@ public class Resource implements Serializable {
                         c = ssl.connect(resurl);
                     else
                         c = resurl.openConnection();
-            /* Apparently, some versions of Java Web Start has
-		     * a bug in its internal cache where it refuses to
-		     * reload a URL even when it has changed. */
+                    /* Apparently, some versions of Java Web Start has
+                     * a bug in its internal cache where it refuses to
+                     * reload a URL even when it has changed. */
                     c.setUseCaches(false);
                     c.addRequestProperty("User-Agent", "Haven/1.0");
                     return (c.getInputStream());
@@ -440,7 +440,7 @@ public class Resource implements Serializable {
             }
 
             public String toString() {
-                return(String.format("<q:%s(v%d)>", name, ver));
+                return (String.format("<q:%s(v%d)>", name, ver));
             }
         }
 
@@ -465,7 +465,7 @@ public class Resource implements Serializable {
                     else
                         error = new LoadException(String.format("Load error in resource %s(v%d), from %s", res.name, res.ver, src), t, null);
                     error.src = src;
-                    if(res.error != null) {
+                    if (res.error != null) {
                         error.prev = res.error;
                         error.addSuppressed(res.error);
                     }
@@ -483,33 +483,33 @@ public class Resource implements Serializable {
                     if ((ver == -1) || (cur.ver == ver)) {
                         return (cur.indir());
                     } else if (ver < cur.ver) {
-			/* Throw LoadException rather than
-			 * RuntimeException here, to make sure
-			 * obsolete resources doing nested loading get
-			 * properly handled. This could be the wrong
-			 * way of going about it, however; I'm not
-			 * sure. */
+                        /* Throw LoadException rather than
+                         * RuntimeException here, to make sure
+                         * obsolete resources doing nested loading get
+                         * properly handled. This could be the wrong
+                         * way of going about it, however; I'm not
+                         * sure. */
                         throw (new LoadException(String.format("Weird version number on %s (%d > %d), loaded from %s", cur.name, cur.ver, ver, cur.source), cur));
                     }
                 }
                 synchronized (queue) {
                     Queued cq = queued.get(name);
                     if (cq != null) {
-			if(ver != -1) {
-			    if(ver < cq.ver) {
-				throw(new LoadException(String.format("Weird version number on %s (%d > %d)", cq.name, cq.ver, ver), null));
-			    } else if(ver == cq.ver) {
-				cq.boostprio(prio);
-				return(cq);
-			    }
-			} else {
-			    if(cq.done && (cq.error != null)) {
-				/* XXX: This is probably not the right way to handle this. */
-			    } else {
-				cq.boostprio(prio);
-				return(cq);
-			    }
-			}
+                        if (ver != -1) {
+                            if (ver < cq.ver) {
+                                throw (new LoadException(String.format("Weird version number on %s (%d > %d)", cq.name, cq.ver, ver), null));
+                            } else if (ver == cq.ver) {
+                                cq.boostprio(prio);
+                                return (cq);
+                            }
+                        } else {
+                            if (cq.done && (cq.error != null)) {
+                                /* XXX: This is probably not the right way to handle this. */
+                            } else {
+                                cq.boostprio(prio);
+                                return (cq);
+                            }
+                        }
                         queued.remove(name);
                         queue.removeid(cq);
                     }
@@ -694,23 +694,23 @@ public class Resource implements Serializable {
     private static Pool _local = null;
 
     public static Pool local() {
-	if(_local == null) {
-	    synchronized(Resource.class) {
-		if(_local == null) {
-		    Pool local = new Pool(new JarSource());
-		    try {
-			if(Config.resdir != null)
-			    local.add(new FileSource(new File(Config.resdir)));
-		    } catch(Exception e) {
-			/* Ignore these. We don't want to be crashing the client
-			 * for users just because of errors in development
-			 * aids. */
-		    }
-		    _local = local;
-		}
-	    }
-	}
-	return(_local);
+        if (_local == null) {
+            synchronized (Resource.class) {
+                if (_local == null) {
+                    Pool local = new Pool(new JarSource());
+                    try {
+                        if (Config.resdir != null)
+                            local.add(new FileSource(new File(Config.resdir)));
+                    } catch (Exception e) {
+                        /* Ignore these. We don't want to be crashing the client
+                         * for users just because of errors in development
+                         * aids. */
+                    }
+                    _local = local;
+                }
+            }
+        }
+        return (_local);
     }
 
     private static Pool _remote = null;
@@ -843,7 +843,7 @@ public class Resource implements Serializable {
     }
 
     static {
-        l10nBundleMap =  new HashMap<String, Map<String, String>>(9) {{
+        l10nBundleMap = new HashMap<String, Map<String, String>>(9) {{
             if (!language.equals("en") || Resource.L10N_DEBUG) {
                 put(BUNDLE_TOOLTIP, l10n(BUNDLE_TOOLTIP, language));
                 put(BUNDLE_PAGINA, l10n(BUNDLE_PAGINA, language));
@@ -922,7 +922,7 @@ public class Resource implements Serializable {
             z = buf.int16();
             subz = buf.int16();
             int fl = buf.uint8();
-	    /* Obsolete flag 1: Layered */
+            /* Obsolete flag 1: Layered */
             nooff = (fl & 2) != 0;
             id = buf.int16();
             o = cdec(buf);
@@ -1150,7 +1150,7 @@ public class Resource implements Serializable {
     ;
 
     public static Resource classres(final Class<?> cl) {
-        return(AccessController.doPrivileged(new PrivilegedAction<Resource>() {
+        return (AccessController.doPrivileged(new PrivilegedAction<Resource>() {
             public Resource run() {
                 ClassLoader l = cl.getClassLoader();
                 if (l instanceof ResClassLoader)
@@ -1451,9 +1451,9 @@ public class Resource implements Serializable {
 
     public <L extends Layer> Collection<L> layers(final Class<L> cl) {
         used = true;
-        return(new DefaultCollection<L>() {
+        return (new DefaultCollection<L>() {
             public Iterator<L> iterator() {
-                return(Utils.filter(layers.iterator(), cl));
+                return (Utils.filter(layers.iterator(), cl));
             }
         });
     }
@@ -1795,9 +1795,9 @@ public class Resource implements Serializable {
 
             if (bundle.equals(BUNDLE_TOOLTIP) &&
                     (key.startsWith("paginae/act") || key.startsWith("paginae/bld")
-                    || key.startsWith("paginae/craft") || key.startsWith("paginae/gov")
-                    || key.startsWith("paginae/pose") || key.startsWith("paginae/amber")
-                    || key.startsWith("paginae/atk/ashoot") || key.startsWith("paginae/seid")))
+                            || key.startsWith("paginae/craft") || key.startsWith("paginae/gov")
+                            || key.startsWith("paginae/pose") || key.startsWith("paginae/amber")
+                            || key.startsWith("paginae/atk/ashoot") || key.startsWith("paginae/seid")))
                 return;
 
             if (key == null || key.equals("") || val.equals(""))
@@ -1811,7 +1811,7 @@ public class Resource implements Serializable {
                     key.startsWith("Born to ") ||
                     key.equals("ui/r-enact"))
                 return;
-            
+
             if (bundle == BUNDLE_LABEL) {
                 for (String s : fmtLocStringsLabel) {
                     if (fmtLocString(map, key, s) != null)

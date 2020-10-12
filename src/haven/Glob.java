@@ -185,12 +185,12 @@ public class Glob {
         if (ast == null)
             return;
 
-        long secs = (long)globtime();
+        long secs = (long) globtime();
         long day = secs / secinday;
         long secintoday = secs % secinday;
         long hours = secintoday / 3600;
         long mins = (secintoday % 3600) / 60;
-        int nextseason = (int)Math.ceil((1 - ast.sp) * (ast.is == 1 ? 30 : 10));
+        int nextseason = (int) Math.ceil((1 - ast.sp) * (ast.is == 1 ? 30 : 10));
 
         String fmt;
         switch (ast.is) {
@@ -236,9 +236,9 @@ public class Glob {
                 double yt = ((Number) a[n++]).doubleValue();
                 boolean night = (Integer) a[n++] != 0;
                 Color mc = (Color) a[n++];
-                int is = (n < a.length) ? ((Number)a[n++]).intValue() : 1;
-                double sp = (n < a.length) ? ((Number)a[n++]).doubleValue() : 0.5;
-                double sd = (n < a.length) ? ((Number)a[n++]).doubleValue() : 0.5;
+                int is = (n < a.length) ? ((Number) a[n++]).intValue() : 1;
+                double sp = (n < a.length) ? ((Number) a[n++]).doubleValue() : 0.5;
+                double sd = (n < a.length) ? ((Number) a[n++]).doubleValue() : 0.5;
                 ast = new Astronomy(dt, mp, yt, night, mc, is, sp, sd);
             } else if (t == "light") {
                 synchronized (this) {

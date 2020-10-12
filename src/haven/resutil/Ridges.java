@@ -36,6 +36,7 @@ import haven.Tiler.MPart;
 import haven.Tiler.SModel;
 import haven.Tiler.VertFactory;
 import haven.Surface.MeshVertex;
+
 import static haven.Utils.clip;
 
 public class Ridges extends MapMesh.Hooks {
@@ -637,13 +638,13 @@ public class Ridges extends MapMesh.Hooks {
             modeldiag2(tc, d);
             return (true);
         } else {
-	    try {
-		modelcomplex(tc, b);
-	    } catch(ArrayIndexOutOfBoundsException e) {
-		/* XXX: Just ignore for now, until I can find the
-		 * cause of this. */
-	    } catch(NegativeArraySizeException e) {
-	    }
+            try {
+                modelcomplex(tc, b);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                /* XXX: Just ignore for now, until I can find the
+                 * cause of this. */
+            } catch (NegativeArraySizeException e) {
+            }
             return (true);
         }
     }
@@ -667,36 +668,36 @@ public class Ridges extends MapMesh.Hooks {
     };
 
     public static class TexCons implements Tiler.MCons {
-	public final GLState mat;
-	public final float texh;
+        public final GLState mat;
+        public final float texh;
 
-	public TexCons(GLState mat, float texh) {
-	    this.mat = mat;
-	    this.texh = texh;
-	}
+        public TexCons(GLState mat, float texh) {
+            this.mat = mat;
+            this.texh = texh;
+        }
 
-	public void faces(MapMesh m, MPart mdesc) {
-	    RPart desc = (RPart)mdesc;
-	    Model mod = Model.get(m, mat);
-	    MeshBuf.Tex tex = mod.layer(MeshBuf.tex);
-	    MeshBuf.Vec3Layer tan = mod.layer(BumpMap.ltan);
-	    MeshBuf.Vec3Layer bit = mod.layer(BumpMap.lbit);
-	    int[] trn = new int[desc.rh.length];
-	    float zf = 1.0f / texh;
-	    for(int i = 0; i < trn.length; i++)
-		trn[i] = Math.max((int)((desc.rh[i] + (texh * 0.5f)) * zf), 1);
-	    MeshVertex[] v = new MeshVertex[desc.v.length];
-	    for(int i = 0; i < desc.v.length; i++) {
-		v[i] = new MeshVertex(mod, desc.v[i]);
-		/* tex.set(v[i], new Coord3f(desc.rcx[i], desc.v[i].z * zf, 0)); */
-		tex.set(v[i], new Coord3f(desc.rcx[i], desc.rcy[i] * trn[desc.rn[i]], 0));
-		tan.set(v[i], Coord3f.zu.cmul(v[i].nrm).norm());
-		bit.set(v[i], Coord3f.zu);
-	    }
-	    int[] f = desc.f;
-	    for(int i = 0; i < f.length; i += 3)
-		mod.new Face(v[f[i]], v[f[i + 1]], v[f[i + 2]]);
-	}
+        public void faces(MapMesh m, MPart mdesc) {
+            RPart desc = (RPart) mdesc;
+            Model mod = Model.get(m, mat);
+            MeshBuf.Tex tex = mod.layer(MeshBuf.tex);
+            MeshBuf.Vec3Layer tan = mod.layer(BumpMap.ltan);
+            MeshBuf.Vec3Layer bit = mod.layer(BumpMap.lbit);
+            int[] trn = new int[desc.rh.length];
+            float zf = 1.0f / texh;
+            for (int i = 0; i < trn.length; i++)
+                trn[i] = Math.max((int) ((desc.rh[i] + (texh * 0.5f)) * zf), 1);
+            MeshVertex[] v = new MeshVertex[desc.v.length];
+            for (int i = 0; i < desc.v.length; i++) {
+                v[i] = new MeshVertex(mod, desc.v[i]);
+                /* tex.set(v[i], new Coord3f(desc.rcx[i], desc.v[i].z * zf, 0)); */
+                tex.set(v[i], new Coord3f(desc.rcx[i], desc.rcy[i] * trn[desc.rn[i]], 0));
+                tan.set(v[i], Coord3f.zu.cmul(v[i].nrm).norm());
+                bit.set(v[i], Coord3f.zu);
+            }
+            int[] f = desc.f;
+            for (int i = 0; i < f.length; i += 3)
+                mod.new Face(v[f[i]], v[f[i + 1]], v[f[i + 2]]);
+        }
     }
 
     public boolean laygnd(Coord tc, Tiler.MCons cons) {

@@ -58,8 +58,8 @@ public class MapWnd extends Window {
     private int markerseq = -1;
     private boolean domark = false;
     private final Collection<Runnable> deferred = new LinkedList<>();
-    private static final Tex plx = Text.renderstroked("\u2716",  Color.red, Color.BLACK, Text.num12boldFnd).tex();
-    private  Predicate<Marker> filter = (m -> true);
+    private static final Tex plx = Text.renderstroked("\u2716", Color.red, Color.BLACK, Text.num12boldFnd).tex();
+    private Predicate<Marker> filter = (m -> true);
     private final static Comparator<Marker> namecmp = ((a, b) -> a.nm.compareTo(b.nm));
 
 
@@ -235,7 +235,7 @@ public class MapWnd extends Window {
 
     public static final Color every = new Color(255, 255, 255, 16), other = new Color(255, 255, 255, 32), found = new Color(255, 255, 0, 32);
 
-    private static final Pair[] filters = new Pair[] {
+    private static final Pair[] filters = new Pair[]{
             new Pair<>("-- All --", null),
             new Pair<>("--- Custom ---", "flg"),
             new Pair<>("Abyssal Chasm", "abyssalchasm"),
@@ -282,9 +282,9 @@ public class MapWnd extends Window {
                 else if (item.b.equals("flg"))
                     filter = (m -> m instanceof PMarker);
                 else if (item.b.equals("qst"))
-                    filter = (m -> m instanceof SMarker && ((SMarker)m).res.name.startsWith("gfx/invobjs/small"));
+                    filter = (m -> m instanceof SMarker && ((SMarker) m).res.name.startsWith("gfx/invobjs/small"));
                 else
-                    filter = (m -> m instanceof SMarker && ((SMarker)m).res.name.endsWith(item.b));
+                    filter = (m -> m instanceof SMarker && ((SMarker) m).res.name.endsWith(item.b));
                 markerseq = -1;
                 // reset scrollbar
                 if (list != null)
@@ -305,7 +305,10 @@ public class MapWnd extends Window {
         public int listitems() {
             return (markers.size());
         }
-        public boolean searchmatch(int idx, String txt) {return(markers.get(idx).nm.toLowerCase().indexOf(txt.toLowerCase()) >= 0);}
+
+        public boolean searchmatch(int idx, String txt) {
+            return (markers.get(idx).nm.toLowerCase().indexOf(txt.toLowerCase()) >= 0);
+        }
 
         public MarkerList(int w, int n) {
             super(w, n, 20);
@@ -317,7 +320,7 @@ public class MapWnd extends Window {
         }
 
         public void drawitem(GOut g, Marker mark, int idx) {
-            if(soughtitem(idx)) {
+            if (soughtitem(idx)) {
                 g.chcolor(found);
                 g.frect(Coord.z, g.sz);
             }

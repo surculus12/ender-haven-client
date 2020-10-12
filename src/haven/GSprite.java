@@ -113,7 +113,7 @@ public abstract class GSprite implements Drawn {
         Class cl = this.getClass();
         try {
             Field name = cl.getDeclaredField("name");
-            return (String)name.get(this);
+            return (String) name.get(this);
         } catch (NoSuchFieldException nsfe) {
         } catch (ClassCastException cce) {
         } catch (IllegalAccessException iae) {

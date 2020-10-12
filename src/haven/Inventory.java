@@ -92,7 +92,7 @@ public class Inventory extends Widget implements DTarget {
     public boolean drop(Coord cc, Coord ul) {
         Coord dc = dropul ? ul.add(sqsz.div(2)).div(sqsz) : cc.div(sqsz);
         wdgmsg("drop", dc);
-        return(true);
+        return (true);
     }
 
     public boolean iteminteract(Coord cc, Coord ul) {
@@ -103,8 +103,8 @@ public class Inventory extends Widget implements DTarget {
         if (msg == "sz") {
             isz = (Coord) args[0];
             resize(invsq.sz().add(new Coord(-1, -1)).mul(isz).add(new Coord(1, 1)));
-        } else if(msg == "mode") {
-            dropul = (((Integer)args[0]) == 0);
+        } else if (msg == "mode") {
+            dropul = (((Integer) args[0]) == 0);
         } else {
             super.uimsg(msg, args);
         }
@@ -112,10 +112,10 @@ public class Inventory extends Widget implements DTarget {
 
     @Override
     public void wdgmsg(Widget sender, String msg, Object... args) {
-        if(msg.equals("drop-identical")) {
+        if (msg.equals("drop-identical")) {
             for (WItem item : getIdenticalItems((GItem) args[0], false))
                 item.item.wdgmsg("drop", Coord.z);
-        } else if(msg.startsWith("transfer-identical")) {
+        } else if (msg.startsWith("transfer-identical")) {
             boolean eq = msg.endsWith("eq");
             List<WItem> items = getIdenticalItems((GItem) args[0], eq);
             if (!eq) {
@@ -204,7 +204,7 @@ public class Inventory extends Widget implements DTarget {
         List<WItem> items = new ArrayList<WItem>();
         for (Widget wdg = child; wdg != null; wdg = wdg.next) {
             if (wdg instanceof WItem) {
-                String wdgname = ((WItem)wdg).item.getname();
+                String wdgname = ((WItem) wdg).item.getname();
                 for (String name : names) {
                     if (wdgname.contains(name)) {
                         items.add((WItem) wdg);
@@ -219,7 +219,7 @@ public class Inventory extends Widget implements DTarget {
     public WItem getItemPartial(String name) {
         for (Widget wdg = child; wdg != null; wdg = wdg.next) {
             if (wdg instanceof WItem) {
-                String wdgname = ((WItem)wdg).item.getname();
+                String wdgname = ((WItem) wdg).item.getname();
                 if (wdgname.contains(name))
                     return (WItem) wdg;
             }
@@ -231,7 +231,7 @@ public class Inventory extends Widget implements DTarget {
         int count = 0;
         for (Widget wdg = child; wdg != null; wdg = wdg.next) {
             if (wdg instanceof WItem) {
-                String wdgname = ((WItem)wdg).item.getname();
+                String wdgname = ((WItem) wdg).item.getname();
                 if (wdgname.contains(name))
                     count++;
             }
