@@ -928,6 +928,22 @@ public class Utils {
         if (term) out.println();
     }
 
+    public static void dumparr(float[] arr, PrintStream out, boolean term) {
+        if (arr == null) {
+            out.print("null");
+        } else {
+            out.print('[');
+            boolean f = true;
+            for (float v : arr) {
+                if (!f) out.print(", ");
+                f = false;
+                out.print(v);
+            }
+            out.print(']');
+        }
+        if (term) out.println();
+    }
+
     public static void dumparr(int[] arr, PrintStream out, boolean term) {
         if (arr == null) {
             out.print("null");
@@ -1527,6 +1543,14 @@ public class Utils {
         }
     }
 
+    public static <T> T construct(Class<T> cl) {
+        try {
+            return (construct(cl.getConstructor()));
+        } catch (NoSuchMethodException e) {
+            throw (new RuntimeException(e));
+        }
+    }
+
     public static Object invoke(Method mth, Object ob, Object... args) {
         try {
             return (mth.invoke(ob, args));
@@ -1741,6 +1765,11 @@ public class Utils {
                 from.remove();
             }
         });
+    }
+
+    public static void checkirq() throws InterruptedException {
+        if (Thread.interrupted())
+            throw (new InterruptedException());
     }
 
     public static <T, F> Iterator<T> filter(Iterator<F> from, Class<T> filter) {

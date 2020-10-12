@@ -48,8 +48,9 @@ public class MapWnd extends Window {
     private final Locator player;
     private final Widget toolbar;
     private final Widget zoombar;
-    private final Frame viewf, listf, fdropf;
     private final Dropbox<Pair<String, String>> fdrop;
+    private final Frame viewf, listf, fdropf;
+    private final Button mebtn, mibtn;
     private TextEntry namesel;
     private GroupSelector colsel;
     private Button mremove;
@@ -98,7 +99,16 @@ public class MapWnd extends Window {
 
         listf = add(new Frame(new Coord(200, 200), false));
         list = listf.add(new MarkerList(listf.inner().x, 0));
-
+        mebtn = add(new Button(95, "Export...", false) {
+            public void click() {
+                view.exportmap();
+            }
+        });
+        mibtn = add(new Button(95, "Import...", false) {
+            public void click() {
+                view.importmap();
+            }
+        });
         resize(sz);
     }
 
@@ -406,6 +416,8 @@ public class MapWnd extends Window {
         listf.c = new Coord(sz.x - listf.sz.x, fdropf.sz.y);
         list.resize(listf.inner());
 
+        mebtn.c = new Coord(sz.x - 200, sz.y - mebtn.sz.y);
+        mibtn.c = new Coord(sz.x - 95, sz.y - mibtn.sz.y);
         if (namesel != null) {
             namesel.c = listf.c.add(0, listf.sz.y + 10);
             if (colsel != null)

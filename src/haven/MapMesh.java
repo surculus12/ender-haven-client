@@ -135,7 +135,7 @@ public class MapMesh implements Rendered, Disposable {
         public MapSurface() {
             for (int y = vs.ul.y; y < vs.br.y; y++) {
                 for (int x = vs.ul.x; x < vs.br.x; x++) {
-                    surf[vs.o(x, y)] = new Vertex(x * (float) tilesz.x, y * -(float) tilesz.y, Config.disableelev ? 0 : map.getz(ul.add(x, y)));
+                    surf[vs.o(x, y)] = new Vertex(x * (float) tilesz.x, y * -(float) tilesz.y, Config.disableelev ? 0 : (float) map.getfz(ul.add(x, y)));
                 }
             }
             for (int y = ts.ul.y; y < ts.br.y; y++) {
