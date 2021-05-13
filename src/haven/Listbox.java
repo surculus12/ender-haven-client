@@ -117,11 +117,13 @@ public abstract class Listbox<T> extends ListWidget<T> {
 	    return(true);
 	int idx = idxat(c);
 	T item = (idx >= listitems()) ? null : listitem(idx);
-	if((item == null) && (button == 1))
+	if((item == null) && (button == 1)) {
 	    change(null);
-	else if(item != null)
+	} else if(item != null) {
 	    itemclick(item, c.sub(idxc(idx)), button);
-	return(true);
+	    return true;
+	}
+	return(false);
     }
 
     @Override
