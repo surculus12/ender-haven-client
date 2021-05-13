@@ -96,6 +96,8 @@ public class ItemAutoDrop {
     public static class CFGWnd extends WindowX implements DTarget2 {
 	public static final String FILTER_DEFAULT = "Start typing to filter";
 	public static final Comparator<DropItem> BY_NAME = Comparator.comparing(dropItem -> dropItem.name);
+	public static final Coord chb_c = new Coord(0, elh / 2);
+	public static final Coord text_c = new Coord(CheckBox.sbox.sz().x + UI.scale(5), elh / 2);
 	
 	private boolean raised = false;
 	private final DropList list;
@@ -179,23 +181,11 @@ public class ItemAutoDrop {
 	}
 	
 	private class DropList extends FilteredListBox<DropItem> {
-	    private Coord showc;
 	    
 	    public DropList(int w, int h) {
 		super(w, h, elh);
-		this.showc = showc();
 		bgcolor = new Color(0, 0, 0, 84);
 		showFilterText = false;
-	    }
-	    
-	    private Coord showc() {
-		return (new Coord(sz.x - (sb.vis() ? sb.sz.x : 0) - ((elh - CheckBox.sbox.sz().y) / 2) - CheckBox.sbox.sz().x,
-		    ((elh - CheckBox.sbox.sz().y) / 2)));
-	    }
-	    
-	    public void draw(GOut g) {
-		this.showc = showc();
-		super.draw(g);
 	    }
 	    
 	    @Override
@@ -229,30 +219,21 @@ public class ItemAutoDrop {
 		g.chcolor(((idx % 2) == 0) ? every : other);
 		g.frect(Coord.z, g.sz());
 		g.chcolor();
-		g.aimage(item.tex, new Coord(0, elh / 2), 0.0, 0.5);
-		g.image(CheckBox.sbox, showc);
+		g.aimage(item.tex, text_c, 0.0, 0.5);
+		g.aimage(CheckBox.sbox, chb_c, 0, 0.5);
 		if(needDrop(item.name))
-		    g.image(CheckBox.smark, showc);
+		    g.aimage(CheckBox.smark, chb_c, 0, 0.5);
 	    }
 	    
 	    @Override
-	    public boolean mousedown(Coord c, int button) {
-		int idx = idxat(c);
-		if((idx >= 0) && (idx < listitems())) {
-		    Coord ic = c.sub(idxc(idx));
-		    DropItem item = listitem(idx);
-		    if(ic.x < showc.x + CheckBox.sbox.sz().x) {
-			if(button == 1) {
-			    toggle(item.name);
-			} else if(button == 3) {
-			    ItemAutoDrop.remove(item.name);
-			    list.items.remove(item);
-			    list.needfilter();
-			}
-			return (true);
-		    }
+	    protected void itemclick(DropItem item, int button) {
+		if(button == 1) {
+		    toggle(item.name);
+		} else if(button == 3) {
+		    ItemAutoDrop.remove(item.name);
+		    list.items.remove(item);
+		    list.needfilter();
 		}
-		return (super.mousedown(c, button));
 	    }
 	}
     }
