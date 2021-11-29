@@ -67,6 +67,13 @@
 	<pathelement path="lib/jglob.jar" />
 	<pathelement path="lib/gson-2.8.6.jar" />
         <pathelement path="lib/rxjava-1.1.5.jar" />
+        <pathelement path="lib/flatbuffers-java-2.0.3.jar" />
+        <pathelement path="lib/grpc-api-1.42.1.jar" />
+        <pathelement path="lib/grpc-stub-1.42.1.jar" />
+        <pathelement path="lib/flatbuffers-java-grpc-2.0.3.jar" />
+        <pathelement path="lib/javax.annotation-api-1.3.2.jar" />
+        <pathelement path="lib/guava-concurrent-r03.jar" />
+        <pathelement path="lib/jsr305-3.0.2.jar" />
       </classpath>
       <compilerarg value="-Xlint:unchecked" />
       <compilerarg value="-Xlint:-options" />
@@ -108,6 +115,27 @@
     </unjar>
     <unjar src="lib/rxjava-1.1.5.jar" dest="build/classes-lib">
       <patternset excludes="META-INF/**" />
+    </unjar>
+    <unjar src="lib/flatbuffers-java-2.0.3.jar" dest="build/classes-lib">
+      <patternset excludes="META_INF/**" />
+    </unjar>
+    <unjar src="lib/grpc-stub-1.42.1.jar" dest="build/classes-lib">
+      <patternset excludes="META_INF/**" />
+    </unjar>
+    <unjar src="lib/grpc-api-1.42.1.jar" dest="build/classes-lib">
+      <patternset excludes="META_INF/**" />
+    </unjar>
+    <unjar src="lib/flatbuffers-java-grpc-2.0.3.jar" dest="build/classes-lib">
+      <patternset excludes="META_INF/**" />
+    </unjar>
+    <unjar src="lib/javax.annotation-api-1.3.2.jar" dest="build/classes-lib">
+      <patternset excludes="META_INF/**" />
+    </unjar>
+    <unjar src="lib/guava-concurrent-r03.jar" dest="build/classes-lib">
+      <patternset excludes="META_INF/**" />
+    </unjar>
+    <unjar src="lib/jsr305-3.0.2.jar" dest="build/classes-lib">
+      <patternset excludes="META_INF/**" />
     </unjar>
   </target>
 
