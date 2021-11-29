@@ -5,48 +5,47 @@ import io.grpc.Channel;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import wiki.models.item.CheckCacheReq;
-import wiki.models.item.CheckCacheRes;
-import wiki.models.item.ItemGrpc;
+import wiki.models.base.Type;
+import wiki.models.item.*;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.concurrent.TimeUnit;
 
 public class WikiClient {
-    private Channel channel;
-    ItemGrpc.ItemBlockingStub stub;
+
     public WikiClient(Channel channel) {
-	this.channel = channel;
-	this.stub = ItemGrpc.newBlockingStub(channel);
     }
     
     public void checkCache(byte[] hash) {
-	FlatBufferBuilder builder = new FlatBufferBuilder(hash.length);
-	int hashOffset = builder.createByteVector(hash);
-	int reqOffset = CheckCacheReq.createCheckCacheReq(builder, hashOffset);
-	ByteBuffer buf = ByteBuffer.wrap(builder.sizedByteArray(0, reqOffset));
-	CheckCacheReq req = CheckCacheReq.getRootAsCheckCacheReq(buf);
-	CheckCacheRes res = stub.checkCache(req);
-	System.out.println(res.cached());
+
     }
-    
+
     public static void main(String[] args) throws Exception {
-	String target = "localhost:50051";
-	ManagedChannel channel = ManagedChannelBuilder.forTarget(target)
-	    // TODO: Set up ssl
-	    .usePlaintext()
-	    .build();
-	try {
-	    WikiClient client = new WikiClient(channel);
-	    byte[] hash = new byte[]{0x01, 0x02};
-	    client.checkCache(hash);
-	} catch (Exception e) {
-	    e.printStackTrace();
-	} finally {
-	    // ManagedChannels use resources like threads and TCP connections. To prevent leaking these
-	    // resources the channel should be shut down when it will no longer be used. If it may be used
-	    // again leave it running.
-	    channel.shutdownNow().awaitTermination(5, TimeUnit.SECONDS);
-	}
+        FlatBufferBuilder builder = new FlatBufferBuilder(2);
+        int gobId = builder.createString("test");
+        IsCachedReq.startIsCachedReq(builder);
+        IsCachedReq.addGobid(builder, gobId);
+        int root = IsCachedRes.endIsCachedRes(builder);
+        builder.finish(root);
+        byte[] payload = builder.sizedByteArray();
+        for (byte b : payload) {
+            System.out.print(Byte.toUnsignedInt(b));
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        Socket socket = new Socket("localhost", 50051);
+        OutputStream output = socket.getOutputStream();
+        InputStream input = socket.getInputStream();
+
+        Message req = new Message(Type.ItemIsCached, payload);
+        output.write(req.encode());
+
+        Message res = Message.read(input);
+        IsCachedRes isCachedRes = IsCachedRes.getRootAsIsCachedRes(ByteBuffer.wrap(res.payload));
+        System.out.println("Cached?: " + isCachedRes.cached());
     }
 }

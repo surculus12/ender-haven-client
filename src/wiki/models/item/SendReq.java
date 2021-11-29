@@ -15,18 +15,21 @@ public final class SendReq extends Table {
   public void __init(int _i, ByteBuffer _bb) { __reset(_i, _bb); }
   public SendReq __assign(int _i, ByteBuffer _bb) { __init(_i, _bb); return this; }
 
-  public wiki.models.item.Item item() { return item(new wiki.models.item.Item()); }
-  public wiki.models.item.Item item(wiki.models.item.Item obj) { int o = __offset(4); return o != 0 ? obj.__assign(__indirect(o + bb_pos), bb) : null; }
+  public int a() { int o = __offset(4); return o != 0 ? bb.getInt(o + bb_pos) : 0; }
+  public int b() { int o = __offset(6); return o != 0 ? bb.getInt(o + bb_pos) : 0; }
 
   public static int createSendReq(FlatBufferBuilder builder,
-      int itemOffset) {
-    builder.startTable(1);
-    SendReq.addItem(builder, itemOffset);
+      int a,
+      int b) {
+    builder.startTable(2);
+    SendReq.addB(builder, b);
+    SendReq.addA(builder, a);
     return SendReq.endSendReq(builder);
   }
 
-  public static void startSendReq(FlatBufferBuilder builder) { builder.startTable(1); }
-  public static void addItem(FlatBufferBuilder builder, int itemOffset) { builder.addOffset(0, itemOffset, 0); }
+  public static void startSendReq(FlatBufferBuilder builder) { builder.startTable(2); }
+  public static void addA(FlatBufferBuilder builder, int a) { builder.addInt(0, a, 0); }
+  public static void addB(FlatBufferBuilder builder, int b) { builder.addInt(1, b, 0); }
   public static int endSendReq(FlatBufferBuilder builder) {
     int o = builder.endTable();
     return o;
