@@ -1,13 +1,19 @@
-package wiki.client;
+package wiki;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Message {
+public abstract class Message {
     // uint16 as int because java is bad
     public final int type;
     public final int size;
     public final byte[] payload;
+
+    public Message(int type) {
+        this.type = type;
+        this.size = 0;
+        this.payload = new byte[0];
+    }
 
     public Message(int type, byte[] payload) {
         this.type = type;
